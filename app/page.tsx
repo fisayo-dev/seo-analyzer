@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className="mt-14">
+      <div className="mt-[72px]">
         <Hero />
         <FeaturesSection />
       </div>
