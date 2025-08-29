@@ -9,7 +9,9 @@ const Header = () => {
             <div className="flex items-center gap-4">
                 <Link href="#">Features</Link>
                 <Link href="https://github.com/fisayo-dev/seo-analyzer" target="_blank">Github</Link>
-                <Button>Get started</Button>
+                <Link href="/login">
+                  <Button>Get started</Button>
+                </Link>
             </div>
         </div>
     </div>
