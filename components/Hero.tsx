@@ -4,9 +4,9 @@ import Link from "next/link"
 
 const Hero = () => {
   return (
-   <div className="">
+   <div className="custom-hero-background">
         <div className="flex flex-col h-[90vh] place-content-center gap-6 text-center">
-            <h2 className="text-6xl font-extrabold">Analyze your website <br/> SEO and performance.</h2>
+            <h2 className="text-4xl md:text-6xl font-extrabold">Analyze your website <br/> SEO and performance.</h2>
             <p className="text-xl text-white/80">Boost your site&apos;s ranking and speed with our powerful analytics tools.</p>
             <div className="flex justify-center my-2 gap-4">
                 <Link href="/login">
