@@ -58,7 +58,7 @@ const FeaturesSection: React.FC = () => {
             <br />
             built for results.
           </h2>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl max-w-2xl mx-auto leading-relaxed">
             Everything you need to optimize your website&apos;s search performance 
             and dominate search engine rankings.
           </p>
@@ -69,7 +69,7 @@ const FeaturesSection: React.FC = () => {
           {features.map((feature) => (
             <div 
               key={feature.id}
-              className="group  rounded-2xl p-8 border border-gray-700 hover:border-gray-500 hover:shadow-lg transition-all duration-300 ease-in-out"
+              className="group  rounded-2xl p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 ease-in-out"
             >
               <div className="flex flex-col items-start space-y-4">
                 <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors duration-300">
@@ -81,7 +81,7 @@ const FeaturesSection: React.FC = () => {
                     {feature.title}
                   </h3>
                   
-                  <p className="text-white/50 leading-relaxed text-sm">
+                  <p className="leading-relaxed text-sm">
                     {feature.description}
                   </p>
                 </div>
