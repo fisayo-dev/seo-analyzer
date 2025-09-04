@@ -1,33 +1,33 @@
+"use server"
 import { NextRequest, NextResponse } from "next/server";
+// import { auth }  from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
+  const session = request.cookies.get("better-auth.session_token")?.value || request.cookies.get("_Secure-better-auth.session_token")?.value;
+
   const { pathname } = request.nextUrl;
   const publicRoutes = ["/", "/login", "/api/auth"];
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
-  // Better Auth stores session in cookies with these names by default
-  const sessionToken = request.cookies.get("better-auth.session_token")?.value;
-  
-  // Check if user is authenticated based on presence of session cookie
-  const isAuthenticated = !!sessionToken;
-
   // Redirect authenticated users away from login or home
-  if (isAuthenticated && (pathname === "/login" || pathname === "/")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (session && (pathname === "/login" || pathname === "/")) {
+    const redirectUrl = new URL("/dashboard", request.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  // Allow access to public routes
+  // Allow access to public routes without authentication
   if (isPublicRoute) {
     return NextResponse.next();
   }
 
-  // Redirect to login for protected routes if not authenticated
-  if (!isAuthenticated) {
+  // Redirect to login for protected routes if no session exists
+  if (!session) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
+  // Allow access to protected routes if authenticated
   return NextResponse.next();
 }
 
