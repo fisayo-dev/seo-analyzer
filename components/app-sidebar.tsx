@@ -1,18 +1,22 @@
 "use client"
-import { Home, Inbox, Settings, BarChart3, Zap, LogOut } from "lucide-react"
+import { Home, Settings, BarChart3, Zap, LogOut } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { authClient } from "@/lib/auth/client"
+import { useEffect, useState } from "react"
+import { User } from "better-auth"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 // Updated menu items to match the SEO analytics theme
 const items = [
@@ -40,6 +44,29 @@ const items = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const [user, setUser] = useState<User>()
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const { data: session } = await authClient.getSession()
+        setUser(session?.user)
+        console.log(session?.user)
+      } catch (err) {
+        console.log("An error occurred", err)
+      }
+    }
+
+    fetchSession()
+  }, [])
+
+  // Function to get the first letter of the first two words
+  const getInitials = (name: string | undefined) => {
+    if (!name) return ""
+    const words = name.trim().split(" ")
+    const firstTwo = words.slice(0, 2).map(word => word.charAt(0).toUpperCase())
+    return firstTwo.join("")
+  }
 
   return (
     <Sidebar className="border-r-0 shadow-xl bg-white">
@@ -59,24 +86,24 @@ export function AppSidebar() {
               {items.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.url
-                
+
                 return (
                   <Link href={item.url} key={item.title}>
                     <SidebarMenuItem>
-                      <SidebarMenuButton 
-                        asChild 
+                      <SidebarMenuButton
+                        asChild
                         className={`relative px-3 py-2.5 rounded-lg transition-all duration-200 group hover:bg-gray-50 ${
-                          isActive 
-                            ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 border-r-4 border-blue-500' 
-                            : 'text-gray-600 hover:text-gray-900'
+                          isActive
+                            ? "bg-blue-50 text-blue-700 hover:bg-blue-50 border-r-4 border-blue-500"
+                            : "text-gray-600 hover:text-gray-900"
                         }`}
                       >
                         <div className="w-full flex items-center">
-                          <Icon 
+                          <Icon
                             className={`w-5 h-5 mr-3 transition-colors ${
-                              isActive 
-                                ? 'text-blue-500' 
-                                : 'text-gray-400 group-hover:text-gray-500'
+                              isActive
+                                ? "text-blue-500"
+                                : "text-gray-400 group-hover:text-gray-500"
                             }`}
                           />
                           <span className="font-medium text-sm">{item.title}</span>
@@ -116,13 +143,14 @@ export function AppSidebar() {
         {/* User Profile Section */}
         <div className="mt-auto p-4 border-t border-gray-100 bg-gray-50/50">
           <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
-              <span className="text-white text-sm font-bold">N</span>
-            </div>
+            <Avatar>
+              <AvatarImage src={user?.image} />
+              <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
+            </Avatar>
             <div className="ml-3 flex-1">
-              <p className="text-sm font-semibold text-gray-900">Your Account</p>
+              <p className="text-sm font-semibold text-gray-900">{user?.name}</p>
               <p className="text-xs text-gray-500 flex items-center">
-                Free Plan 
+                Free Plan
                 <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
                   Upgrade
                 </span>
@@ -137,30 +165,3 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
-
-// // Demo component to show the sidebar in context
-// export default function SidebarDemo() {
-//   return (
-//     <div className="flex h-screen bg-gray-50">
-//       <AppSidebar />
-//       <div className="flex-1 p-8">
-//         <div className="max-w-4xl mx-auto">
-//           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-//             Analyze your website SEO and performance.
-//           </h1>
-//           <p className="text-xl text-gray-600 mb-8">
-//             Boost your site&apos;s ranking and speed with our powerful analytics tools.
-//           </p>
-//           <div className="flex gap-4">
-//             <button className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-//               Get Started now →
-//             </button>
-//             <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-//               Check Features ↓
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
