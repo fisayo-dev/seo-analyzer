@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 // import { auth }  from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
-  const session = request.cookies.get("better-auth.session_token")?.value || request.cookies.get("_Secure-better-auth.session_token")?.value;
+  const session = request.cookies.get("better-auth.session_token")?.value || request.cookies.get("__Secure-better-auth.session_token")?.value;
 
   const { pathname } = request.nextUrl;
   const publicRoutes = ["/", "/login", "/api/auth"];
