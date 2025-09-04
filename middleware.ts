@@ -4,22 +4,17 @@ import { auth } from "./lib/auth";
 import { headers } from "next/headers";
 
 export async function middleware(request: NextRequest) {
-  // Get session using auth API
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   const { pathname } = request.nextUrl;
-
-  // Define public routes that don't require authentication
   const publicRoutes = ["/", "/login", "/api/auth"];
-
-  // Check if the current path is a public route
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
-  // Redirect authenticated users away from public
-  if (session && pathname === "/login" || pathname == "/") {
-    const redirectUrl = new URL("/dashboard", request.url); // Redirect to /dashboard or another route
+  // Redirect authenticated users away from login or home
+  if (session && (pathname === "/login" || pathname === "/")) {
+    const redirectUrl = new URL("/dashboard", request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -41,13 +36,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };
