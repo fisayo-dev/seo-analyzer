@@ -1,5 +1,5 @@
 "use client"
-import { Home, Inbox, Search, Settings, BarChart3, Zap } from "lucide-react"
+import { Home, Inbox, Settings, BarChart3, Zap, LogOut } from "lucide-react"
 import { useState } from "react"
 
 import {
@@ -12,37 +12,28 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 // Updated menu items to match the SEO analytics theme
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Analytics",
-    url: "#",
+    title: "Analysis",
+    url: "/dashboard/analysis",
     icon: BarChart3,
   },
   {
-    title: "Performance",
-    url: "#",
-    icon: Zap,
-  },
-  {
-    title: "Reports",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Search Console",
-    url: "#",
-    icon: Search,
+    title: "Logout",
+    url: "/dashboard/logout",
+    icon: LogOut,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/dashboard/settings",
     icon: Settings,
   },
 ]
@@ -70,33 +61,36 @@ export function AppSidebar() {
                 const isActive = activeItem === item.title
                 
                 return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton 
-                      asChild 
-                      className={`relative px-3 py-2.5 rounded-lg transition-all duration-200 group hover:bg-gray-50 ${
-                        isActive 
-                          ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 border-r-4 border-blue-500' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
-                      <button
-                        onClick={() => setActiveItem(item.title)}
-                        className="w-full flex items-center"
+                  <Link href={item.url} key={item.title}>
+                    <SidebarMenuItem >
+                      <SidebarMenuButton 
+                        asChild 
+                        className={`relative px-3 py-2.5 rounded-lg transition-all duration-200 group hover:bg-gray-50 ${
+                          isActive 
+                            ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 border-r-4 border-blue-500' 
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
                       >
-                        <Icon 
-                          className={`w-5 h-5 mr-3 transition-colors ${
-                            isActive 
-                              ? 'text-blue-500' 
-                              : 'text-gray-400 group-hover:text-gray-500'
-                          }`}
-                        />
-                        <span className="font-medium text-sm">{item.title}</span>
-                        {isActive && (
-                          <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></div>
-                        )}
-                      </button>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                        <button
+                          onClick={() => setActiveItem(item.title)}
+                          className="w-full flex items-center"
+                        >
+                          <Icon 
+                            className={`w-5 h-5 mr-3 transition-colors ${
+                              isActive 
+                                ? 'text-blue-500' 
+                                : 'text-gray-400 group-hover:text-gray-500'
+                            }`}
+                          />
+                          <span className="font-medium text-sm">{item.title}</span>
+                          {isActive && (
+                            <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></div>
+                          )}
+                        </button>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </Link>
+
                 )
               })}
             </SidebarMenu>
@@ -115,9 +109,11 @@ export function AppSidebar() {
                 <p className="text-blue-100 text-xs">Get optimization tips</p>
               </div>
             </div>
-            <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-medium py-2.5 px-3 rounded-lg transition-all duration-200 hover:scale-105">
-              Start Analysis →
-            </button>
+            <Link href="/dashboard/new">
+              <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-medium py-2.5 px-3 rounded-lg transition-all duration-200 hover:scale-105">
+                Start Analysis →
+              </button>
+              </Link>
           </div>
         </div>
 
