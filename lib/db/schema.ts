@@ -1,70 +1,85 @@
-// lib/db/schema.ts
-import { pgTable, text, timestamp, primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, varchar, boolean, timestamp, text } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 
-export const users = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name"),
-  email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-  createdAt: timestamp("createdAt").defaultNow(),
-  updatedAt: timestamp("updatedAt").defaultNow(),
+// User table
+export const user = pgTable("user", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  name: varchar("name", { length: 255 }),
+  email: varchar("email", { length: 255 }).notNull(),
+  emailVerified: boolean("emailVerified").default(false).notNull(),
+  image: varchar("image", { length: 500 }),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow().notNull(),
 });
 
-export const accounts = pgTable(
-  "account",
-  {
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: timestamp("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
-  },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  })
-);
-
-export const sessions = pgTable("session", {
-  id: text("id").primaryKey(),
-  sessionToken: text("sessionToken").notNull().unique(),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
+// Session table
+export const session = pgTable("session", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" }),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expiresAt", { withTimezone: true }).notNull(),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: varchar("userAgent", { length: 1000 }),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow().notNull(),
 });
 
-export const verificationTokens = pgTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (vt) => ({
-    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
-);
+// Account table
+export const account = pgTable("account", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" }),
+  accountId: varchar("accountId", { length: 255 }).notNull(),
+  providerId: varchar("providerId", { length: 255 }).notNull(),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  accessTokenExpiresAt: timestamp("accessTokenExpiresAt", { withTimezone: true }),
+  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt", { withTimezone: true }),
+  scope: varchar("scope", { length: 500 }),
+  idToken: text("idToken"),
+  password: varchar("password", { length: 255 }),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow().notNull(),
+});
 
+// Verification table
 export const verification = pgTable("verification", {
-    id: text("id").primaryKey(),
-    identifier: text("identifier").notNull(),
-    value: text('value').notNull(),
-    
-})
+  id: varchar("id", { length: 255 }).primaryKey(),
+  identifier: varchar("identifier", { length: 255 }).notNull(),
+  value: varchar("value", { length: 255 }).notNull(),
+  expiresAt: timestamp("expiresAt", { withTimezone: true }).notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow().notNull(),
+});
 
-// Types
-export type User = typeof users.$inferSelect;
-export type NewUser = typeof users.$inferInsert;
-export type Account = typeof accounts.$inferSelect;
-export type Session = typeof sessions.$inferSelect;
+// Define relations
+export const userRelations = relations(user, ({ many }) => ({
+  sessions: many(session),
+  accounts: many(account),
+}));
+
+export const sessionRelations = relations(session, ({ one }) => ({
+  user: one(user, {
+    fields: [session.userId],
+    references: [user.id],
+  }),
+}));
+
+export const accountRelations = relations(account, ({ one }) => ({
+  user: one(user, {
+    fields: [account.userId],
+    references: [user.id],
+  }),
+}));
+
+// Export types for TypeScript inference
+export type User = typeof user.$inferSelect;
+export type NewUser = typeof user.$inferInsert;
+
+export type Session = typeof session.$inferSelect;
+export type NewSession = typeof session.$inferInsert;
+
+export type Account = typeof account.$inferSelect;
+export type NewAccount = typeof account.$inferInsert;
+
+export type Verification = typeof verification.$inferSelect;
+export type NewVerification = typeof verification.$inferInsert;
