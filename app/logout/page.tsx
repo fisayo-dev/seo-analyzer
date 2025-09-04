@@ -1,6 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/auth/client'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -22,9 +23,11 @@ const LogOut = () => {
       <p className='text-sm'>Are you sure you want to sign out? You&apos;ll need to sign in <br />again to access your account?</p>
 
       <div className='flex gap-4 my-4 md:max-w-sm mx-auto justify-center'>
-        <Button className="w-50 bg-white text-gray-700 border text-sm hover:scale-105 transition hover:bg-gray-200">
-         Cancel
-        </Button>
+        <Link href="/dashboard">
+          <Button className="w-50 bg-white text-gray-700 border text-sm hover:scale-105 transition hover:bg-gray-200">
+          Cancel
+          </Button>
+        </Link>
         <Button onClick={handleLogout} className="w-50 bg-red-500 text-white border text-sm hover:scale-105 transition hover:bg-red-400">
           Logout
         </Button>

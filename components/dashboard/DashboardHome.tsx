@@ -12,6 +12,7 @@ import {
   Eye
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
+import Link from 'next/link';
 
 interface MetricCardProps {
   title: string;
@@ -46,11 +47,11 @@ const Dashboard = () => {
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
               <p className="text-gray-600 mt-1">Welcome back! Here&apos;s your SEO performance overview.</p>
             </div>  
-            <div className="hidden md:flex items-center gap-4">
+            <Link href="/dashboard/analysis/new" className="hidden md:flex items-center gap-4">
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
                 New Analysis
               </button>
-            </div>
+            </Link>
             <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
           </div>
         </header>

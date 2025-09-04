@@ -32,7 +32,7 @@ const items = [
   },
   {
     title: "Logout",
-    url: "/dashboard/logout",
+    url: "/logout",
     icon: LogOut,
   },
   {
@@ -144,7 +144,7 @@ export function AppSidebar() {
         <div className="mt-auto p-4 border-t border-gray-100 bg-gray-50/50">
           <div className="flex items-center">
             <Avatar>
-              <AvatarImage src={user?.image} />
+              <AvatarImage src={user?.image as string} />
               <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
             </Avatar>
             <div className="ml-3 flex-1">
