@@ -1,6 +1,6 @@
 "use client"
 import { Home, Inbox, Settings, BarChart3, Zap, LogOut } from "lucide-react"
-import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import {
   Sidebar,
@@ -39,7 +39,7 @@ const items = [
 ]
 
 export function AppSidebar() {
-  const [activeItem, setActiveItem] = useState("Dashboard")
+  const pathname = usePathname()
 
   return (
     <Sidebar className="border-r-0 shadow-xl bg-white">
@@ -58,11 +58,11 @@ export function AppSidebar() {
             <SidebarMenu className="space-y-1">
               {items.map((item) => {
                 const Icon = item.icon
-                const isActive = activeItem === item.title
+                const isActive = pathname === item.url
                 
                 return (
                   <Link href={item.url} key={item.title}>
-                    <SidebarMenuItem >
+                    <SidebarMenuItem>
                       <SidebarMenuButton 
                         asChild 
                         className={`relative px-3 py-2.5 rounded-lg transition-all duration-200 group hover:bg-gray-50 ${
@@ -71,10 +71,7 @@ export function AppSidebar() {
                             : 'text-gray-600 hover:text-gray-900'
                         }`}
                       >
-                        <button
-                          onClick={() => setActiveItem(item.title)}
-                          className="w-full flex items-center"
-                        >
+                        <div className="w-full flex items-center">
                           <Icon 
                             className={`w-5 h-5 mr-3 transition-colors ${
                               isActive 
@@ -86,11 +83,10 @@ export function AppSidebar() {
                           {isActive && (
                             <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></div>
                           )}
-                        </button>
+                        </div>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   </Link>
-
                 )
               })}
             </SidebarMenu>
@@ -113,7 +109,7 @@ export function AppSidebar() {
               <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-medium py-2.5 px-3 rounded-lg transition-all duration-200 hover:scale-105">
                 Start Analysis →
               </button>
-              </Link>
+            </Link>
           </div>
         </div>
 
@@ -142,29 +138,29 @@ export function AppSidebar() {
   )
 }
 
-// Demo component to show the sidebar in context
-export default function SidebarDemo() {
-  return (
-    <div className="flex h-screen bg-gray-50">
-      <AppSidebar />
-      <div className="flex-1 p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Analyze your website SEO and performance.
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Boost your site&apos;s ranking and speed with our powerful analytics tools.
-          </p>
-          <div className="flex gap-4">
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-              Get Started now →
-            </button>
-            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-              Check Features ↓
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+// // Demo component to show the sidebar in context
+// export default function SidebarDemo() {
+//   return (
+//     <div className="flex h-screen bg-gray-50">
+//       <AppSidebar />
+//       <div className="flex-1 p-8">
+//         <div className="max-w-4xl mx-auto">
+//           <h1 className="text-4xl font-bold text-gray-900 mb-4">
+//             Analyze your website SEO and performance.
+//           </h1>
+//           <p className="text-xl text-gray-600 mb-8">
+//             Boost your site&apos;s ranking and speed with our powerful analytics tools.
+//           </p>
+//           <div className="flex gap-4">
+//             <button className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+//               Get Started now →
+//             </button>
+//             <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+//               Check Features ↓
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
