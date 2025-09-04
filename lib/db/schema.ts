@@ -56,6 +56,13 @@ export const verificationTokens = pgTable(
   })
 );
 
+export const verification = pgTable("verification", {
+    id: text("id").primaryKey(),
+    identifier: text("identifier").notNull(),
+    value: text('value').notNull(),
+    
+})
+
 // Types
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
