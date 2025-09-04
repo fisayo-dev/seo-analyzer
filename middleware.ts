@@ -1,9 +1,12 @@
 "use server"
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./lib/auth";
+import { auth }  from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
   const session = await auth.api.getSession({
+    query: {
+        disableCookieCache: true,
+    }, 
     headers: request.headers,
   });
 
