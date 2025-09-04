@@ -10,15 +10,23 @@ import {
 } from "@/components/ui/card"
 import { GalleryVerticalEnd, GithubIcon } from "lucide-react"
 import Link from "next/link"
-import { useGoogleSignIn } from "@/lib/auth/client"
+import { useGitHubSignIn, useGoogleSignIn } from "@/lib/auth/client"
 
 const LoginForm = () =>  {
     const { signInWithGoogle } = useGoogleSignIn()
+    const { signInWithGitHub } = useGitHubSignIn()
     const handleGoogleSignIn = async () =>{
         try {
             await signInWithGoogle();
         } catch(err) {
             console.error("Google sign-in failed",err)
+        }
+    }
+    const handleGithubSignIn = async () =>{
+        try {
+            await signInWithGitHub();
+        } catch(err) {
+            console.error("Github sign-in failed",err)
         }
     }
     return (
@@ -41,7 +49,7 @@ const LoginForm = () =>  {
                 <CardContent>
                     <div>
                         <div className="flex flex-col gap-4">
-                            <Button variant="outline" className="w-full">
+                            <Button onClick={handleGithubSignIn} variant="outline" className="w-full">
                                 <GithubIcon/>
                                 Login with Github
                             </Button>
