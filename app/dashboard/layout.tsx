@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-  title: "Smeal - SEO Analyzer",
+  title: "Dashboard | Smeal",
   description: "Analyze and optimize your website's SEO performance with Smeal, the ultimate SEO analyzer tool.",
 };
 
