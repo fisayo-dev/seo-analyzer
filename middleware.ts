@@ -22,6 +22,7 @@ export default async function middleware(request: NextRequest) {
       headers: request.headers,
     });
 
+    console.log("Session", session)
     if (!session) {
       // Redirect to login if not authenticated
       const loginUrl = new URL("/login", request.url);

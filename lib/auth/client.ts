@@ -1,4 +1,3 @@
-// lib/auth/client.ts
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
@@ -18,7 +17,7 @@ console.log(signIn)
 export const signInWithGoogle = () => {
     return signIn.social({
         provider: "google",
-        callbackURL: "/dashboard", // Redirect after successful login
+        callbackURL: "/dashboard", 
     });
 };
 
@@ -26,11 +25,6 @@ export const signInWithGoogle = () => {
 export const signInWithGitHub = () => {
     return signIn.social({
         provider: "github",
-        callbackURL: "/dashboard", // Redirect after successful login
+        callbackURL: "/dashboard", 
     });
 };
-
-
-// // Types
-// export type User = typeof auth.$Infer.Session.user;
-// export type Session = typeof auth.$Infer.Session;
