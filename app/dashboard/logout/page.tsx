@@ -1,20 +1,23 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/auth/client'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const LogOut = () => {
+  const router = useRouter()
+
   const handleLogout = async () => {
     try {
       await signOut()
-      redirect('/')
+      router.push('/') // or router.replace('/') to prevent going back
     } catch(err) {
-      console.error('An error occured trying to logout', err)
+      console.error('An error occurred trying to logout', err)
     }
   }
+
   return (
-    <div className='px-10 max-w-3xl mx-auto text-center p-4 rounded-2xl  h-[80vh] place-content-center'>
+    <div className='px-10 max-w-3xl mx-auto text-center p-4 rounded-2xl h-[80vh] place-content-center'>
       <h2 className='text-2xl font-bold mb-2'>Sign out of smeal?</h2>
       <p className='text-sm'>Are you sure you want to sign out? You&apos;ll need to sign in <br />again to access your account?</p>
 
