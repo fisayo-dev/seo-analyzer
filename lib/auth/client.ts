@@ -1,9 +1,8 @@
 // lib/auth/client.ts
 import { createAuthClient } from "better-auth/react";
-import type { auth } from "./config";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3050/",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3050/",
 });
 
 // Export hook types
@@ -14,29 +13,24 @@ export const {
   signUp,
 } = authClient;
 
+console.log(signIn)
 // Custom hooks for OAuth providers
-export const useGoogleSignIn = () => {
-  const signInWithGoogle = () => {
+export const signInWithGoogle = () => {
     return signIn.social({
-      provider: "google",
-      callbackURL: "/dashboard", // Redirect after successful login
+        provider: "google",
+        callbackURL: "/dashboard", // Redirect after successful login
     });
-  };
-
-  return { signInWithGoogle };
 };
 
-export const useGitHubSignIn = () => {
-  const signInWithGitHub = () => {
-    return signIn.social({
-      provider: "github",
-      callbackURL: "/dashboard", // Redirect after successful login
-    });
-  };
 
-  return { signInWithGitHub };
+export const signInWithGitHub = () => {
+    return signIn.social({
+        provider: "github",
+        callbackURL: "/dashboard", // Redirect after successful login
+    });
 };
 
-// Types
-export type User = typeof auth.$Infer.Session.user;
-export type Session = typeof auth.$Infer.Session;
+
+// // Types
+// export type User = typeof auth.$Infer.Session.user;
+// export type Session = typeof auth.$Infer.Session;

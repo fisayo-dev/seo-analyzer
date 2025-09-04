@@ -10,21 +10,15 @@ import {
 } from "@/components/ui/card"
 import { GalleryVerticalEnd, GithubIcon } from "lucide-react"
 import Link from "next/link"
-import { useGitHubSignIn, useGoogleSignIn } from "@/lib/auth/client"
+import { authClient, signInWithGitHub } from "@/lib/auth/client"
 
 const LoginForm = () =>  {
-    const { signInWithGoogle } = useGoogleSignIn()
-    const { signInWithGitHub } = useGitHubSignIn()
     const handleGoogleSignIn = async () =>{
-        try {
-            await signInWithGoogle();
-        } catch(err) {
-            console.error("Google sign-in failed",err)
-        }
+        return await authClient.signIn.social({provider: "google",  })
     }
     const handleGithubSignIn = async () =>{
         try {
-            await signInWithGitHub();
+            return await signInWithGitHub();
         } catch(err) {
             console.error("Github sign-in failed",err)
         }
