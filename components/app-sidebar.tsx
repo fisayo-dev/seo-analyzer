@@ -105,7 +105,7 @@ export function AppSidebar() {
                 <p className="text-blue-100 text-xs">Get optimization tips</p>
               </div>
             </div>
-            <Link href="/dashboard/new">
+            <Link href="/dashboard/analysis/new">
               <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-medium py-2.5 px-3 rounded-lg transition-all duration-200 hover:scale-105">
                 Start Analysis →
               </button>
