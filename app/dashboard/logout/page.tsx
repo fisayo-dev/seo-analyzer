@@ -1,7 +1,18 @@
+"use client"
 import { Button } from '@/components/ui/button'
+import { signOut } from '@/lib/auth/client'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 const LogOut = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      redirect('/')
+    } catch(err) {
+      console.error('An error occured trying to logout', err)
+    }
+  }
   return (
     <div className='px-10 max-w-3xl mx-auto text-center p-4 rounded-2xl  h-[80vh] place-content-center'>
       <h2 className='text-2xl font-bold mb-2'>Sign out of smeal?</h2>
@@ -11,7 +22,7 @@ const LogOut = () => {
         <Button className="w-50 bg-white text-gray-700 border text-sm hover:scale-105 transition hover:bg-gray-200">
          Cancel
         </Button>
-        <Button className="w-50 bg-red-500 text-white border text-sm hover:scale-105 transition hover:bg-red-400">
+        <Button onClick={handleLogout} className="w-50 bg-red-500 text-white border text-sm hover:scale-105 transition hover:bg-red-400">
           Logout
         </Button>
       </div>
