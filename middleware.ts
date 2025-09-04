@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./lib/auth";
 import { headers } from "next/headers";
-// import {(Debugging tip: I can still access the login route even after sign-in with Google) headers } from "next/headers";
 
 export async function middleware(request: NextRequest) {
   // Get session using auth API
