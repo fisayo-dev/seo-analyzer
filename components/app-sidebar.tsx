@@ -31,14 +31,14 @@ const items = [
     icon: BarChart3,
   },
   {
-    title: "Logout",
-    url: "/logout",
-    icon: LogOut,
-  },
-  {
     title: "Settings",
     url: "/dashboard/settings",
     icon: Settings,
+  },
+  {
+    title: "Logout",
+    url: "/logout",
+    icon: LogOut,
   },
 ]
 
