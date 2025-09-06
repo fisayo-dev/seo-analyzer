@@ -42,6 +42,13 @@ const items = [
   },
 ]
 
+export const getInitials = (name: string | undefined) => {
+    if (!name) return ""
+    const words = name.trim().split(" ")
+    const firstTwo = words.slice(0, 2).map(word => word.charAt(0).toUpperCase())
+    return firstTwo.join("")
+  }
+
 export function AppSidebar() {
   const pathname = usePathname()
   const [user, setUser] = useState<User>()
@@ -59,14 +66,6 @@ export function AppSidebar() {
 
     fetchSession()
   }, [])
-
-  // Function to get the first letter of the first two words
-  const getInitials = (name: string | undefined) => {
-    if (!name) return ""
-    const words = name.trim().split(" ")
-    const firstTwo = words.slice(0, 2).map(word => word.charAt(0).toUpperCase())
-    return firstTwo.join("")
-  }
 
   return (
     <Sidebar className="border-r-0 shadow-xl bg-white">
