@@ -1,8 +1,9 @@
 import React from 'react'
+import SettingsComponent from '@/components/dashboard/Settings'
 
 const Settings = () => {
   return (
-    <div>Settings</div>
+    <SettingsComponent  />
   )
 }
 
