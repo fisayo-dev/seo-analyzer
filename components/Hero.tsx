@@ -139,7 +139,7 @@ const Hero = () => {
           <div
             key={circle.id}
             ref={(el) => circlesRef.current[circle.id] = el}
-            className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-500"
+            className="absolute rounded-full bg-gradient-to-r from-blue-300 to-blue-500"
             style={{
               width: `${circle.size}px`,
               height: `${circle.size}px`,
