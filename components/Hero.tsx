@@ -16,11 +16,11 @@ const Hero = () => {
   // Generate random positions for circles
   const circles = Array.from({ length: 15 }, (_, i) => ({
     id: i,
-    size: Math.random() * 60 + 20, // 20-80px
-    x: Math.random() * 100, // 0-100%
-    y: Math.random() * 100, // 0-100%
+    size: Math.random() * 60 + 20, 
+    x: Math.random() * 100,
+    y: Math.random() * 100,
     delay: Math.random() * 2,
-    duration: Math.random() * 3 + 2, // 2-5s
+    duration: Math.random() * 3 + 2,
   }))
 
   useEffect(() => {
