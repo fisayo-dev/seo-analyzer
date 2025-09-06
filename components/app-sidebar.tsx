@@ -155,9 +155,9 @@ export function AppSidebar() {
                 </span>
               </p>
             </div>
-            <button className="text-gray-400 hover:text-gray-600 p-1.5 rounded-md hover:bg-gray-100 transition-colors">
+            <Link href="/dashboard/settings"  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-md hover:bg-gray-100 transition-colors">
               <Settings className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
       </SidebarContent>
