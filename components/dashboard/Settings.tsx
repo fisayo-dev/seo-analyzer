@@ -9,7 +9,7 @@ import { getInitials } from "../app-sidebar"
 import { Input } from "../ui/input"
 import { BadgeCheck, Edit, Trash2, AlertTriangle } from "lucide-react"
 import { Button } from "../ui/button"
-import { updateProfileName } from "@/lib/actions/profile"
+import { deleteAccount, updateProfileName } from "@/lib/actions/profile"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog"
+import { useRouter } from "next/navigation"
 
 // OAuth Provider Icons (you can also use react-icons if you prefer)
 const GitHubIcon = () => (
@@ -46,6 +47,7 @@ const Settings = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const [nameError, setNameError] = useState<string>("")
+    const router = useRouter()
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -151,17 +153,12 @@ const Settings = () => {
         }
     }
 
-    const handleDeleteAccount = async () => {
+    const handleDeleteAccount = async (e) => {
+        e.preventDefault()
         setDeleteLoading(true)
         try {
-            // Add your delete account logic here
-            // await deleteUserAccount(user?.id as string)
-            console.log("Account deletion logic would go here")
-            
-            // After successful deletion, you might want to:
-            // - Clear the session
-            // - Redirect to login page
-            // - Show success message
+            await deleteAccount(user?.id as string)
+            router.push("/login")
         } catch(err) {
             console.error("Failed to delete account:", err)
         } finally {
