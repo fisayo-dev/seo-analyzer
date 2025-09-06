@@ -2,7 +2,7 @@
 
 import { eq } from "drizzle-orm";
 import { db } from "../db"
-import { user } from "../db/schema"
+import { user, account } from "../db/schema"
 
 export const updateProfileName = async (userId: string, newName: string) => {
     try {
@@ -12,10 +12,28 @@ export const updateProfileName = async (userId: string, newName: string) => {
     }
 }
 
-export const deleteAccount = async (userId:string) => {
+export const deleteAccount = async (userId: string) => {
     try {
         await db.delete(user).where(eq(user.id, userId))
     } catch(err) {
         throw new Error("Failed to delete account")
+    }
+}
+
+export const getUserProvider = async (userId: string) => {
+    try {
+        // Query the accounts table to get the provider for the user
+        const userAccount = await db
+            .select({
+                providerId: account.providerId
+            })
+            .from(account)
+            .where(eq(account.userId, userId))
+            .limit(1);
+        
+        return userAccount.length > 0 ? userAccount[0].providerId : null;
+    } catch(err) {
+        console.error("Error fetching user provider:", err);
+        return null;
     }
 }
