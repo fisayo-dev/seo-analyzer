@@ -13,15 +13,6 @@ const Hero = () => {
   const buttonsRef = useRef(null)
   const circlesRef = useRef([])
 
-  const circles = Array.from({ length: 10 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 60 + 20, 
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 2,
-    duration: Math.random() * 3 + 2,
-  }))
-
   useEffect(() => {
     const tl = gsap.timeline()
 
@@ -132,24 +123,6 @@ const Hero = () => {
 
   return (
     <div className="custom-hero-background relative overflow-hidden" ref={containerRef}>
-      {/* Animated Background Circles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {circles.map((circle) => (
-          <div
-            key={circle.id}
-            ref={(el) => circlesRef.current[circle.id] = el}
-            className="absolute rounded-full bg-gradient-to-r from-blue-300 to-blue-500"
-            style={{
-              width: `${circle.size}px`,
-              height: `${circle.size}px`,
-              left: `${circle.x}%`,
-              top: `${circle.y}%`,
-              filter: 'blur(0.5px)',
-              zIndex: 1
-            }}
-          />
-        ))}
-      </div>
 
       {/* Main Content */}
       <div className="flex flex-col h-[90vh] place-content-center gap-6 text-center relative z-10">
@@ -185,11 +158,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Additional decorative elements */}
-      <div className="absolute top-10 left-10 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60"></div>
-      <div className="absolute top-20 right-20 w-3 h-3 bg-purple-500 rounded-full animate-pulse opacity-40 delay-1000"></div>
-      <div className="absolute bottom-20 left-20 w-4 h-4 bg-indigo-500 rounded-full animate-pulse opacity-50 delay-2000"></div>
-      <div className="absolute bottom-10 right-10 w-2 h-2 bg-cyan-500 rounded-full animate-pulse opacity-70 delay-500"></div>
     </div>
   )
 }
