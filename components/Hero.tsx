@@ -13,7 +13,6 @@ const Hero = () => {
   const buttonsRef = useRef(null)
   const circlesRef = useRef([])
 
-  // Generate random positions for circles
   const circles = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     size: Math.random() * 60 + 20, 
