@@ -9,6 +9,7 @@ import { getInitials } from "../app-sidebar"
 import { Input } from "../ui/input"
 import { BadgeCheck, Edit } from "lucide-react"
 import { Button } from "../ui/button"
+import { updateProfileName } from "@/lib/actions/profile"
 
 // OAuth Provider Icons (you can also use react-icons if you prefer)
 const GitHubIcon = () => (
@@ -30,12 +31,17 @@ const Settings = () => {
     const [user, setUser] = useState<User>()
     const [userDateJoined, setUserDateJoined] = useState<string>("")
     const [authProvider, setAuthProvider] = useState<string>("")
+    const [name, setName] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const fetchSession = async () => {
             try {
                 const { data: sessionData } = await authClient.getSession()
                 setUser(sessionData?.user)
+                if (sessionData?.user) {
+                    setName(sessionData.user.name)
+                }
                 
                 if (sessionData?.user?.createdAt) {
                     const date = new Date(sessionData.user.createdAt)
@@ -89,6 +95,18 @@ const Settings = () => {
         }
     }
 
+    const handleUpdate = async () => {
+        setLoading(true)
+        try {
+            await updateProfileName(user?.id as string, name as string) 
+        } catch(err) {
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
+
+    }
+
   return (
     <div className="w-full mx-auto bg-gray-50">
         {/* Main Content */}
@@ -115,12 +133,12 @@ const Settings = () => {
                 <div className="grid gap-2">
                     <div className="flex flex-col gap-2">
                         <label>Full Name</label>
-                        <Input className="w-auto" placeholder="eg. Fisayo Obadina" defaultValue={user?.name || ""}/>
+                        <Input className="w-auto" placeholder="eg. Fisayo Obadina" value={name} onChange={(e) => setName(e.target.value)}/>
                     </div>
 
-                    <Button className="ml-auto text-sm">
+                    <Button disabled={loading} onClick={handleUpdate} className="ml-auto text-sm">
                         <Edit />
-                        <span>Update</span> 
+                        <span>{loading ? "Updating...": "Update"}</span> 
                     </Button>
                 </div>
                 
