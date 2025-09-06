@@ -7,9 +7,20 @@ import { User } from "better-auth"
 import { authClient } from "@/lib/auth/client"
 import { getInitials } from "../app-sidebar"
 import { Input } from "../ui/input"
-import { BadgeCheck, Edit } from "lucide-react"
+import { BadgeCheck, Edit, Trash2, AlertTriangle } from "lucide-react"
 import { Button } from "../ui/button"
 import { updateProfileName } from "@/lib/actions/profile"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog"
 
 // OAuth Provider Icons (you can also use react-icons if you prefer)
 const GitHubIcon = () => (
@@ -33,6 +44,8 @@ const Settings = () => {
     const [authProvider, setAuthProvider] = useState<string>("")
     const [name, setName] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [nameError, setNameError] = useState<string>("")
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -71,6 +84,29 @@ const Settings = () => {
         fetchSession()
     }, [])
 
+    // Client-side validation for name field
+    const validateName = (value: string): string => {
+        if (!value.trim()) {
+            return "Name cannot be empty"
+        }
+        if (value.trim().length < 2) {
+            return "Name must be at least 2 characters long"
+        }
+        if (value.trim().length > 50) {
+            return "Name must be less than 50 characters"
+        }
+        return ""
+    }
+
+    // Handle name input change with validation
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        setName(value)
+        
+        const error = validateName(value)
+        setNameError(error)
+    }
+
     // Function to get provider icon
     const getProviderIcon = (provider: string) => {
         switch (provider?.toLowerCase()) {
@@ -96,16 +132,45 @@ const Settings = () => {
     }
 
     const handleUpdate = async () => {
+        // Validate before updating
+        const error = validateName(name)
+        if (error) {
+            setNameError(error)
+            return
+        }
+
         setLoading(true)
         try {
-            await updateProfileName(user?.id as string, name as string) 
+            await updateProfileName(user?.id as string, name.trim()) 
+            // Clear any previous errors on successful update
+            setNameError("")
         } catch(err) {
             console.error(err)
         } finally {
             setLoading(false)
         }
-
     }
+
+    const handleDeleteAccount = async () => {
+        setDeleteLoading(true)
+        try {
+            // Add your delete account logic here
+            // await deleteUserAccount(user?.id as string)
+            console.log("Account deletion logic would go here")
+            
+            // After successful deletion, you might want to:
+            // - Clear the session
+            // - Redirect to login page
+            // - Show success message
+        } catch(err) {
+            console.error("Failed to delete account:", err)
+        } finally {
+            setDeleteLoading(false)
+        }
+    }
+
+    // Check if update button should be disabled
+    const isUpdateDisabled = loading || !!nameError || !name.trim() || name.trim() === user?.name
 
   return (
     <div className="w-full mx-auto bg-gray-50">
@@ -132,11 +197,28 @@ const Settings = () => {
                 {/* Name info */}
                 <div className="grid gap-2">
                     <div className="flex flex-col gap-2">
-                        <label>Full Name</label>
-                        <Input className="w-auto" placeholder="eg. Fisayo Obadina" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <label className="text-sm font-medium text-gray-700">Full Name</label>
+                        <Input 
+                            className={`w-auto ${nameError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                            placeholder="eg. Fisayo Obadina" 
+                            value={name} 
+                            onChange={handleNameChange}
+                            aria-invalid={!!nameError}
+                            aria-describedby={nameError ? "name-error" : undefined}
+                        />
+                        {nameError && (
+                            <p id="name-error" className="text-sm text-red-600 flex items-center gap-1">
+                                <AlertTriangle className="w-4 h-4" />
+                                {nameError}
+                            </p>
+                        )}
                     </div>
 
-                    <Button disabled={loading} onClick={handleUpdate} className="ml-auto text-sm">
+                    <Button 
+                        disabled={isUpdateDisabled} 
+                        onClick={handleUpdate} 
+                        className="ml-auto text-sm"
+                    >
                         <Edit />
                         <span>{loading ? "Updating...": "Update"}</span> 
                     </Button>
@@ -144,7 +226,7 @@ const Settings = () => {
                 
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
-                        <label>Email</label>
+                        <label className="text-sm font-medium text-gray-700">Email</label>
                         <span className={`border rounded-full px-3 py-1 ${user?.emailVerified ? "bg-blue-50 border-blue-100" : "bg-red-50 border-red-100"} flex items-center gap-2 text-sm`}>
                             <BadgeCheck className={`h-4 w-4 ${user?.emailVerified ? "text-blue-500" : "text-red-500"}`}/>
                             <span>{user?.emailVerified ? "Verified": "Not verified"}</span>
@@ -154,18 +236,71 @@ const Settings = () => {
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                    <label>Date Joined</label>
+                    <label className="text-sm font-medium text-gray-700">Date Joined</label>
                     <Input readOnly={true} type="text" className="w-auto" defaultValue={userDateJoined}/>
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                    <label>Sign-in Provider</label>
-                    <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-md bg-gray-50">
+                    <label className="text-sm font-medium text-gray-700">Sign-in Provider</label>
+                    <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-2xl bg-gray-50">
                         <div className="flex items-center gap-2">
                             {getProviderIcon(authProvider)}
                             <span className="text-sm font-medium text-gray-700">
                                 {getProviderName(authProvider)}
                             </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Delete Account Section */}
+                <div className="border-t border-gray-200 pt-6">
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                            <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                            <div className="flex-1">
+                                <h3 className="text-sm font-semibold text-red-800 mb-1">
+                                    Delete Account
+                                </h3>
+                                <p className="text-sm text-red-700 mb-4">
+                                    Once you delete your account, there is no going back. Please be certain. 
+                                    All your data will be permanently removed and cannot be recovered.
+                                </p>
+                                
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button 
+                                            variant="destructive" 
+                                            className="bg-red-600 hover:bg-red-700"
+                                        >
+                                            <Trash2 className="w-4 h-4 mr-2" />
+                                            Delete Account
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle className="flex items-center gap-2 text-red-600">
+                                                <AlertTriangle className="w-5 h-5" />
+                                                Are you absolutely sure?
+                                            </AlertDialogTitle>
+                                            <AlertDialogDescription className="text-gray-600">
+                                                This action cannot be undone. This will permanently delete your account
+                                                and remove all your data from our servers. Your profile, settings, and 
+                                                all associated information will be lost forever.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={handleDeleteAccount}
+                                                disabled={deleteLoading}
+                                                className="bg-red-600 hover:bg-red-700 focus:ring-red-500"
+                                            >
+                                                {deleteLoading ? "Deleting..." : "Yes, delete my account"}
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </div>
                         </div>
                     </div>
                 </div>
