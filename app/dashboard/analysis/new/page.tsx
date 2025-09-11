@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import apiClient from '@/lib/api/client'
-import axios from 'axios'
 
 const NewAnaylsis = () => {
   const [loading, setLoading] = useState<boolean>(false)
