@@ -16,7 +16,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
   url 
 }) => {
   const { progress, error, isLoading } = useAnalysisProgress(sessionId, userId);
-  console.log(progress)
+  console.log(progress, error, isLoading)
 
   if (isLoading && !progress) {
     return (

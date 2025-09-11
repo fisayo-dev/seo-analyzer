@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/lib/api/client';
+import axios from 'axios';
 
 interface JobStatus {
   type: 'on-page' | 'content' | 'technical';
@@ -31,7 +32,7 @@ export const useAnalysisProgress = (sessionId: string, userId: string) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await apiClient.get(`/progress/${sessionId}?userId=${encodeURIComponent(userId)}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${sessionId}?userId=${encodeURIComponent(userId)}`);
       
       if (!response || response.status < 200 || response.status >= 300) {
         throw new Error(`HTTP error! status: ${response?.status}`);
@@ -54,6 +55,7 @@ export const useAnalysisProgress = (sessionId: string, userId: string) => {
       setIsLoading(false);
     }
   }, [sessionId, userId, router]);
+
 
   useEffect(() => {
     if (!sessionId || !userId) return;
