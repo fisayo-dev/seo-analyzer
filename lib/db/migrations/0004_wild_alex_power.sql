@@ -1,0 +1,1 @@
+ALTER TABLE "seo_analysis" ADD COLUMN "url" varchar(400) NOT NULL;

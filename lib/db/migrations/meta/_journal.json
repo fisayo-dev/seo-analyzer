@@ -29,6 +29,13 @@
       "when": 1757622000095,
       "tag": "0003_steady_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757622760170,
+      "tag": "0004_wild_alex_power",
+      "breakpoints": true
     }
   ]
 }
