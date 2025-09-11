@@ -15,6 +15,20 @@
       "when": 1757617995386,
       "tag": "0001_shiny_ezekiel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757619073814,
+      "tag": "0002_special_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757622000095,
+      "tag": "0003_steady_thunderbird",
+      "breakpoints": true
     }
   ]
 }
