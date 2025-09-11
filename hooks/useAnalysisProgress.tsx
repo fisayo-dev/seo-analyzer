@@ -31,9 +31,7 @@ export const useAnalysisProgress = (sessionId: string, userId: string) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await apiClient.get(
-        `/progress/${sessionId}?userId=${encodeURIComponent(userId)}`
-      );
+      const response = await apiClient.get(`/progress/${sessionId}?userId=${encodeURIComponent(userId)}`);
       
       if (!response || response.status < 200 || response.status >= 300) {
         throw new Error(`HTTP error! status: ${response?.status}`);

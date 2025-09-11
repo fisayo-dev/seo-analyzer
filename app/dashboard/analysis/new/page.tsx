@@ -25,7 +25,7 @@ const NewAnalysis = () => {
     setLoading(true)
     try {
       const res = await apiClient.post("/analyze", { url })
-      const data = res.data
+      const data = await res.data
       console.log("Analysis started:", data)
 
       // assume API returns sessionId + userId

@@ -16,6 +16,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
   url 
 }) => {
   const { progress, error, isLoading } = useAnalysisProgress(sessionId, userId);
+  console.log(progress)
 
   if (isLoading && !progress) {
     return (
@@ -79,7 +80,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
 
       {/* Job Status Cards */}
       <div className="space-y-4 mb-6">
-        {progress.jobs.map((job) => (
+        {progress.jobs && progress.jobs.map((job) => (
           <div
             key={job.type}
             className={`p-4 rounded-lg border ${
