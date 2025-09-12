@@ -42,7 +42,6 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
       
       if (!response || response.status < 200 || response.status >= 300) {
         setError("Oops we were unable to store ur analysis")
-        // throw new Error(`HTTP error! status: ${response?.status}`);
       }
       
       const data = await response.json()
@@ -83,12 +82,19 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
   }, [userId, url, sessionId, router]);
 
   useEffect(() => {
-    if (!userId || !url) return;
+    if (!userId || !url || error) return; // Stop if error is populated
     
     fetchProgress();
-    const interval = setInterval(fetchProgress, 2000);
+    const interval = setInterval(() => {
+      if (error) {
+        clearInterval(interval); // Clear interval if error is set
+        return;
+      }
+      fetchProgress();
+    }, 2000);
+    
     return () => clearInterval(interval);
-  }, [fetchProgress, userId, url]);
+  }, [fetchProgress, userId, url, error]);
 
   return {
     progress,
