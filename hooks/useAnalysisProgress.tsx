@@ -10,6 +10,12 @@ interface JobStatus {
   error?: string;
 }
 
+interface analysis {
+  on_page: string;
+  content: string;
+  technical: string;
+}
+
 interface ProgressData {
   userId: string;
   url: string;
@@ -17,7 +23,7 @@ interface ProgressData {
   overallProgress: number;
   jobs: JobStatus[];
   isReady: boolean;
-  analysis?: any; // Add if you want results here
+  analysis?: analysis; // Add if you want results here
 }
 
 export const useAnalysisProgress = (userId: string, url: string, sessionId: string) => { // Add sessionId if needed for redirect
@@ -81,7 +87,7 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
     fetchProgress();
     const interval = setInterval(fetchProgress, 2000);
     return () => clearInterval(interval);
-  }, [fetchProgress]);
+  }, [fetchProgress, userId, url]);
 
   return {
     progress,
