@@ -16,7 +16,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
   userId, 
   url 
 }) => {
-  const { progress, error, isLoading } = useAnalysisProgress(userId,url,sessionId);
+  const { progress, error, isLoading } = useAnalysisProgress(userId, sessionId);
   console.log(progress, error, isLoading)
 
   if (isLoading && !progress) {
@@ -117,7 +117,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
               </div>
             </div>
             {job.error && (
-              <p className="mt-2 text-xs text-red-600">{job.error}</p>
+              <p className=" text-xs text-red-600">{job.error.length > 50 ? `${job.error.substring(0,50)}...` : job.error.length}</p>
             )}
           </div>
         ))}
