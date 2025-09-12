@@ -66,8 +66,8 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
       <div className="flex justify-center mb-8">
         <div style={{ width: 120, height: 120 }}>
           <CircularProgressbar
-            value={progress.overallProgress}
-            text={`${progress.overallProgress}%`}
+            value={progress.overallProgress ? progress.overallProgress : 0}
+            text={`${progress.overallProgress ? progress.overallProgress : 0}%`}
             styles={buildStyles({
               pathColor: progress.status === 'completed' ? '#10b981' : '#3b82f6',
               textColor: '#1f2937',
