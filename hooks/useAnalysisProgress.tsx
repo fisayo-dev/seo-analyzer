@@ -41,7 +41,7 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/result/${encodeURIComponent(userId)}/${encodedUrl}`);
       
       if (!response || response.status < 200 || response.status >= 300) {
-        setError("Oops we were unable to store ur analysis")
+        setError("Oops we were unable to perform your analysis 😢")
       }
       
       const data = await response.json()

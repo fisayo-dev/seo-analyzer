@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
+import { XIcon } from "lucide-react"
 
 const NewAnalysis = () => {
   const [loading, setLoading] = useState(false)
@@ -70,7 +71,10 @@ const NewAnalysis = () => {
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>SEO Analysis Progress</AlertDialogTitle>
+            <AlertDialogTitle className="flex items-center justify-between">
+              <span>SEO Analysis Progress</span>
+              <XIcon onClick={() => setOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
+              </AlertDialogTitle>
           </AlertDialogHeader>
 
           {sessionId && userId ? (
