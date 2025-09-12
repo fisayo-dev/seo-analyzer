@@ -54,11 +54,21 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
     );
   }
 
+  const formatUrl = (url: string) => {
+    if (url.length <= 28) return url;
+
+    const start = url.slice(0, 10); // first 10 chars
+    const end = url.slice(-5); // last 5 chars
+
+    return `${start}...${end}`; // total = 18 chars
+  }
+
+
   return (
     <div className="max-w-md mx-auto">
       <div className="grid gap-2 text-center mb-6">
         <p className=" text-gray-600">Your SEO analysis is in progress</p>
-        <p className="text-sm p-2 rounded-full bg-gray-100  w-60 mx-auto">{url}</p>
+        <p className="text-sm p-2 rounded-full bg-gray-100  w-60 mx-auto">{formatUrl(url)}</p>
       </div>
 
       {/* Progress Circle */}
