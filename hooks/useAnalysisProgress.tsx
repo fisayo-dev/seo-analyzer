@@ -10,10 +10,10 @@ interface JobStatus {
   error?: string;
 }
 
-interface analysis {
-  on_page: string;
-  content: string;
-  technical: string;
+interface Analysis {
+  on_page: string | null;
+  content: string | null;
+  technical: string | null;
 }
 
 interface ProgressData {
@@ -23,10 +23,14 @@ interface ProgressData {
   overallProgress: number;
   jobs: JobStatus[];
   isReady: boolean;
-  analysis?: analysis; // Add if you want results here
+  analysis?: Analysis;
 }
 
-export const useAnalysisProgress = (userId: string, url: string, sessionId: string) => { // Add sessionId if needed for redirect
+export const useAnalysisProgress = (
+  userId: string,
+  url: string,
+  sessionId: string
+) => {
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,22 +39,51 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
   const fetchProgress = useCallback(async () => {
     try {
       setIsLoading(true);
-      setError(null);
-      
+
       const encodedUrl = encodeURIComponent(url);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/result/${encodeURIComponent(userId)}/${encodedUrl}`);
-      
-      if (!response || response.status < 200 || response.status >= 300) {
-        setError("Oops we were unable to perform your analysis 😢")
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/result/${encodeURIComponent(userId)}/${encodedUrl}`
+      );
+
+      // Handle "not found" (still processing, not an error)
+      if (response.status === 400 || response.status === 404) {
+        setProgress({
+          userId,
+          url,
+          status: 'processing',
+          overallProgress: 0,
+          jobs: [
+            { type: 'on-page', status: 'waiting', progress: 0 },
+            { type: 'content', status: 'waiting', progress: 0 },
+            { type: 'technical', status: 'waiting', progress: 0 },
+          ],
+          isReady: false,
+        });
+        return;
       }
-      
-      const data = await response.json()
-      
-      // Map DB data to job statuses (assume no 'failed' detection; add if you have error columns)
+
+      if (!response.ok) {
+        throw new Error("Oops we were unable to perform your analysis 😢");
+      }
+
+      const data = await response.json();
+
       const jobs: JobStatus[] = [
-        { type: 'on-page', status: data?.analysis?.on_page ? 'completed' : 'processing', progress: data?.analysis?.on_page ? 100 : 0 },
-        { type: 'content', status: data?.analysis?.content ? 'completed' : 'processing', progress: data?.analysis?.content ? 100 : 0 },
-        { type: 'technical', status: data?.analysis?.technical ? 'completed' : 'processing', progress: data?.analysis?.technical ? 100 : 0 }
+        {
+          type: 'on-page',
+          status: data?.analysis?.on_page ? 'completed' : 'processing',
+          progress: data?.analysis?.on_page ? 100 : 0,
+        },
+        {
+          type: 'content',
+          status: data?.analysis?.content ? 'completed' : 'processing',
+          progress: data?.analysis?.content ? 100 : 0,
+        },
+        {
+          type: 'technical',
+          status: data?.analysis?.technical ? 'completed' : 'processing',
+          progress: data?.analysis?.technical ? 100 : 0,
+        },
       ];
 
       const allCompleted = data.isComplete;
@@ -63,14 +96,14 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
         overallProgress: totalProgress,
         jobs,
         isReady: allCompleted,
-        analysis: data.analysis
+        analysis: data.analysis,
       };
 
       setProgress(mappedData);
-      
+
       if (allCompleted) {
         setTimeout(() => {
-          router.push(`/analysis/${encodeURIComponent(sessionId)}`); // Adjust path
+          router.push(`/analysis/${encodeURIComponent(sessionId)}`);
         }, 1000);
       }
     } catch (err) {
@@ -82,24 +115,25 @@ export const useAnalysisProgress = (userId: string, url: string, sessionId: stri
   }, [userId, url, sessionId, router]);
 
   useEffect(() => {
-    if (!userId || !url || error) return; // Stop if error is populated
-    
+    if (!userId || !url) return;
+
     fetchProgress();
     const interval = setInterval(() => {
-      if (error) {
-        clearInterval(interval); // Clear interval if error is set
+      // Only stop polling if job is done (progress?.isReady)
+      if (progress?.isReady) {
+        clearInterval(interval);
         return;
       }
       fetchProgress();
     }, 2000);
-    
+
     return () => clearInterval(interval);
-  }, [fetchProgress, userId, url, error]);
+  }, [fetchProgress, userId, url, progress?.isReady]);
 
   return {
     progress,
     error,
     isLoading,
-    refetch: fetchProgress
+    refetch: fetchProgress,
   };
 };
