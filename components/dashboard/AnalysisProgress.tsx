@@ -1,5 +1,6 @@
 // src/components/AnalysisProgress.tsx
 import { useAnalysisProgress } from '@/hooks/useAnalysisProgress';
+import { CheckIcon, Circle, XCircleIcon } from 'lucide-react';
 import React from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -103,15 +104,15 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
               <div className="text-right">
                 {job.status === 'processing' && (
                   <div className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping mr-2"></div>
-                    <span className="text-sm text-blue-600">{job.progress}%</span>
+                    <Circle className="text-yellow-500  mr-2"/>
+                    <span className="text-sm text-yellow-600">{job.progress}%</span>
                   </div>
                 )}
                 {job.status === 'completed' && (
-                  <span className="text-sm text-green-600">✓ Complete</span>
+                  <CheckIcon className='text-green-600'/>
                 )}
                 {job.status === 'failed' && (
-                  <span className="text-sm text-red-600">✗ Failed</span>
+                  <XCircleIcon className='text-red-600'/>
                 )}
               </div>
             </div>
@@ -128,7 +129,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
             <svg className="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            <span className="text-green-800 font-medium">Analysis complete! Redirecting...</span>
+            <span className="text-sm font-medium">Analysis complete! Redirecting...</span>
           </div>
         </div>
       )}
