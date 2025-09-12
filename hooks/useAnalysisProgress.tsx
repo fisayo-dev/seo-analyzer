@@ -2,26 +2,25 @@
 "use client"
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import apiClient from '@/lib/api/client';
-import axios from 'axios';
 
 interface JobStatus {
   type: 'on-page' | 'content' | 'technical';
-  status: 'waiting' | 'processing' | 'completed' | 'failed';
+  status: 'processing' | 'completed' | 'failed' | 'waiting';
   progress: number;
   error?: string;
 }
 
 interface ProgressData {
-  sessionId: string;
   userId: string;
+  url: string;
   status: 'processing' | 'completed';
   overallProgress: number;
   jobs: JobStatus[];
   isReady: boolean;
+  analysis?: any; // Add if you want results here
 }
 
-export const useAnalysisProgress = (sessionId: string, userId: string) => {
+export const useAnalysisProgress = (userId: string, url: string, sessionId: string) => { // Add sessionId if needed for redirect
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,20 +31,40 @@ export const useAnalysisProgress = (sessionId: string, userId: string) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${sessionId}?userId=${encodeURIComponent(userId)}`);
+      const encodedUrl = encodeURIComponent(url);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/result/${encodeURIComponent(userId)}/${encodedUrl}`);
       
       if (!response || response.status < 200 || response.status >= 300) {
         throw new Error(`HTTP error! status: ${response?.status}`);
       }
       
-      const data = await response.data;
-      setProgress(data);
+      const data = await response.json()
       
-      // Auto-redirect when complete
-      if (data.isReady && data.status === 'completed') {
-        // Delay slightly to show 100% completion
+      // Map DB data to job statuses (assume no 'failed' detection; add if you have error columns)
+      const jobs: JobStatus[] = [
+        { type: 'on-page', status: data.analysis.on_page ? 'completed' : 'processing', progress: data.analysis.on_page ? 100 : 0 },
+        { type: 'content', status: data.analysis.content ? 'completed' : 'processing', progress: data.analysis.content ? 100 : 0 },
+        { type: 'technical', status: data.analysis.technical ? 'completed' : 'processing', progress: data.analysis.technical ? 100 : 0 }
+      ];
+
+      const allCompleted = data.isComplete;
+      const totalProgress = data.progress;
+
+      const mappedData: ProgressData = {
+        userId,
+        url,
+        status: allCompleted ? 'completed' : 'processing',
+        overallProgress: totalProgress,
+        jobs,
+        isReady: allCompleted,
+        analysis: data.analysis
+      };
+
+      setProgress(mappedData);
+      
+      if (allCompleted) {
         setTimeout(() => {
-          router.push(`/analysis/${encodeURIComponent(data.jobs[0]?.jobId || sessionId)}`);
+          router.push(`/analysis/${encodeURIComponent(sessionId)}`); // Adjust path
         }, 1000);
       }
     } catch (err) {
@@ -54,23 +73,15 @@ export const useAnalysisProgress = (sessionId: string, userId: string) => {
     } finally {
       setIsLoading(false);
     }
-  }, [sessionId, userId, router]);
-
+  }, [userId, url, sessionId, router]);
 
   useEffect(() => {
-    if (!sessionId || !userId) return;
+    if (!userId || !url) return;
     
-    // Initial fetch
     fetchProgress();
-    
-    // Poll every 2 seconds
     const interval = setInterval(fetchProgress, 2000);
-    
-    // Stop polling when complete or unmount
-    return () => {
-      clearInterval(interval);
-    };
-  }, [fetchProgress, sessionId, userId]);
+    return () => clearInterval(interval);
+  }, [fetchProgress]);
 
   return {
     progress,
