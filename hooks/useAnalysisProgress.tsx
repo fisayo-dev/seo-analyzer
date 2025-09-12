@@ -22,7 +22,8 @@ interface ProgressData {
 
 export const useAnalysisProgress = (
   userId: string,
-  sessionId: string
+  sessionId: string,
+  url:string
 ) => {
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +52,7 @@ export const useAnalysisProgress = (
       if (data.isReady) {
         // redirect to results page once ready
         setTimeout(() => {
-          router.push(`/analysis/${encodeURIComponent(sessionId)}`);
+          router.push(`/dashboard/analysis/${encodeURIComponent(url)}`);
         }, 1000);
       }
     } catch (err) {
