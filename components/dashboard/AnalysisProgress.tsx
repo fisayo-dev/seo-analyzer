@@ -56,11 +56,9 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Analyzing {url}
-        </h2>
-        <p className="text-gray-600">Your SEO analysis is in progress</p>
+      <div className="grid gap-2 text-center mb-6">
+        <p className=" text-gray-600">Your SEO analysis is in progress</p>
+        <p className="text-sm p-2 rounded-full bg-gray-100  w-60 mx-auto">{url}</p>
       </div>
 
       {/* Progress Circle */}
@@ -84,7 +82,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
         {progress.jobs && progress.jobs.map((job) => (
           <div
             key={job.type}
-            className={`p-4 rounded-lg border ${
+            className={`mx-auto max-w-xl p-4 rounded-lg border ${
               job.status === 'completed'
                 ? 'bg-green-50 border-green-200'
                 : job.status === 'failed'
@@ -94,12 +92,17 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <div className={`w-2 h-2 rounded-full mr-3 ${
+                <div className={`w-6 h-6 rounded-full mr-3 ${
                   job.status === 'completed' ? 'bg-green-500' :
                   job.status === 'failed' ? 'bg-red-500' :
                   job.status === 'processing' ? 'bg-yellow-500' : 'bg-gray-300'
                 }`}></div>
-                <span className="font-medium capitalize">{job.type.replace('-', ' ')}</span>
+                <div className="grid">
+                  <span className="font-medium capitalize">{job.type.replace('-', ' ')}</span>
+                  {job.error && (
+                    <p className=" text-xs text-red-600">{job.error.length > 50 ? `${job.error.substring(0,50)}...` : job.error.length}</p>
+                  )}
+                </div>
               </div>
               <div className="text-right">
                 {job.status === 'processing' && (
@@ -116,9 +119,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
                 )}
               </div>
             </div>
-            {job.error && (
-              <p className=" text-xs text-red-600">{job.error.length > 50 ? `${job.error.substring(0,50)}...` : job.error.length}</p>
-            )}
+           
           </div>
         ))}
       </div>
