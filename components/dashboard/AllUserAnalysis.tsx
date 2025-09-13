@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, ExternalLink, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreHorizontal } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -459,7 +459,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
                                             <h3 className="text-lg font-bold text-gray-900">{analysis?.on_page?.title?.text?.length > 20 ? `${analysis.on_page.title.text.substring(0,20)}...`: analysis.on_page.title.text}</h3>
-                                            <ExternalLink className="w-5 h-5 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors duration-200" />
+                                            {/* <ExternalLink className="w-5 h-5 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors duration-200" /> */}
                                         </div>
                                         <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>
                                         <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
@@ -467,9 +467,36 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                             {formatDate(analysis.createdAt)}
                                         </div>
                                     </div>
-                                    <div className={`grid rounded-full h-11 w-11 p-2 place-content-center border-2 ${scoreStatus.bgClass}`}>
-                                        <div className={`text-sm font-bold ${scoreStatus.colorClass}`}>
-                                            {getScoreBreakdown(analysis).overall}%
+                                    <div className="flex items-center gap-2">
+                                        <div className={`grid rounded-full h-11 w-11 p-2 place-content-center border-2 ${scoreStatus.bgClass}`}>
+                                            <div className={`text-sm font-bold ${scoreStatus.colorClass}`}>
+                                                {getScoreBreakdown(analysis).overall}%
+                                            </div>
+                                        </div>
+                                        {/* Action Buttons */}
+                                        <div className="border-gray-200">
+                                        <div className="flex justify-end">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" className="h-8 w-8 p-0">
+                                                    <MoreVertical className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem asChild>
+                                                    <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
+                                                        View Details
+                                                    </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
+                                                    Re-analyze
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
+                                                    Export Report
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -482,31 +509,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                     </div>
                                 </div>
 
-                                {/* Action Buttons */}
-                                <div className="pt-3 border-t border-gray-200">
-                                  <div className="flex justify-end">
-                                    <DropdownMenu>
-                                      <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                          <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                      </DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end">
-                                        <DropdownMenuItem asChild>
-                                          <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                            View Details
-                                          </Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
-                                          Re-analyze
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
-                                          Export Report
-                                        </DropdownMenuItem>
-                                      </DropdownMenuContent>
-                                    </DropdownMenu>
-                                  </div>
-                                </div>
+                                
                             </div>
                         </div>
                     );
