@@ -74,7 +74,7 @@ const NewAnalysis = () => {
             <AlertDialogTitle className="flex items-center justify-between">
               <span>SEO Analysis Progress</span>
               <XIcon onClick={() => setOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
-              </AlertDialogTitle>
+            </AlertDialogTitle>
           </AlertDialogHeader>
 
           {sessionId && userId ? (

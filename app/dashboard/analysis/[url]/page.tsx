@@ -1,22 +1,21 @@
-import AnalysisDetails from "@/components/dashboard/AnalysisDetails";
+import AnalysisDetails, { SEOAnalysisResult } from "@/components/dashboard/AnalysisDetails";
 import { fetchAnalysisDetails } from "@/lib/actions/analysis";
 
-interface AnalysisResults {
-  technical: any;
-  content: any;
-  onPage: any;
-}
 
 const Page = async ({ params }: { params: { url: string } }) => {
-  const { url } = params;
+  const { url } = await params;
 
   try {
     const data = await fetchAnalysisDetails(decodeURIComponent(url))
-    const results: AnalysisResults = {
-      technical: data?.technical,
-      content: data?.content,
-      onPage: data?.on_page,
+    const results: SEOAnalysisResult = {
+      technical: data?.technical ?? "",
+      content: data?.content ?? "",
+      on_page: data?.on_page ?? "",
+      url: data?.url ?? "",
+      title: data?.title,
+      id: data?.id
     };
+    console.log("Fetched: ", data)
 
     return <AnalysisDetails results={results} />;
   } catch (err) {

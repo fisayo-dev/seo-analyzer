@@ -1,9 +1,11 @@
 import React from 'react'
 import DashboardHome from '@/components/dashboard/DashboardHome'
+import { fetchUserAnalysis } from '@/lib/actions/analysis'
 
-const Dashboard = () => {
+const Dashboard = async() => {
+  const data = await fetchUserAnalysis()
   return (
-    <DashboardHome />
+    <DashboardHome results={data}/>
   )
 }
 

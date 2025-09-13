@@ -37,23 +37,23 @@ export const useAnalysisProgress = (
       setIsLoading(true);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${encodeURIComponent(
-          sessionId
-        )}?userId=${encodeURIComponent(userId)}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${encodeURIComponent(
+        sessionId
+      )}?userId=${encodeURIComponent(userId)}`
       );
 
       if (!response.ok) {
-        throw new Error("Oops 😢 we were unable to check your analysis progress.");
+      throw new Error("Oops 😢 we were unable to check your analysis progress.");
       }
 
       const data: ProgressData = await response.json();
       setProgress(data);
 
       if (data.isReady) {
-        // redirect to results page once ready
-        setTimeout(() => {
-          router.push(`/dashboard/analysis/${encodeURIComponent(url)}`);
-        }, 1000);
+      // Hard reload to bypass Next.js cache
+      setTimeout(() => {
+        window.location.href = `/dashboard/analysis/${encodeURIComponent(url)}`;
+      }, 1000);
       }
     } catch (err) {
       console.error("Progress fetch error:", err);
@@ -61,7 +61,7 @@ export const useAnalysisProgress = (
     } finally {
       setIsLoading(false);
     }
-  }, [userId, sessionId, router]);
+  }, [userId, sessionId, url, router]);
 
   useEffect(() => {
     if (!userId || !sessionId) return;
