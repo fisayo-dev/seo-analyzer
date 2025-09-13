@@ -65,9 +65,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Technical SEO */}
           <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-4 text-gray-700">
               <Code className="w-6 h-6" />
-              <h4 className="font-semibold text-gray-900">Technical SEO</h4>
+              <h4 className="font-semibold">Technical SEO</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(analysis.technical.score)} mb-4`}>
               {analysis.technical.score}/100
@@ -105,9 +105,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
 
           {/* On-Page SEO */}
           <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-4 text-gray-700">
               <Eye className="w-6 h-6" />
-              <h4 className="font-semibold text-gray-900">On-Page SEO</h4>
+              <h4 className="font-semibold">On-Page SEO</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(Math.round((analysis.on_page.title.score + analysis.on_page.headings.score + analysis.on_page.links.score + analysis.on_page.images.score) / 4))} mb-4`}>
               {Math.round((analysis.on_page.title.score + analysis.on_page.headings.score + analysis.on_page.links.score + analysis.on_page.images.score) / 4)}/100
@@ -145,9 +145,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
 
           {/* Content Quality */}
           <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-4 text-gray-700">
               <FileText className="w-6 h-6" />
-              <h4 className="font-semibold text-gray-900">Content Quality</h4>
+              <h4 className="font-semibold">Content Quality</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(analysis.content.score)} mb-4`}>
               {analysis.content.score}/100
@@ -182,9 +182,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
 
           {/* Issues Found */}
           <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-4 text-gray-700">
               <AlertTriangle className="w-6 h-6" />
-              <h4 className="font-semibold text-gray-900">Issues Found</h4>
+              <h4 className="font-semibold">Issues Found</h4>
             </div>
             <div className="text-2xl font-bold text-orange-600 mb-4">
               {(analysis.technical.issues?.length || 0) + (analysis.content.issues?.length || 0)}
