@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import { 
   Globe, 
@@ -28,6 +27,8 @@ import { XIcon } from "lucide-react"
 import { Button } from '../ui/button';
 import apiClient from '@/lib/api/client';
 import Link from 'next/link';
+import { deleteAnalysis } from '@/lib/actions/analysis';
+import { useRouter } from 'next/navigation';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -266,8 +267,7 @@ const handleCopyUrl = (url: string) => {
 }
 
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
-  const { technical, content, onPage } = results;
-
+  const { technical, content, onPage, id } = results;
 
   const overallScore = Math.round(((technical?.score ? technical.score : 0) + (content?.score ? content.score : 0) + (
     (onPage ? (onPage.title?.score + onPage.metaDescription?.score + onPage.headings?.score + onPage.images?.score + onPage.links?.score) : 0) / 5
@@ -277,6 +277,9 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
+  
+  // router
+  const router = useRouter()
  
   // These will come back from API response
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -303,11 +306,16 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
     }
   }
 
-  const handleDelete = async (id:string) => {
+  const handleDelete = async () => {
+    setDeleteLoading(true)
     try {
-      
+      await deleteAnalysis(id)
+      router.push('/dashboard/analysis')
+      toast('Analysis successfully deleted')
     } catch(error) {
       console.log(error)
+    } finally {
+      setDeleteLoading(false)
     }
   }
   useEffect(() => {

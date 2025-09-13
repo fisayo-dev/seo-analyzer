@@ -12,7 +12,8 @@ const Page = async ({ params }: { params: { url: string } }) => {
       content: data?.content ?? "",
       onPage: data?.on_page ?? "",
       url: data?.url ?? "",
-      title: data?.title
+      title: data?.title,
+      id: data?.id
     };
     console.log("Fetched: ", data)
 
