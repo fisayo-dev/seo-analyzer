@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical, DownloadIcon, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -444,7 +444,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
             </div>
 
             {/* Analysis Cards */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-6">
                 {filteredAndSortedAnalyses.map((analysis) => {
                     const scoreStatus = getScoreStatus(getScoreBreakdown(analysis).overall);
                     
@@ -484,18 +484,30 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuItem asChild>
-                                                        <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                                            View Details
-                                                        </Link>
+                                                        <div className='flex items-center gap-2'>
+                                                            <NotebookTextIcon />
+                                                            <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
+                                                                View Details
+                                                            </Link>
+                                                        </div>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
-                                                        Re-analyze
+                                                        <div className='flex items-center gap-2'>
+                                                            <RefreshCcw />
+                                                            <span>Re-analyze</span>
+                                                        </div>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
-                                                        Export Report
+                                                        <div className='flex items-center gap-2'>
+                                                            <DownloadIcon />
+                                                            <span>Export report</span>
+                                                        </div>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
-                                                        View Score Breakdown
+                                                        <div className='flex items-center gap-2'>
+                                                            <Eye/>
+                                                            <span>View score breakdwon</span>
+                                                        </div>
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
