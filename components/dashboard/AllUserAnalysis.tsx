@@ -9,6 +9,8 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 
 // Import utility functions
 import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown, getScoreColor } from './seo-utils';
+import apiClient from '@/lib/api/client';
+import AnalysisProgress from './AnalysisProgress';
 
 export type Analysis = {
   id: string;
@@ -53,6 +55,35 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [sortOrder, setSortOrder] = useState('desc');
   const [analyses] = useState<Analysis[]>(analysis);
   const [open, setOpen] = useState(false)
+  const [reanalyzeOpen, setReanalyzeOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  // These will come back from API response
+  const [sessionId, setSessionId] = useState<string | null>(null)
+  const [userId, setUserId] = useState<string | null>(null)
+
+  const handleReAnalyze = async (e: React.FormEvent, url:string) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await apiClient.post("/analyze", { url })
+      const data = await res.data
+      console.log("Analysis started:", data)
+
+      // assume API returns sessionId + userId
+      setSessionId(data.sessionId)
+      setUserId(data.userId)
+
+      // show dialog
+      setReanalyzeOpen(true)
+    } catch (error) {
+      console.error("Error:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+
   const filteredAndSortedAnalyses = useMemo(() => {
     const filtered: Analysis[] = analyses.filter(analysis => {
       const matchesSearch = analysis.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -419,9 +450,32 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                     <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md">
                                         View Details
                                     </Link>
-                                    <Button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium transition-all duration-200">
+                                    <Button onClick={(e) => handleReAnalyze(e,analysis.url)} className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium transition-all duration-200">
                                         Re-analyze
                                     </Button>
+                                     {/* Alert Dialog */}
+                                    <AlertDialog open={reanalyzeOpen} onOpenChange={setReanalyzeOpen}>
+                                        <AlertDialogContent className="max-w-2xl">
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle className="flex items-center justify-between">
+                                            <span>SEO Analysis Progress</span>
+                                            <XIcon onClick={() => setOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
+                                            </AlertDialogTitle>
+                                        </AlertDialogHeader>
+
+                                        {sessionId && userId ? (
+                                            <AnalysisProgress
+                                            sessionId={sessionId}
+                                            userId={userId}
+                                            url={analysis.url}
+                                            />
+                                        ) : (
+                                            <p className="text-center text-gray-500 p-6">
+                                            Preparing analysis...
+                                            </p>
+                                        )}
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                     <Button className="bg-green-100 hover:bg-green-200 text-green-700 px-6 py-2 rounded-lg font-medium transition-all duration-200">
                                         Export Report
                                     </Button>
