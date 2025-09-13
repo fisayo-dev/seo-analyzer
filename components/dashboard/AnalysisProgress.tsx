@@ -92,7 +92,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
         {progress.jobs && progress.jobs.map((job) => (
           <div
             key={job.type}
-            className={`mx-auto max-w-xl p-4 rounded-lg border ${
+            className={`mx-auto w-96 p-4 rounded-lg border ${
               job.status === 'completed'
                 ? 'bg-green-50 border-green-200'
                 : job.status === 'failed'
