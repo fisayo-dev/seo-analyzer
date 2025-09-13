@@ -83,7 +83,7 @@ const SEODashboardLoading = () => {
               <SkeletonCircle size="w-5 h-5" />
             </div>
             
-            <div className="space-y-1">
+            <div className="space-y-1 overflow-hidden">
               <RecentAnalysisItemSkeleton />
               <RecentAnalysisItemSkeleton />
               <RecentAnalysisItemSkeleton />
