@@ -5,6 +5,7 @@ interface AnalysisResults {
   technical: unknown;
   content: unknown;
   onPage: unknown;
+  [key: string]: unknown;
 }
 
 const Page = async ({ params }: { params: { url: string } }) => {
@@ -16,6 +17,8 @@ const Page = async ({ params }: { params: { url: string } }) => {
       technical: data?.technical,
       content: data?.content,
       onPage: data?.on_page,
+      url: data?.url,
+      title: data?.title
     };
 
     return <AnalysisDetails results={results} />;

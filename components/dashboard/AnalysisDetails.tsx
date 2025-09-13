@@ -237,260 +237,263 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   )) / 3);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">SEO Analysis Results</h1>
+        <div className="bg-white border-b border-gray-100 p-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">SEO Analysis Results</h1>
           <p className="text-gray-600">Complete technical and content SEO analysis overview</p>
         </div>
 
-        {/* Overall Scores */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <ScoreCard
-            icon={<Globe className="w-5 h-5 text-blue-600" />}
-            title="Overall Score"
-            score={overallScore}
-            total={100}
-            color={getScoreColor(overallScore)}
-          />
-          <ScoreCard
-            icon={<Code className="w-5 h-5 text-green-600" />}
-            title="Technical SEO"
-            score={technical?.score}
-            total={100}
-            color={getScoreColor(technical?.score)}
-          />
-          <ScoreCard
-            icon={<FileText className="w-5 h-5 text-purple-600" />}
-            title="Content Quality"
-            score={content?.score}
-            total={100}
-            color={getScoreColor(content?.score)}
-          />
-          <ScoreCard
-            icon={<Eye className="w-5 h-5 text-orange-600" />}
-            title="On-Page SEO"
-            score={Math.round((onPage ? onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score : 0) / 5)}
-            total={100}
-            color={getScoreColor(Math.round((onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score) / 5))}
-          />
-        </div>
-
-        {/* Technical Analysis */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Technical Analysis</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            <MetricCard title="Page Speed">
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Load Time</span>
-                  <span className="font-medium">{technical?.pageSpeed?.loadTime}ms</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.pageSpeed?.score)}`}>
-                    {technical?.pageSpeed?.score}/100
-                  </span>
-                </div>
-              </div>
-            </MetricCard>
-
-            <MetricCard title="Mobile Optimization">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Responsive</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical?.mobile?.responsive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical?.mobile?.responsive ? 'Yes' : 'No'}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Mobile Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.mobile?.score)}`}>
-                    {technical?.mobile?.score}/100
-                  </span>
-                </div>
-              </div>
-            </MetricCard>
-
-            <MetricCard title="Security & Structure">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">SSL Enabled</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical?.ssl?.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical?.ssl?.enabled ? 'Yes' : 'No'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Valid HTML</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical?.structure?.validHTML ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical?.structure?.validHTML ? 'Yes' : 'No'}
-                  </span>
-                </div>
-              </div>
-            </MetricCard>
+        <div className='p-6'>
+          {/* Overall Scores */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <ScoreCard
+              icon={<Globe className="w-5 h-5 text-blue-600" />}
+              title="Overall Score"
+              score={overallScore}
+              total={100}
+              color={getScoreColor(overallScore)}
+            />
+            <ScoreCard
+              icon={<Code className="w-5 h-5 text-green-600" />}
+              title="Technical SEO"
+              score={technical?.score}
+              total={100}
+              color={getScoreColor(technical?.score)}
+            />
+            <ScoreCard
+              icon={<FileText className="w-5 h-5 text-purple-600" />}
+              title="Content Quality"
+              score={content?.score}
+              total={100}
+              color={getScoreColor(content?.score)}
+            />
+            <ScoreCard
+              icon={<Eye className="w-5 h-5 text-orange-600" />}
+              title="On-Page SEO"
+              score={Math.round((onPage ? onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score : 0) / 5)}
+              total={100}
+              color={getScoreColor(Math.round((onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score) / 5))}
+            />
           </div>
 
-          {technical?.issues?.length > 0 && (
-            <IssuesList 
-              title="Technical Issues" 
-              issues={technical.issues} 
-              type="warning" 
-            />
-          )}
-        </div>
-
-        {/* Content Analysis */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Content Analysis</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            <MetricCard title="Content Metrics">
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Word Count</span>
-                  <span className="font-medium">{content?.wordCount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Readability</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.readabilityScore)}`}>
-                    {content?.readabilityScore}/100
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Quality Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.contentQuality.score)}`}>
-                    {content?.contentQuality.score}/100
-                  </span>
-                </div>
-              </div>
-            </MetricCard>
-
-            <MetricCard title="Keyword Density">
-              <KeywordDensityChart density={content?.keywordDensity} />
-            </MetricCard>
-
-            <MetricCard title="Content Quality Factors">
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Length</span>
-                  <span className="font-medium">{content?.contentQuality.factors.length}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Uniqueness</span>
-                  <span className="font-medium">{content?.contentQuality.factors.uniqueness}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Structure</span>
-                  <span className="font-medium">{content?.contentQuality.factors.structure}/100</span>
-                </div>
-              </div>
-            </MetricCard>
-          </div>
-
-          {content?.issues.length > 0 && (
-            <IssuesList 
-              title="Content Issues" 
-              issues={content?.issues} 
-              type="warning" 
-            />
-          )}
-        </div>
-
-        {/* On-Page Analysis */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">On-Page SEO</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <MetricCard title="Title & Meta">
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-600">Title Tag</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.title.score)}`}>
-                      {onPage?.title.score}/100
+          {/* Technical Analysis */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Technical Analysis</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+              <MetricCard title="Page Speed">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Load Time</span>
+                    <span className="font-medium">{technical?.pageSpeed?.loadTime}ms</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Score</span>
+                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.pageSpeed?.score)}`}>
+                      {technical?.pageSpeed?.score}/100
                     </span>
                   </div>
-                  <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                    &quot;{onPage?.title.text}&quot; ({onPage?.title.length} chars)
-                  </p>
                 </div>
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-600">Meta Description</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.metaDescription.score)}`}>
-                      {onPage?.metaDescription.score}/100
+              </MetricCard>
+
+              <MetricCard title="Mobile Optimization">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Responsive</span>
+                    <span className={`px-2 py-1 rounded text-sm ${technical?.mobile?.responsive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      {technical?.mobile?.responsive ? 'Yes' : 'No'}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                    &quot;{onPage?.metaDescription.text}&quot; ({onPage?.metaDescription.length} chars)
-                  </p>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Mobile Score</span>
+                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.mobile?.score)}`}>
+                      {technical?.mobile?.score}/100
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </MetricCard>
+              </MetricCard>
 
-            <MetricCard title="Page Elements">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">H1 Tags</span>
-                  <span className="font-medium">{onPage?.headings.h1Count}</span>
+              <MetricCard title="Security & Structure">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">SSL Enabled</span>
+                    <span className={`px-2 py-1 rounded text-sm ${technical?.ssl?.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      {technical?.ssl?.enabled ? 'Yes' : 'No'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Valid HTML</span>
+                    <span className={`px-2 py-1 rounded text-sm ${technical?.structure?.validHTML ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      {technical?.structure?.validHTML ? 'Yes' : 'No'}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">H2 Tags</span>
-                  <span className="font-medium">{onPage?.headings.h2Count}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Images</span>
-                  <span className="font-medium">{onPage?.images.total}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Images without Alt</span>
-                  <span className={`font-medium ${onPage?.images.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                    {onPage?.images.withoutAlt}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Internal Links</span>
-                  <span className="font-medium">{onPage?.links.internal}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">External Links</span>
-                  <span className="font-medium">{onPage?.links.external}</span>
-                </div>
-              </div>
-            </MetricCard>
+              </MetricCard>
+            </div>
+
+            {technical?.issues?.length > 0 && (
+              <IssuesList 
+                title="Technical Issues" 
+                issues={technical.issues} 
+                type="warning" 
+              />
+            )}
           </div>
 
-          {/* On-page Issues */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {onPage?.title.issues.length > 0 && (
+          {/* Content Analysis */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Content Analysis</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+              <MetricCard title="Content Metrics">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Word Count</span>
+                    <span className="font-medium">{content?.wordCount}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Readability</span>
+                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.readabilityScore)}`}>
+                      {content?.readabilityScore}/100
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Quality Score</span>
+                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.contentQuality.score)}`}>
+                      {content?.contentQuality.score}/100
+                    </span>
+                  </div>
+                </div>
+              </MetricCard>
+
+              <MetricCard title="Keyword Density">
+                <KeywordDensityChart density={content?.keywordDensity} />
+              </MetricCard>
+
+              <MetricCard title="Content Quality Factors">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Length</span>
+                    <span className="font-medium">{content?.contentQuality.factors.length}/100</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Uniqueness</span>
+                    <span className="font-medium">{content?.contentQuality.factors.uniqueness}/100</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Structure</span>
+                    <span className="font-medium">{content?.contentQuality.factors.structure}/100</span>
+                  </div>
+                </div>
+              </MetricCard>
+            </div>
+
+            {content?.issues.length > 0 && (
               <IssuesList 
-                title="Title Issues" 
-                issues={onPage?.title.issues} 
+                title="Content Issues" 
+                issues={content?.issues} 
                 type="warning" 
               />
             )}
-            {onPage?.metaDescription.issues.length > 0 && (
-              <IssuesList 
-                title="Meta Description Issues" 
-                issues={onPage?.metaDescription.issues} 
-                type="warning" 
-              />
-            )}
-            {onPage?.headings.issues.length > 0 && (
-              <IssuesList 
-                title="Heading Issues" 
-                issues={onPage?.headings.issues} 
-                type="warning" 
-              />
-            )}
-            {onPage?.links?.issues?.length > 0 && (
-              <IssuesList 
-                title="Link Issues" 
-                issues={onPage?.links.issues} 
-                type="info" 
-              />
-            )}
+          </div>
+
+          {/* On-Page Analysis */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">On-Page SEO</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <MetricCard title="Title & Meta">
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-600">Title Tag</span>
+                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.title.score)}`}>
+                        {onPage?.title.score}/100
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
+                      &quot;{onPage?.title.text}&quot; ({onPage?.title.length} chars)
+                    </p>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-600">Meta Description</span>
+                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.metaDescription.score)}`}>
+                        {onPage?.metaDescription.score}/100
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
+                      &quot;{onPage?.metaDescription.text}&quot; ({onPage?.metaDescription.length} chars)
+                    </p>
+                  </div>
+                </div>
+              </MetricCard>
+
+              <MetricCard title="Page Elements">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">H1 Tags</span>
+                    <span className="font-medium">{onPage?.headings.h1Count}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">H2 Tags</span>
+                    <span className="font-medium">{onPage?.headings.h2Count}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Images</span>
+                    <span className="font-medium">{onPage?.images.total}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Images without Alt</span>
+                    <span className={`font-medium ${onPage?.images.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {onPage?.images.withoutAlt}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Internal Links</span>
+                    <span className="font-medium">{onPage?.links.internal}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">External Links</span>
+                    <span className="font-medium">{onPage?.links.external}</span>
+                  </div>
+                </div>
+              </MetricCard>
+            </div>
+
+            {/* On-page Issues */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {onPage?.title.issues.length > 0 && (
+                <IssuesList 
+                  title="Title Issues" 
+                  issues={onPage?.title.issues} 
+                  type="warning" 
+                />
+              )}
+              {onPage?.metaDescription.issues.length > 0 && (
+                <IssuesList 
+                  title="Meta Description Issues" 
+                  issues={onPage?.metaDescription.issues} 
+                  type="warning" 
+                />
+              )}
+              {onPage?.headings.issues.length > 0 && (
+                <IssuesList 
+                  title="Heading Issues" 
+                  issues={onPage?.headings.issues} 
+                  type="warning" 
+                />
+              )}
+              {onPage?.links?.issues?.length > 0 && (
+                <IssuesList 
+                  title="Link Issues" 
+                  issues={onPage?.links.issues} 
+                  type="info" 
+                />
+              )}
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );
