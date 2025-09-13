@@ -11,6 +11,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown, getScoreColor } from './seo-utils';
 import apiClient from '@/lib/api/client';
 import AnalysisProgress from './AnalysisProgress';
+import { toast } from 'sonner';
 
 export type Analysis = {
   id: string;
@@ -476,7 +477,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                         )}
                                         </AlertDialogContent>
                                     </AlertDialog>
-                                    <Button className="bg-green-100 hover:bg-green-200 text-green-700 px-6 py-2 rounded-lg font-medium transition-all duration-200">
+                                    <Button onClick={() => toast('Export feature coming soon 😄')} className="bg-green-100 hover:bg-green-200 text-green-700 px-6 py-2 rounded-lg font-medium transition-all duration-200">
                                         Export Report
                                     </Button>
                                 </div>
