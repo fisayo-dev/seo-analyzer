@@ -13,6 +13,7 @@ import {
   RefreshCcw,
   Loader2Icon,
   ArrowLeft,
+  Trash,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { toast } from 'sonner';
@@ -273,13 +274,15 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   )) / 3);
 
   const [loading, setLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
   const [open, setOpen] = useState(false)
-
+  const [deleteOpen, setDeleteOpen] = useState(false)
+ 
   // These will come back from API response
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
 
-  const startAnalysis = async (e: React.FormEvent) => {
+  const handleReanalyze = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     try {
@@ -297,6 +300,14 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
       console.error("Error:", error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDelete = async (id:string) => {
+    try {
+      
+    } catch(error) {
+      console.log(error)
     }
   }
   useEffect(() => {
@@ -321,9 +332,13 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
           </div>
           <div>
             <div className="hidden md:flex items-center gap-4">
-              <Button onClick={startAnalysis} className="bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200">
+              <Button onClick={handleReanalyze} className="bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200">
                 {loading ? <Loader2Icon className='animate-spin'/> : <RefreshCcw className=''/>}
                 <span>{loading ? 'Re-analyzing': 'Re-analyze'}</span>
+              </Button>
+              <Button onClick={() => setDeleteOpen(true)} className="bg-red-600 hover:bg-red-700 text-white font-medium transition-colors duration-200">
+                <Trash className=''/>
+                <span>Delete</span>
               </Button>
             </div>
           </div>
@@ -589,7 +604,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
       </div>
 
       
-      {/* Alert Dialog */}
+      {/* Re-analyze Dialog */}
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
@@ -610,6 +625,34 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               Preparing analysis...
             </p>
           )}
+        </AlertDialogContent>
+      </AlertDialog>
+
+       {/* Delete Dialog */}
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent className="max-w-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center justify-between">
+              <span>SEO Analysis Progress</span>
+              <XIcon onClick={() => setDeleteOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
+              </AlertDialogTitle>
+          </AlertDialogHeader>
+
+          <div className="my-4 mx-auto md:max-w-sm text-center">
+            <h2 className="text-3xl font-bold mb-2">Delete this</h2>
+            <p>Are you sure u want to delete this analysis. The moment this analysis, it cannot be retrieved.</p>
+          </div>
+
+          <div className="mx-auto flex items-center gap-4">
+            <Button onClick={() => setDeleteLoading(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-medium transition-colors duration-200">              
+              <span>Cancel</span>
+            </Button>
+            <Button disabled={deleteLoading} onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white font-medium transition-colors duration-200">
+             {deleteLoading ? <Loader2Icon className='animate-spin'/> : <Trash className=''/>}
+                <span>{deleteLoading ? 'Deleting': 'Delete anyway'}</span>
+            </Button>
+          </div>
+
         </AlertDialogContent>
       </AlertDialog>
     </div>
