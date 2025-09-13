@@ -39,8 +39,6 @@ export const fetchUserAnalysis = async () => {
             .select()
             .from(seo_analysis)
             .where(eq(seo_analysis.userId, userId))
-            .limit(1);
-
         return analysis
 
     } catch(error) {
