@@ -265,6 +265,7 @@ const handleCopyUrl = (url: string) => {
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const { technical, content, onPage } = results;
 
+
   const overallScore = Math.round(((technical?.score ? technical.score : 0) + (content?.score ? content.score : 0) + (
     (onPage ? (onPage.title?.score + onPage.metaDescription?.score + onPage.headings?.score + onPage.images?.score + onPage.links?.score) : 0) / 5
   )) / 3);

@@ -1,4 +1,5 @@
 
+
 import { and, eq } from "drizzle-orm";
 import { db } from "../db"
 import { seo_analysis } from "../db/schema"
@@ -17,7 +18,6 @@ const getSessionUserId = async () : Promise<string> => {
 
 export const fetchAnalysisDetails = async (url : string) => {
     const userId = await getSessionUserId()
-    console.log(userId)
     try {
         const analysis = await db
             .select()
@@ -26,6 +26,22 @@ export const fetchAnalysisDetails = async (url : string) => {
             .limit(1);
 
         return analysis[0]
+
+    } catch(error) {
+        console.error(error)
+    }
+}
+
+export const fetchUserAnalysis = async () => {
+    const userId = await getSessionUserId()
+    try {
+        const analysis = await db
+            .select()
+            .from(seo_analysis)
+            .where(eq(seo_analysis.userId, userId))
+            .limit(1);
+
+        return analysis
 
     } catch(error) {
         console.error(error)

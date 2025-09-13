@@ -14,6 +14,7 @@ const Page = async ({ params }: { params: { url: string } }) => {
       url: data?.url ?? "",
       title: data?.title
     };
+    console.log("Fetched: ", data)
 
     return <AnalysisDetails results={results} />;
   } catch (err) {
