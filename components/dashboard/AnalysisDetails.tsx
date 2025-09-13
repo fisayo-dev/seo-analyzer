@@ -200,22 +200,26 @@ const MetricCard: React.FC<{
   </div>
 );
 
-const KeywordDensityChart: React.FC<{ density: KeywordDensity }> = ({ density }) => (
+const KeywordDensityChart: React.FC<{ density: KeywordDensity | null | undefined }> = ({ density }) => (
   <div className="space-y-3">
-    {Object.entries(density).slice(0, 5).map(([keyword, percentage]) => (
-      <div key={keyword}>
-        <div className="flex justify-between text-sm mb-1">
-          <span className="text-gray-600 truncate">{keyword}</span>
-          <span className="text-gray-900">{percentage}%</span>
+    {density && typeof density === 'object' && Object.keys(density).length > 0 ? (
+      Object.entries(density).slice(0, 5).map(([keyword, percentage]) => (
+        <div key={keyword}>
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-gray-600 truncate">{keyword}</span>
+            <span className="text-gray-900">{percentage}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full" 
+              style={{ width: `${Math.min(percentage, 100)}%` }}
+            ></div>
+          </div>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-blue-500 h-2 rounded-full" 
-            style={{ width: `${Math.min(percentage, 100)}%` }}
-          ></div>
-        </div>
-      </div>
-    ))}
+      ))
+    ) : (
+      <div className="text-gray-500 text-sm">No keyword density data available.</div>
+    )}
   </div>
 );
 
@@ -228,8 +232,8 @@ const getScoreColor = (score: number): string => {
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const { technical, content, onPage } = results;
 
-  const overallScore = Math.round((technical.score + content.score + (
-    (onPage.title.score + onPage.metaDescription.score + onPage.headings.score + onPage.images.score + onPage.links.score) / 5
+  const overallScore = Math.round(((technical?.score ? technical.score : 0) + (content?.score ? content.score : 0) + (
+    (onPage ? (onPage.title?.score + onPage.metaDescription?.score + onPage.headings?.score + onPage.images?.score + onPage.links?.score) : 0) / 5
   )) / 3);
 
   return (
@@ -253,23 +257,23 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
           <ScoreCard
             icon={<Code className="w-5 h-5 text-green-600" />}
             title="Technical SEO"
-            score={technical.score}
+            score={technical?.score}
             total={100}
-            color={getScoreColor(technical.score)}
+            color={getScoreColor(technical?.score)}
           />
           <ScoreCard
             icon={<FileText className="w-5 h-5 text-purple-600" />}
             title="Content Quality"
-            score={content.score}
+            score={content?.score}
             total={100}
-            color={getScoreColor(content.score)}
+            color={getScoreColor(content?.score)}
           />
           <ScoreCard
             icon={<Eye className="w-5 h-5 text-orange-600" />}
             title="On-Page SEO"
-            score={Math.round((onPage.title.score + onPage.metaDescription.score + onPage.headings.score + onPage.images.score + onPage.links.score) / 5)}
+            score={Math.round((onPage ? onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score : 0) / 5)}
             total={100}
-            color={getScoreColor(Math.round((onPage.title.score + onPage.metaDescription.score + onPage.headings.score + onPage.images.score + onPage.links.score) / 5))}
+            color={getScoreColor(Math.round((onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score) / 5))}
           />
         </div>
 
@@ -281,12 +285,12 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Load Time</span>
-                  <span className="font-medium">{technical.pageSpeed.loadTime}ms</span>
+                  <span className="font-medium">{technical?.pageSpeed?.loadTime}ms</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical.pageSpeed.score)}`}>
-                    {technical.pageSpeed.score}/100
+                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.pageSpeed?.score)}`}>
+                    {technical?.pageSpeed?.score}/100
                   </span>
                 </div>
               </div>
@@ -296,14 +300,14 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Responsive</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical.mobile.responsive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical.mobile.responsive ? 'Yes' : 'No'}
+                  <span className={`px-2 py-1 rounded text-sm ${technical?.mobile?.responsive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {technical?.mobile?.responsive ? 'Yes' : 'No'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Mobile Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical.mobile.score)}`}>
-                    {technical.mobile.score}/100
+                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(technical?.mobile?.score)}`}>
+                    {technical?.mobile?.score}/100
                   </span>
                 </div>
               </div>
@@ -313,21 +317,21 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">SSL Enabled</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical.ssl.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical.ssl.enabled ? 'Yes' : 'No'}
+                  <span className={`px-2 py-1 rounded text-sm ${technical?.ssl?.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {technical?.ssl?.enabled ? 'Yes' : 'No'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Valid HTML</span>
-                  <span className={`px-2 py-1 rounded text-sm ${technical.structure.validHTML ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {technical.structure.validHTML ? 'Yes' : 'No'}
+                  <span className={`px-2 py-1 rounded text-sm ${technical?.structure?.validHTML ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {technical?.structure?.validHTML ? 'Yes' : 'No'}
                   </span>
                 </div>
               </div>
             </MetricCard>
           </div>
 
-          {technical.issues.length > 0 && (
+          {technical?.issues?.length > 0 && (
             <IssuesList 
               title="Technical Issues" 
               issues={technical.issues} 
@@ -344,49 +348,49 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Word Count</span>
-                  <span className="font-medium">{content.wordCount}</span>
+                  <span className="font-medium">{content?.wordCount}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Readability</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content.readabilityScore)}`}>
-                    {content.readabilityScore}/100
+                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.readabilityScore)}`}>
+                    {content?.readabilityScore}/100
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Quality Score</span>
-                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content.contentQuality.score)}`}>
-                    {content.contentQuality.score}/100
+                  <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.contentQuality.score)}`}>
+                    {content?.contentQuality.score}/100
                   </span>
                 </div>
               </div>
             </MetricCard>
 
             <MetricCard title="Keyword Density">
-              <KeywordDensityChart density={content.keywordDensity} />
+              <KeywordDensityChart density={content?.keywordDensity} />
             </MetricCard>
 
             <MetricCard title="Content Quality Factors">
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Length</span>
-                  <span className="font-medium">{content.contentQuality.factors.length}/100</span>
+                  <span className="font-medium">{content?.contentQuality.factors.length}/100</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Uniqueness</span>
-                  <span className="font-medium">{content.contentQuality.factors.uniqueness}/100</span>
+                  <span className="font-medium">{content?.contentQuality.factors.uniqueness}/100</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Structure</span>
-                  <span className="font-medium">{content.contentQuality.factors.structure}/100</span>
+                  <span className="font-medium">{content?.contentQuality.factors.structure}/100</span>
                 </div>
               </div>
             </MetricCard>
           </div>
 
-          {content.issues.length > 0 && (
+          {content?.issues.length > 0 && (
             <IssuesList 
               title="Content Issues" 
-              issues={content.issues} 
+              issues={content?.issues} 
               type="warning" 
             />
           )}
@@ -401,23 +405,23 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-600">Title Tag</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage.title.score)}`}>
-                      {onPage.title.score}/100
+                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.title.score)}`}>
+                      {onPage?.title.score}/100
                     </span>
                   </div>
                   <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                    &quot;{onPage.title.text}&quot; ({onPage.title.length} chars)
+                    &quot;{onPage?.title.text}&quot; ({onPage?.title.length} chars)
                   </p>
                 </div>
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-gray-600">Meta Description</span>
-                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage.metaDescription.score)}`}>
-                      {onPage.metaDescription.score}/100
+                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(onPage?.metaDescription.score)}`}>
+                      {onPage?.metaDescription.score}/100
                     </span>
                   </div>
                   <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                    &quot;{onPage.metaDescription.text}&quot; ({onPage.metaDescription.length} chars)
+                    &quot;{onPage?.metaDescription.text}&quot; ({onPage?.metaDescription.length} chars)
                   </p>
                 </div>
               </div>
@@ -427,29 +431,29 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">H1 Tags</span>
-                  <span className="font-medium">{onPage.headings.h1Count}</span>
+                  <span className="font-medium">{onPage?.headings.h1Count}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">H2 Tags</span>
-                  <span className="font-medium">{onPage.headings.h2Count}</span>
+                  <span className="font-medium">{onPage?.headings.h2Count}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Images</span>
-                  <span className="font-medium">{onPage.images.total}</span>
+                  <span className="font-medium">{onPage?.images.total}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Images without Alt</span>
-                  <span className={`font-medium ${onPage.images.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                    {onPage.images.withoutAlt}
+                  <span className={`font-medium ${onPage?.images.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                    {onPage?.images.withoutAlt}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Internal Links</span>
-                  <span className="font-medium">{onPage.links.internal}</span>
+                  <span className="font-medium">{onPage?.links.internal}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">External Links</span>
-                  <span className="font-medium">{onPage.links.external}</span>
+                  <span className="font-medium">{onPage?.links.external}</span>
                 </div>
               </div>
             </MetricCard>
@@ -457,31 +461,31 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
 
           {/* On-page Issues */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {onPage.title.issues.length > 0 && (
+            {onPage?.title.issues.length > 0 && (
               <IssuesList 
                 title="Title Issues" 
-                issues={onPage.title.issues} 
+                issues={onPage?.title.issues} 
                 type="warning" 
               />
             )}
-            {onPage.metaDescription.issues.length > 0 && (
+            {onPage?.metaDescription.issues.length > 0 && (
               <IssuesList 
                 title="Meta Description Issues" 
-                issues={onPage.metaDescription.issues} 
+                issues={onPage?.metaDescription.issues} 
                 type="warning" 
               />
             )}
-            {onPage.headings.issues.length > 0 && (
+            {onPage?.headings.issues.length > 0 && (
               <IssuesList 
                 title="Heading Issues" 
-                issues={onPage.headings.issues} 
+                issues={onPage?.headings.issues} 
                 type="warning" 
               />
             )}
-            {onPage.links.issues.length > 0 && (
+            {onPage?.links?.issues?.length > 0 && (
               <IssuesList 
                 title="Link Issues" 
-                issues={onPage.links.issues} 
+                issues={onPage?.links.issues} 
                 type="info" 
               />
             )}

@@ -2,13 +2,13 @@ import AnalysisDetails from "@/components/dashboard/AnalysisDetails";
 import { fetchAnalysisDetails } from "@/lib/actions/analysis";
 
 interface AnalysisResults {
-  technical: any;
-  content: any;
-  onPage: any;
+  technical: unknown;
+  content: unknown;
+  onPage: unknown;
 }
 
 const Page = async ({ params }: { params: { url: string } }) => {
-  const { url } = params;
+  const { url } = await params;
 
   try {
     const data = await fetchAnalysisDetails(decodeURIComponent(url))
