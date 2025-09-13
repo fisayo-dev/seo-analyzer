@@ -12,6 +12,7 @@ import {
   Copy,
   RefreshCcw,
   Loader2Icon,
+  ArrowLeft,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { toast } from 'sonner';
@@ -25,6 +26,7 @@ import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
 import { XIcon } from "lucide-react"
 import { Button } from '../ui/button';
 import apiClient from '@/lib/api/client';
+import Link from 'next/link';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -329,6 +331,13 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
         </div>
 
         <div className='p-6'>
+          {/* Back component */}
+          <div className="mb-8">
+            <Link href="/dashboard/analysis" className="bg-gray-100 rounded-xl hover:bg-gray-200 border flex items-center w-32 p-2  gap-2 justify-center text-gray-600">
+                <ArrowLeft className='h-6 w-6'/>
+                <span>Back</span>
+            </Link>
+          </div>
           {/* Overall Scores */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <ScoreCard
