@@ -58,15 +58,15 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
       <AlertDialogContent className="bg-white/95 backdrop-blur-sm rounded-2xl max-w-3xl p-6 border border-gray-200 shadow-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center justify-between">
-            <span>SEO Analysis Progress</span>
+            <span>SEO Score Breakdown</span>
             <XIcon onClick={() => onOpenChange(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Technical SEO */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
+          <div className=" rounded-xl p-4 border ">
             <div className="flex items-center gap-3 mb-3">
-              <Code className="w-6 h-6 text-blue-600" />
+              <Code className="w-6 h-6" />
               <h4 className="font-semibold text-gray-900">Technical SEO</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(analysis.technical.score)} mb-4`}>
@@ -104,9 +104,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
           </div>
 
           {/* On-Page SEO */}
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100 shadow-sm">
+          <div className=" rounded-xl p-4 border ">
             <div className="flex items-center gap-3 mb-3">
-              <Eye className="w-6 h-6 text-green-600" />
+              <Eye className="w-6 h-6" />
               <h4 className="font-semibold text-gray-900">On-Page SEO</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(Math.round((analysis.on_page.title.score + analysis.on_page.headings.score + analysis.on_page.links.score + analysis.on_page.images.score) / 4))} mb-4`}>
@@ -144,9 +144,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
           </div>
 
           {/* Content Quality */}
-          <div className="bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl p-4 border border-purple-100 shadow-sm">
+          <div className=" rounded-xl p-4 border ">
             <div className="flex items-center gap-3 mb-3">
-              <FileText className="w-6 h-6 text-purple-600" />
+              <FileText className="w-6 h-6" />
               <h4 className="font-semibold text-gray-900">Content Quality</h4>
             </div>
             <div className={`text-2xl font-bold ${getScoreColor(analysis.content.score)} mb-4`}>
@@ -181,9 +181,9 @@ const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boole
           </div>
 
           {/* Issues Found */}
-          <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border border-orange-100 shadow-sm">
+          <div className=" rounded-xl p-4 border ">
             <div className="flex items-center gap-3 mb-3">
-              <AlertTriangle className="w-6 h-6 text-orange-600" />
+              <AlertTriangle className="w-6 h-6" />
               <h4 className="font-semibold text-gray-900">Issues Found</h4>
             </div>
             <div className="text-2xl font-bold text-orange-600 mb-4">
