@@ -10,7 +10,7 @@ const Page = async ({ params }: { params: { url: string } }) => {
     const results: SEOAnalysisResult = {
       technical: data?.technical ?? "",
       content: data?.content ?? "",
-      onPage: data?.on_page ?? "",
+      on_page: data?.on_page ?? "",
       url: data?.url ?? "",
       title: data?.title,
       id: data?.id

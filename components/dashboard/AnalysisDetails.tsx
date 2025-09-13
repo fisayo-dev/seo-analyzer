@@ -29,6 +29,7 @@ import apiClient from '@/lib/api/client';
 import Link from 'next/link';
 import { deleteAnalysis } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
+import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from './seo-utils';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -269,9 +270,7 @@ const handleCopyUrl = (url: string) => {
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const { technical, content, onPage, id } = results;
 
-  const overallScore = Math.round(((technical?.score ? technical.score : 0) + (content?.score ? content.score : 0) + (
-    (onPage ? (onPage.title?.score + onPage.metaDescription?.score + onPage.headings?.score + onPage.images?.score + onPage.links?.score) : 0) / 5
-  )) / 3);
+  const overallScore = calculateOverallScore(results)
 
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -368,28 +367,28 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
               title="Overall Score"
               score={overallScore}
               total={100}
-              color={getScoreColor(overallScore)}
+              color={`${getScoreStatus(overallScore).bgClass} ${getScoreStatus(overallScore).colorClass}`}
             />
             <ScoreCard
               icon={<Code className="w-5 h-5 text-inherit" />}
               title="Technical SEO"
-              score={technical?.score}
+              score={getScoreBreakdown(results).technical}
               total={100}
-              color={getScoreColor(technical?.score)}
+              color={`${getScoreStatus(getScoreBreakdown(results).technical).bgClass} ${getScoreStatus(getScoreBreakdown(results).technical).colorClass}`}
             />
             <ScoreCard
               icon={<FileText className="w-5 h-5 text-inherit" />}
               title="Content Quality"
-              score={content?.score}
+              score={getScoreBreakdown(results).content}
               total={100}
-              color={getScoreColor(content?.score)}
+              color={`${getScoreStatus(getScoreBreakdown(results).content).bgClass} ${getScoreStatus(getScoreBreakdown(results).content).colorClass}`}
             />
             <ScoreCard
               icon={<Eye className="w-5 h-5 text-inherit" />}
               title="On-Page SEO"
-              score={Math.round((onPage ? onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score : 0) / 5)}
+              score={getScoreBreakdown(results).onPage}
               total={100}
-              color={getScoreColor(Math.round((onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score) / 5))}
+              color={`${getScoreStatus(getScoreBreakdown(results).onPage).bgClass} ${getScoreStatus(getScoreBreakdown(results).onPage).colorClass}`}
             />
           </div>
 

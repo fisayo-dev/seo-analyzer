@@ -247,7 +247,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortFilter, setSortFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [analyses] = useState<Analysis[]>(analysis);
   const [open, setOpen] = useState(false)
   const [reanalyzeOpen, setReanalyzeOpen] = useState(false)
