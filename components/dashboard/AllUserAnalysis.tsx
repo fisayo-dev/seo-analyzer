@@ -458,7 +458,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
-                                            <h3 className="text-lg font-bold text-gray-900">{analysis?.on_page?.title?.text?.length > 20 ? `${analysis.on_page.title.text.substring(0,20)}...`: analysis.on_page.title.text || 'Untitled'}</h3>
+                                            <h3 className="text-lg font-bold text-gray-900">{analysis?.on_page?.title?.text?.length > 20 ? `${analysis?.on_page?.title?.text.substring(0,20)}...`: analysis?.on_page?.title?.text || 'Untitled'}</h3>
                                             {/* <ExternalLink className="w-5 h-5 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors duration-200" /> */}    
                                         </div>
                                         <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>

@@ -521,23 +521,23 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-gray-600">Title Tag</span>
-                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page?.title.score)}`}>
-                        {on_page?.title.score}/100
+                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page?.title?.score)}`}>
+                        {on_page?.title?.score}/100
                       </span>
                     </div>
                     <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                      &quot;{on_page?.title.text}&quot; ({on_page?.title.length} chars)
+                      &quot;{on_page?.title?.text}&quot; ({on_page?.title?.length} chars)
                     </p>
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-gray-600">Meta Description</span>
-                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page?.metaDescription.score)}`}>
-                        {on_page?.metaDescription.score}/100
+                      <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page?.metaDescription?.score)}`}>
+                        {on_page?.metaDescription?.score}/100
                       </span>
                     </div>
                     <p className="text-sm text-gray-800 bg-gray-50 p-2 rounded">
-                      &quot;{on_page?.metaDescription.text}&quot; ({on_page?.metaDescription.length} chars)
+                      &quot;{on_page?.metaDescription?.text}&quot; ({on_page?.metaDescription?.length} chars)
                     </p>
                   </div>
                 </div>
@@ -547,29 +547,29 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">H1 Tags</span>
-                    <span className="font-medium">{on_page?.headings.h1Count}</span>
+                    <span className="font-medium">{on_page?.headings?.h1Count}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">H2 Tags</span>
-                    <span className="font-medium">{on_page?.headings.h2Count}</span>
+                    <span className="font-medium">{on_page?.headings?.h2Count}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Images</span>
-                    <span className="font-medium">{on_page?.images.total}</span>
+                    <span className="font-medium">{on_page?.images?.total}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Images without Alt</span>
-                    <span className={`font-medium ${on_page?.images.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {on_page?.images.withoutAlt}
+                    <span className={`font-medium ${on_page?.images?.withoutAlt > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {on_page?.images?.withoutAlt}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Internal Links</span>
-                    <span className="font-medium">{on_page?.links.internal}</span>
+                    <span className="font-medium">{on_page?.links?.internal}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">External Links</span>
-                    <span className="font-medium">{on_page?.links.external}</span>
+                    <span className="font-medium">{on_page?.links?.external}</span>
                   </div>
                 </div>
               </MetricCard>
@@ -577,31 +577,31 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
 
             {/* On-page Issues */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {on_page?.title.issues.length > 0 && (
+              {on_page?.title?.issues?.length > 0 && (
                 <IssuesList 
                   title="Title Issues" 
-                  issues={on_page?.title.issues} 
+                  issues={on_page?.title?.issues} 
                   type="warning" 
                 />
               )}
-              {on_page?.metaDescription.issues.length > 0 && (
+              {on_page?.metaDescription?.issues?.length > 0 && (
                 <IssuesList 
                   title="Meta Description Issues" 
                   issues={on_page?.metaDescription.issues} 
                   type="warning" 
                 />
               )}
-              {on_page?.headings.issues.length > 0 && (
+              {on_page?.headings?.issues.length > 0 && (
                 <IssuesList 
                   title="Heading Issues" 
-                  issues={on_page?.headings.issues} 
+                  issues={on_page?.headings?.issues} 
                   type="warning" 
                 />
               )}
               {on_page?.links?.issues?.length > 0 && (
                 <IssuesList 
                   title="Link Issues" 
-                  issues={on_page?.links.issues} 
+                  issues={on_page?.links?.issues} 
                   type="info" 
                 />
               )}
