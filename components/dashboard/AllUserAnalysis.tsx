@@ -484,12 +484,12 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuItem asChild>
-                                                        <div className='flex items-center gap-2'>
-                                                            <NotebookTextIcon />
-                                                            <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                                                View Details
-                                                            </Link>
-                                                        </div>
+                                                        <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
+                                                            <div className='flex items-center gap-2'>
+                                                                <NotebookTextIcon />
+                                                                    View Details
+                                                            </div>
+                                                        </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
                                                         <div className='flex items-center gap-2'>
