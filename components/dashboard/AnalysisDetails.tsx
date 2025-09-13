@@ -9,6 +9,7 @@ import {
   Code, 
   FileText, 
   Eye,
+  Copy,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 
@@ -137,6 +138,8 @@ export interface SEOAnalysisResult {
   technical: TechnicalAnalysis;
   content: ContentAnalysis;
   onPage: OnPageAnalysis;
+  url: string;
+  [key: string]: unknown;
 }
 
 interface SEOAnalysisProps {
@@ -230,6 +233,21 @@ const getScoreColor = (score: number): string => {
   return 'bg-red-100 text-red-700';
 };
 
+const formatUrl = (url: string) => {
+  if (url.length <= 28) return url;
+
+  const start = url.slice(0, 10); // first 10 chars
+  const end = url.slice(-5); // last 5 chars
+
+  return `${start}...${end}`; // total = 18 chars
+}
+
+const handleCopyUrl = (url: string) => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(url);
+  }
+}
+
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const { technical, content, onPage } = results;
 
@@ -250,6 +268,13 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
         </div>
 
         <div className='p-6'>
+          {/* Url */}
+          <div className="p-2 w-65 border mb-6 rounded-2xl bg-white text-gray-800 flex justify-center items-center gap-4  text-sm">
+            <span>
+              {formatUrl(results?.url)}
+            </span>
+            <Copy onClick={() => handleCopyUrl(results?.url)} className='h-4 w-4 hover:text-black'/>
+          </div>
           {/* Overall Scores */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <ScoreCard
