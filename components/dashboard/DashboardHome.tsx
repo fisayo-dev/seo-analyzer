@@ -9,10 +9,12 @@ import {
   InfoIcon,
   AlarmClock,
   ExternalLink,
-  Eye
+  Eye,
+  NotebookTextIcon
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import Link from 'next/link';
+import { Button } from '../ui/button';
 
 interface MetricCardProps {
   title: string;
@@ -48,9 +50,10 @@ const Dashboard = () => {
               <p className="text-gray-600 mt-1">Welcome back! Here&apos;s your SEO performance overview.</p>
             </div>  
             <Link href="/dashboard/analysis/new" className="hidden md:flex items-center gap-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
-                New Analysis
-              </button>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200">
+                <NotebookTextIcon className=''/>
+                <span>New Analysis</span>
+              </Button>
             </Link>
             <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
           </div>

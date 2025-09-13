@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Globe, 
   CheckCircle, 
@@ -10,9 +10,21 @@ import {
   FileText, 
   Eye,
   Copy,
+  RefreshCcw,
+  Loader2Icon,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
+import { XIcon } from "lucide-react"
+import { Button } from '../ui/button';
+import apiClient from '@/lib/api/client';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -257,20 +269,59 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
     (onPage ? (onPage.title?.score + onPage.metaDescription?.score + onPage.headings?.score + onPage.images?.score + onPage.links?.score) : 0) / 5
   )) / 3);
 
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  // These will come back from API response
+  const [sessionId, setSessionId] = useState<string | null>(null)
+  const [userId, setUserId] = useState<string | null>(null)
+
+  const startAnalysis = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await apiClient.post("/analyze", { url: results.url })
+      const data = await res.data
+      console.log("Analysis started:", data)
+
+      // assume API returns sessionId + userId
+      setSessionId(data.sessionId)
+      setUserId(data.userId)
+
+      // show dialog
+      setOpen(true)
+    } catch (error) {
+      console.error("Error:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    setOpen(false)
+  },[])
+
   return (
     <div className="min-h-screen bg-gray-50 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between bg-white border-b border-gray-100 p-6">
-          <div className="grid">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">{onPage?.title?.text || 'Untitled'} - analysis</h1>
-            <div className=" text-gray-800 flex justify-center items-center gap-2  text-sm">
+        <div className="flex justify-between items-center bg-white border-b border-gray-100 p-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 ">{onPage?.title?.text || 'Untitled'} - analysis</h1>
+            <div className=" text-gray-600 flex justify-center items-center gap-2  text-sm">
               <span>
                 {formatUrl(results?.url)}
               </span>
               <span onClick={() => handleCopyUrl(results?.url)} className=' p-2 rounded-xl hover:bg-gray-200 hover:text-black'>
                 <Copy className='h-4 w-4'/>
               </span>
+            </div>
+          </div>
+          <div>
+            <div className="hidden md:flex items-center gap-4">
+              <Button onClick={startAnalysis} className="bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200">
+                {loading ? <Loader2Icon className='animate-spin'/> : <RefreshCcw className=''/>}
+                <span>{loading ? 'Re-analyzing': 'Re-analyze'}</span>
+              </Button>
             </div>
           </div>
           <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
@@ -526,6 +577,31 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
         </div>
 
       </div>
+
+      
+      {/* Alert Dialog */}
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent className="max-w-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center justify-between">
+              <span>SEO Analysis Progress</span>
+              <XIcon onClick={() => setOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
+              </AlertDialogTitle>
+          </AlertDialogHeader>
+
+          {sessionId && userId ? (
+            <AnalysisProgress
+              sessionId={sessionId}
+              userId={userId}
+              url={results.url}
+            />
+          ) : (
+            <p className="text-center text-gray-500 p-6">
+              Preparing analysis...
+            </p>
+          )}
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
