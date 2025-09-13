@@ -10,6 +10,7 @@ import {
   FileText, 
   Eye,
 } from 'lucide-react';
+import { SidebarTrigger } from '../ui/sidebar';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -240,9 +241,12 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
     <div className="min-h-screen bg-gray-50 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white border-b border-gray-100 p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">SEO Analysis Results</h1>
-          <p className="text-gray-600">Complete technical and content SEO analysis overview</p>
+        <div className="flex justify-between bg-white border-b border-gray-100 p-6">
+          <div className="grid">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">SEO Analysis Results</h1>
+            <p className="text-gray-600">Complete technical and content SEO analysis overview</p>
+          </div>
+          <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
         </div>
 
         <div className='p-6'>
