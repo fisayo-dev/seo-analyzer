@@ -32,7 +32,7 @@ export type Analysis = {
     wordCount: number;
     contentQuality: { score: number };
     readabilityScore: number;
-    issues?: any[];
+    issues?: string[];
   };
   technical: {
     ssl: { score: number; enabled: boolean };
@@ -40,7 +40,7 @@ export type Analysis = {
     mobile: { score: number; responsive: boolean };
     pageSpeed: { score: number; loadTime: number };
     structure: { score: number; validHTML: boolean };
-    issues?: any[];
+    issues?: string[];
   };
   createdAt: Date;
   updatedAt: Date;
@@ -247,7 +247,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortFilter, setSortFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortOrder, setSortOrder] = useState('asc');
   const [analyses] = useState<Analysis[]>(analysis);
   const [open, setOpen] = useState(false)
   const [reanalyzeOpen, setReanalyzeOpen] = useState(false)
