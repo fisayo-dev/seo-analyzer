@@ -249,28 +249,28 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
           {/* Overall Scores */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <ScoreCard
-              icon={<Globe className="w-5 h-5 text-blue-600" />}
+              icon={<Globe className="w-5 h-5 text-inherit" />}
               title="Overall Score"
               score={overallScore}
               total={100}
               color={getScoreColor(overallScore)}
             />
             <ScoreCard
-              icon={<Code className="w-5 h-5 text-green-600" />}
+              icon={<Code className="w-5 h-5 text-inherit" />}
               title="Technical SEO"
               score={technical?.score}
               total={100}
               color={getScoreColor(technical?.score)}
             />
             <ScoreCard
-              icon={<FileText className="w-5 h-5 text-purple-600" />}
+              icon={<FileText className="w-5 h-5 text-inherit" />}
               title="Content Quality"
               score={content?.score}
               total={100}
               color={getScoreColor(content?.score)}
             />
             <ScoreCard
-              icon={<Eye className="w-5 h-5 text-orange-600" />}
+              icon={<Eye className="w-5 h-5 text-inherit" />}
               title="On-Page SEO"
               score={Math.round((onPage ? onPage?.title?.score + onPage?.metaDescription?.score + onPage?.headings?.score + onPage?.images?.score + onPage?.links?.score : 0) / 5)}
               total={100}
