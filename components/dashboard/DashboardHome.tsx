@@ -143,50 +143,52 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
               </div>
-              <div className="h-64 bg-gradient-to-t from-blue-50 to-transparent rounded-lg flex items-center justify-center">
-                {stats.total > 0 ? (
-                  <div className="w-full max-w-md">
-                    <div className="space-y-4">
-                      {/* Good Scores */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-green-600">Good (70-100)</span>
-                        <span className="text-sm text-gray-600">{stats.good} analyses</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div 
-                          className="bg-green-500 h-3 rounded-full transition-all duration-500" 
-                          style={{ width: `${(stats.good / stats.total) * 100}%` }}
-                        ></div>
-                      </div>
-                      
-                      {/* Moderate Scores */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-yellow-600">Moderate (40-69)</span>
-                        <span className="text-sm text-gray-600">{stats.moderate} analyses</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div 
-                          className="bg-yellow-500 h-3 rounded-full transition-all duration-500" 
-                          style={{ width: `${(stats.moderate / stats.total) * 100}%` }}
-                        ></div>
-                      </div>
-                      
-                      {/* Poor Scores */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-red-600">Poor (0-39)</span>
-                        <span className="text-sm text-gray-600">{stats.poor} analyses</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div 
-                          className="bg-red-500 h-3 rounded-full transition-all duration-500" 
-                          style={{ width: `${(stats.poor / stats.total) * 100}%` }}
-                        ></div>
+             <div className="flex justify-center items-center min-h-4/5">
+                <div className="h-64 w-full max-w-lg bg-gradient-to-t from-gray-50 to-transparent rounded-lg flex items-center justify-center">
+                  {stats.total > 0 ? (
+                    <div className="w-full px-4">
+                      <div className="space-y-4">
+                        {/* Good Scores */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-green-600">Good (70-100)</span>
+                          <span className="text-sm text-gray-600">{stats.good} analyses</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div
+                            className="bg-green-500 h-3 rounded-full transition-all duration-500"
+                            style={{ width: `${(stats.good / stats.total) * 100}%` }}
+                          ></div>
+                        </div>
+
+                        {/* Moderate Scores */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-yellow-600">Moderate (40-69)</span>
+                          <span className="text-sm text-gray-600">{stats.moderate} analyses</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div
+                            className="bg-yellow-500 h-3 rounded-full transition-all duration-500"
+                            style={{ width: `${(stats.moderate / stats.total) * 100}%` }}
+                          ></div>
+                        </div>
+
+                        {/* Poor Scores */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-red-600">Poor (0-39)</span>
+                          <span className="text-sm text-gray-600">{stats.poor} analyses</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div
+                            className="bg-red-500 h-3 rounded-full transition-all duration-500"
+                            style={{ width: `${(stats.poor / stats.total) * 100}%` }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <p className="text-gray-500">No analyses available yet</p>
-                )}
+                  ) : (
+                    <p className="text-gray-500">No analyses available yet</p>
+                  )}
+                </div>
               </div>
             </div>
 
