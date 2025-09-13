@@ -309,7 +309,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
   const handleDelete = async () => {
     setDeleteLoading(true)
     try {
-      await deleteAnalysis(id)
+      await deleteAnalysis(id as string)
       router.push('/dashboard/analysis')
       toast('Analysis successfully deleted')
     } catch(error) {
