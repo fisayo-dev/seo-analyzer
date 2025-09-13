@@ -52,7 +52,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
   const [analyses] = useState<Analysis[]>(analysis);
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const filteredAndSortedAnalyses = useMemo(() => {
     const filtered: Analysis[] = analyses.filter(analysis => {
       const matchesSearch = analysis.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -109,7 +109,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
         <div className="mb-8 bg-white p-6 border-b">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">SEO Analysis Dashboard</h1>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">All your analysis</h1>
               <p className="text-gray-600">Monitor and track your website&apos;s SEO performance</p>
             </div>
             <Link href="/dashboard/analysis/new" className="hidden md:flex items-center gap-4">
