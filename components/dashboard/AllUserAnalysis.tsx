@@ -484,15 +484,18 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuItem asChild>
-                                                    <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                                        View Details
-                                                    </Link>
+                                                        <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
+                                                            View Details
+                                                        </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
-                                                    Re-analyze
+                                                        Re-analyze
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
-                                                    Export Report
+                                                        Export Report
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
+                                                        View Score Breakdown
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
@@ -502,13 +505,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                 </div>
 
                                 {/* Score Breakdown Button */}
-                                <div className="text-right cursor-pointer text-sm text-gray-700 p-2 ml-auto rounded-xl bg-gray-50 hover:bg-gray-100" onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
-                                    <div className=" flex items-center gap-2">
-                                        <Eye className='h-4 w-4'/>
-                                        View Score Breakdown
-                                    </div>
-                                </div>
-
+                               
                                 
                             </div>
                         </div>
