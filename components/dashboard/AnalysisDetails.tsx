@@ -167,8 +167,8 @@ const ScoreCard: React.FC<{
   total?: number;
   color: string;
 }> = ({ icon, title, score, total, color }) => (
-  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${color} mb-4`}>
+  <div className="bg-white rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 duration-300 border border-gray-100">
+    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-2xl ${color} mb-4`}>
       {icon}
     </div>
     <div className="text-2xl font-semibold text-gray-900 mb-1">
@@ -189,7 +189,7 @@ const IssuesList: React.FC<{
   const bgColor = type === 'error' ? 'bg-red-50' : type === 'warning' ? 'bg-yellow-50' : 'bg-blue-50';
   
   return (
-    <div className={`rounded-lg p-4 ${bgColor} border-l-4 ${type === 'error' ? 'border-red-400' : type === 'warning' ? 'border-yellow-400' : 'border-blue-400'}`}>
+    <div className={`rounded-2xl p-4 ${bgColor} border-l-4 ${type === 'error' ? 'border-red-400' : type === 'warning' ? 'border-yellow-400' : 'border-blue-400'}`}>
       <h4 className="font-medium text-gray-900 mb-2">{title}</h4>
       <ul className="space-y-1">
         {issues.map((issue, index) => (
@@ -211,7 +211,7 @@ const MetricCard: React.FC<{
   title: string;
   children: React.ReactNode;
 }> = ({ title, children }) => (
-  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+  <div className="bg-white rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 duration-300 border border-gray-100">
     <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
     {children}
   </div>
@@ -307,7 +307,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
         <div className="flex justify-between items-center bg-white border-b border-gray-100 p-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 ">{onPage?.title?.text || 'Untitled'} - analysis</h1>
-            <div className=" text-gray-600 flex justify-center items-center gap-2  text-sm">
+            <div className=" text-gray-600 flex items-center gap-2 text-sm">
               <span>
                 {formatUrl(results?.url)}
               </span>
