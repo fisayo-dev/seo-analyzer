@@ -12,6 +12,7 @@ import {
   Copy,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
+import { toast } from 'sonner';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -246,6 +247,7 @@ const handleCopyUrl = (url: string) => {
   if (navigator && navigator.clipboard) {
     navigator.clipboard.writeText(url);
   }
+  toast("Url has been copied")
 }
 
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
@@ -261,20 +263,20 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
         {/* Header */}
         <div className="flex justify-between bg-white border-b border-gray-100 p-6">
           <div className="grid">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">SEO Analysis Results</h1>
-            <p className="text-gray-600">Complete technical and content SEO analysis overview</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{onPage?.title?.text || 'Untitled'} - analysis</h1>
+            <div className=" text-gray-800 flex justify-center items-center gap-2  text-sm">
+              <span>
+                {formatUrl(results?.url)}
+              </span>
+              <span onClick={() => handleCopyUrl(results?.url)} className=' p-2 rounded-xl hover:bg-gray-200 hover:text-black'>
+                <Copy className='h-4 w-4'/>
+              </span>
+            </div>
           </div>
           <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
         </div>
 
         <div className='p-6'>
-          {/* Url */}
-          <div className="p-2 w-65 border mb-6 rounded-2xl bg-white text-gray-800 flex justify-center items-center gap-4  text-sm">
-            <span>
-              {formatUrl(results?.url)}
-            </span>
-            <Copy onClick={() => handleCopyUrl(results?.url)} className='h-4 w-4 hover:text-black'/>
-          </div>
           {/* Overall Scores */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <ScoreCard
