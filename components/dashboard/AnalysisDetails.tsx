@@ -339,15 +339,13 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
             </div>
           </div>
           <div>
-            <div className="hidden md:flex items-center gap-4">
-              <Button onClick={handleReanalyze} className="bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200">
+            <div className="hidden md:flex items-center">
+              <div onClick={handleReanalyze} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-blue-600 flex items-center gap-2'>
                 {loading ? <Loader2Icon className='animate-spin'/> : <RefreshCcw className=''/>}
-                <span>{loading ? 'Re-analyzing': 'Re-analyze'}</span>
-              </Button>
-              <Button onClick={() => setDeleteOpen(true)} className="bg-red-600 hover:bg-red-700 text-white font-medium transition-colors duration-200">
+              </div>
+              <div onClick={() => setDeleteOpen(true)} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-red-600 flex items-center gap-2'>
                 <Trash className=''/>
-                <span>Delete</span>
-              </Button>
+              </div>
             </div>
           </div>
           <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
