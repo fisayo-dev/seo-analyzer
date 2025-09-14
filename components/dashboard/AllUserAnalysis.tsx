@@ -476,7 +476,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                         <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>
                                         <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
                                             <Clock className="w-4 h-4" />
-                                            {formatDate(analysis.createdAt)}
+                                            {formatDate(analysis.updatedAt)}
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
