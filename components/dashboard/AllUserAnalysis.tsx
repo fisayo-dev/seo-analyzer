@@ -488,43 +488,43 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                         </div>
                                         {/* Action Buttons */}
                                         <div className="border-gray-200">
-                                        <div className="flex justify-end">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                    <MoreVertical className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                                            <div className='flex items-center gap-2'>
-                                                                <NotebookTextIcon />
-                                                                    View Details
-                                                            </div>
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
-                                                        <div className='flex items-center gap-2'>
-                                                            <RefreshCcw />
-                                                            <span>Re-analyze</span>
-                                                        </div>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
-                                                        <div className='flex items-center gap-2'>
-                                                            <DownloadIcon />
-                                                            <span>Export report</span>
-                                                        </div>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
-                                                        <div className='flex items-center gap-2'>
-                                                            <Eye/>
-                                                            <span>View score breakdwon</span>
-                                                        </div>
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </div>
+                                          <div className="flex justify-end">
+                                              <DropdownMenu>
+                                                  <DropdownMenuTrigger asChild>
+                                                      <Button variant="ghost" className="h-8 w-8 p-0">
+                                                      <MoreVertical className="h-4 w-4" />
+                                                      </Button>
+                                                  </DropdownMenuTrigger>
+                                                  <DropdownMenuContent align="end">
+                                                      <DropdownMenuItem asChild>
+                                                          <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
+                                                              <div className='flex items-center gap-2'>
+                                                                  <NotebookTextIcon />
+                                                                      View Details
+                                                              </div>
+                                                          </Link>
+                                                      </DropdownMenuItem>
+                                                      <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
+                                                          <div className='flex items-center gap-2'>
+                                                              <RefreshCcw />
+                                                              <span>Re-analyze</span>
+                                                          </div>
+                                                      </DropdownMenuItem>
+                                                      <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
+                                                          <div className='flex items-center gap-2'>
+                                                              <DownloadIcon />
+                                                              <span>Export report</span>
+                                                          </div>
+                                                      </DropdownMenuItem>
+                                                      <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
+                                                          <div className='flex items-center gap-2'>
+                                                              <Eye/>
+                                                              <span>View score breakdwon</span>
+                                                          </div>
+                                                      </DropdownMenuItem>
+                                                  </DropdownMenuContent>
+                                              </DropdownMenu>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
