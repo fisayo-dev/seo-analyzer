@@ -1,5 +1,6 @@
 import AnalysisDetails, { SEOAnalysisResult } from "@/components/dashboard/AnalysisDetails";
 import { fetchAnalysisDetails } from "@/lib/actions/analysis";
+import  AnalysisNotFound from "@/components/dashboard/AnalysisNotFound";
 
 
 const Page = async ({ params }: { params: { url: string } }) => {
@@ -15,11 +16,8 @@ const Page = async ({ params }: { params: { url: string } }) => {
       title: data?.title,
       id: data?.id
     };
-    console.log("Fetched: ", data)
-
-    return <AnalysisDetails results={results} />;
+    return data ?  <AnalysisDetails results={results} /> : <AnalysisNotFound />;
   } catch (err) {
-    console.error("Error fetching analysis:", err);
     return <div>Error: {(err as Error).message ?? "An error occurred"}</div>;
   }
 };
