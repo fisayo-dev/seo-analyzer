@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical, DownloadIcon, RefreshCcw } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -574,12 +574,21 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                 })}
             </div>
 
-            {filteredAndSortedAnalyses.length === 0 && (
+            {analyses.length > 0 && filteredAndSortedAnalyses.length === 0 && (
             <div className="text-center">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 border border-white/50 shadow-lg">
                 <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">No analyses found</h3>
                 <p className="text-gray-600">Try adjusting your search terms or filters</p>
+                </div>
+            </div>
+            )}
+            {analyses.length === 0 && filteredAndSortedAnalyses.length === 0 && (
+            <div className="text-center">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 border border-white/50 shadow-lg">
+                <BoxIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">You don&apos;t have any analysis yet</h3>
+                <p className="text-gray-600">Create your first analysis</p>
                 </div>
             </div>
             )}
