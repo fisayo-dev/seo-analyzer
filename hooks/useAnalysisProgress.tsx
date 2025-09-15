@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { invalidateUserAnalysisCache } from "@/lib/actions/analysis";
 
 interface JobStatus {
   type: "on-page" | "content" | "technical";
@@ -51,6 +52,7 @@ export const useAnalysisProgress = (
 
       if (data.isReady) {
       // Hard reload to bypass Next.js cache
+      await invalidateUserAnalysisCache()
       setTimeout(() => {
         window.location.href = `/dashboard/analysis/${encodeURIComponent(url)}`;
       }, 1000);

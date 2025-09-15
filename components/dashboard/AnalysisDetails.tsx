@@ -310,9 +310,9 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
     setDeleteLoading(true)
     try {
       await deleteAnalysis(id as string)
+      await invalidateUserAnalysisCache()
       router.push('/dashboard/analysis')
       toast('Analysis successfully deleted')
-      invalidateUserAnalysisCache(results.userId as string)
     } catch(error) {
       console.log(error)
     } finally {
@@ -473,8 +473,8 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Quality Score</span>
-                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.contentQuality.score)}`}>
-                      {content?.contentQuality.score}/100
+                    <span className={`font-medium px-2 py-1 rounded text-sm ${getScoreColor(content?.contentQuality?.score)}`}>
+                      {content?.contentQuality?.score}/100
                     </span>
                   </div>
                 </div>
@@ -488,21 +488,21 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Length</span>
-                    <span className="font-medium">{content?.contentQuality.factors.length}/100</span>
+                    <span className="font-medium">{content?.contentQuality?.factors?.length}/100</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Uniqueness</span>
-                    <span className="font-medium">{content?.contentQuality.factors.uniqueness}/100</span>
+                    <span className="font-medium">{content?.contentQuality?.factors?.uniqueness}/100</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Structure</span>
-                    <span className="font-medium">{content?.contentQuality.factors.structure}/100</span>
+                    <span className="font-medium">{content?.contentQuality?.factors?.structure}/100</span>
                   </div>
                 </div>
               </MetricCard>
             </div>
 
-            {content?.issues.length > 0 && (
+            {content?.issues?.length > 0 && (
               <IssuesList 
                 title="Content Issues" 
                 issues={content?.issues} 

@@ -39,7 +39,7 @@ export const fetchAnalysisDetails = async (url: string) => {
         ['analysis-details'],
         {
             tags: [`analysis-details-${userId}`, `analysis-details-${userId}-${url}`],
-            revalidate: 300 // 5 minutes
+            revalidate: 2 // 5 minutes
         }
     );
 
@@ -67,7 +67,7 @@ export const fetchUserAnalysis = async () => {
         ['user-analysis'],
         {
             tags: [`user-analysis-${userId}`],
-            revalidate: 300 // 5 minutes
+            revalidate: 2 // 5 minutes
         }
     );
 

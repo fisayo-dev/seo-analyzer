@@ -10,7 +10,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
-import { XIcon } from "lucide-react"
+import { Loader2Icon, XIcon } from "lucide-react"
+import { toast } from "sonner"
 
 const NewAnalysis = () => {
   const [loading, setLoading] = useState(false)
@@ -21,9 +22,25 @@ const NewAnalysis = () => {
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
 
+  const scanProofUrl = (url: string) => {
+    try {
+      if(url.indexOf(" ") >= 0) return false // Catch spaces in URL
+      new URL(url) // Check url validity
+
+      return true
+    } catch {
+      return false
+    }
+  }
+
   const startAnalysis = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    if (!scanProofUrl(url)) {
+      toast("⚠️ Please enter a valid URL")
+      setLoading(false)
+      return
+    }
     try {
       const res = await apiClient.post("/analyze", { url })
       const data = await res.data
@@ -43,11 +60,11 @@ const NewAnalysis = () => {
   }
 
   return (
-    <div className="px-10 max-w-3xl mx-auto text-center p-4 rounded-2xl h-[80vh] place-content-center">
+    <div className="px-10 max-w-3xl mx-auto text-center rounded-2xl h-[100vh] place-content-center">
       <h2 className="text-2xl font-bold mb-2">
         Analyze your website&apos;s SEO
       </h2>
-      <p className="text-sm">What do site want to analyze today?</p>
+      <p className="text-sm">What do site want to analyze today? 😄</p>
 
       <form
         onSubmit={startAnalysis}
@@ -63,7 +80,8 @@ const NewAnalysis = () => {
           disabled={loading}
           className="text-sm hover:scale-105 transition hover:bg-blue-400"
         >
-          {loading ? "Analyzing..." : "Start Analysis →"}
+          {loading ? <Loader2Icon className="animate-spin"/> : null}
+          {loading ? "Analyzing..." : "Start Analysis "}
         </Button>
       </form>
 
