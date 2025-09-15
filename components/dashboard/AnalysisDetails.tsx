@@ -276,7 +276,7 @@ const handleCopyUrl = (url: string) => {
   toast("Url has been copied")
 }
 
-const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
+const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalysisProps) => {
   const { technical, content, on_page, id } = results;
 
 
