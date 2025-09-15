@@ -27,7 +27,7 @@ import { XIcon } from "lucide-react"
 import { Button } from '../ui/button';
 import apiClient from '@/lib/api/client';
 import Link from 'next/link';
-import { deleteAnalysis } from '@/lib/actions/analysis';
+import { deleteAnalysis, invalidateUserAnalysisCache } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
 import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from './seo-utils';
 
@@ -312,6 +312,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
       await deleteAnalysis(id as string)
       router.push('/dashboard/analysis')
       toast('Analysis successfully deleted')
+      invalidateUserAnalysisCache(results.userId as string)
     } catch(error) {
       console.log(error)
     } finally {

@@ -37,13 +37,13 @@ export const useAnalysisProgress = (
       setIsLoading(true);
 
       const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${encodeURIComponent(
-        sessionId
-      )}?userId=${encodeURIComponent(userId)}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/progress/${encodeURIComponent(
+          sessionId
+        )}?userId=${encodeURIComponent(userId)}`
       );
 
       if (!response.ok) {
-      throw new Error("Oops 😢 we were unable to check your analysis progress.");
+        throw new Error("Oops 😢 we were unable to check your analysis progress.");
       }
 
       const data: ProgressData = await response.json();
