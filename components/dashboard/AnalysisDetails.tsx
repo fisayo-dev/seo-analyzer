@@ -30,6 +30,7 @@ import Link from 'next/link';
 import { deleteAnalysis, invalidateUserAnalysisCache } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
 import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from './seo-utils';
+import Image from 'next/image';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -144,12 +145,20 @@ interface LinksResult {
   issues: string[];
 }
 
+interface FaviconResult {
+  exists: boolean;
+  score: number;
+  issues: string[];
+  url: string;
+}
+
 interface OnPageAnalysis {
   title: TitleResult;
   metaDescription: MetaDescriptionResult;
   headings: HeadingsResult;
   images: ImagesResult;
   links: LinksResult;
+  favicon: FaviconResult;
 }
 
 export interface SEOAnalysisResult {
@@ -328,15 +337,21 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center bg-white border-b border-gray-100 p-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 ">{on_page?.title?.text.length > 25 ? `${on_page?.title?.text.substring(0,25)}...` : on_page?.title?.text  || 'Untitled'} </h1>
-            <div className=" text-gray-600 flex items-center gap-2 text-sm">
-              <Link href={results?.url} target="_blank" className='hover:underline hover:text-blue-600'>
-                {formatUrl(results?.url)}
-              </Link>
-              <span onClick={() => handleCopyUrl(results?.url)} className=' p-2 rounded-xl hover:bg-gray-200 hover:text-black'>
-                <Copy className='h-4 w-4'/>
-              </span>
+          <div className="flex items-center gap-3">
+            {results.on_page.favicon ? 
+            <Image src={`${new URL(results.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-12 h-12"/>                      
+            : <Globe className="w-10 h-10 text-gray-700" />
+            }
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 ">{on_page?.title?.text.length > 25 ? `${on_page?.title?.text.substring(0,25)}...` : on_page?.title?.text  || 'Untitled'} </h1>
+              <div className=" text-gray-600 flex items-center gap-2 text-sm">
+                <Link href={results?.url} target="_blank" className='hover:underline hover:text-blue-600'>
+                  {formatUrl(results?.url)}
+                </Link>
+                <span onClick={() => handleCopyUrl(results?.url)} className=' p-2 rounded-xl hover:bg-gray-200 hover:text-black'>
+                  <Copy className='h-4 w-4'/>
+                </span>
+              </div>
             </div>
           </div>
           <div>

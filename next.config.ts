@@ -5,8 +5,18 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true
   },
   eslint: {
-      ignoreDuringBuilds: true
+    ignoreDuringBuilds: true
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  }
 };
 
 export default nextConfig;

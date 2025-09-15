@@ -13,6 +13,7 @@ import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreak
 import apiClient from '@/lib/api/client';
 import AnalysisProgress from './AnalysisProgress';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 export type Analysis = {
   id: string;
@@ -26,6 +27,7 @@ export type Analysis = {
     images: { score: number; total: number; withoutAlt: number };
     headings: { score: number; h1Count: number; h2Count: number };
     metaDescription: { text: string; score: number; length: number };
+    favicon: { exists: boolean; score: number; issues: string[]};
   };
   content: {
     score: number;
@@ -503,11 +505,16 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                 {/* Header */}
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-2">
+                                      <div className="flex items-center gap-3 mb-2">
+                                        {analysis.on_page.favicon ? 
+                                          <Image src={`${new URL(analysis.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-10 h-10"/>                      
+                                          : <Globe className="w-10 h-10 text-gray-700" />
+                                        }
+                                        <div className="grid items-center ">
                                             <h3 className="text-lg font-bold text-gray-900">{analysis?.on_page?.title?.text?.length > 20 ? `${analysis?.on_page?.title?.text.substring(0,20)}...`: analysis?.on_page?.title?.text || 'Untitled'}</h3>
-                                            {/* <ExternalLink className="w-5 h-5 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors duration-200" /> */}    
+                                            <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>
                                         </div>
-                                        <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>
+                                      </div>
                                         <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
                                             <Clock className="w-4 h-4" />
                                             {formatDate(analysis.updatedAt)}
