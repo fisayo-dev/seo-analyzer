@@ -1,6 +1,6 @@
-// src/components/AnalysisProgress.tsx
+"use client";
 import { useAnalysisProgress } from '@/hooks/useAnalysisProgress';
-import { CheckIcon, Circle, Loader2Icon, XCircleIcon } from 'lucide-react';
+import { CheckIcon, Circle, XCircleIcon } from 'lucide-react';
 import React from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
