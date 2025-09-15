@@ -307,8 +307,8 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
           break;
         case 'createdAt':
         default:
-          aValue = a.createdAt;
-          bValue = b.createdAt;
+          aValue = a.updatedAt;
+          bValue = b.updatedAt;
           break;
       }
       
