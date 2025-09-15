@@ -343,7 +343,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
             : <Globe className="w-10 h-10 text-gray-700" />
             }
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 ">{on_page?.title?.text.length > 25 ? `${on_page?.title?.text.substring(0,25)}...` : on_page?.title?.text  || 'Untitled'} </h1>
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 ">{on_page?.title?.text.length > 25 ? `${on_page?.title?.text.substring(0,25)}...` : on_page?.title?.text  || 'Untitled'} </h1>
               <div className=" text-gray-600 flex items-center gap-2 text-sm">
                 <Link href={results?.url} target="_blank" className='hover:underline hover:text-blue-600'>
                   {formatUrl(results?.url)}
@@ -355,7 +355,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
             </div>
           </div>
           <div>
-            <div className="hidden md:flex items-center">
+            <div className="flex items-center pr-2">
               <div onClick={handleReanalyze} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-blue-600 flex items-center gap-2'>
                 {loading ? <Loader2Icon className='animate-spin'/> : <RefreshCcw className=''/>}
               </div>
