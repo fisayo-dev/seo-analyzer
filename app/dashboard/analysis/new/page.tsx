@@ -102,9 +102,12 @@ const NewAnalysis = () => {
               url={url}
             />
           ) : (
-            <p className="text-center text-gray-500 p-6">
-              Preparing analysis...
-            </p>
+            <div className="flex flex-col items-center justify-center p-8">
+              <Loader2Icon className="animate-spin h-32 w-32 text-blue-500 mt-4" />
+              <p className="text-center text-gray-500 p-6">
+                Preparing analysis...
+              </p>
+            </div>
           )}
         </AlertDialogContent>
       </AlertDialog>

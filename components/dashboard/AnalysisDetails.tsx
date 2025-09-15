@@ -631,7 +631,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
         <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center justify-between">
-              <span>SEO Analysis Progress</span>
+              <span>Re-analyzing</span>
               <XIcon onClick={() => setOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
               </AlertDialogTitle>
           </AlertDialogHeader>
@@ -643,9 +643,12 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
               url={results.url}
             />
           ) : (
-            <p className="text-center text-gray-500 p-6">
-              Preparing analysis...
-            </p>
+           <div className="flex flex-col items-center justify-center p-8">
+              <Loader2Icon className="animate-spin h-32 w-32 text-blue-500 mt-4" />
+              <p className="text-center text-gray-500 p-6">
+                Initiating re-analysis, please wait...
+              </p>
+            </div>
           )}
         </AlertDialogContent>
       </AlertDialog>

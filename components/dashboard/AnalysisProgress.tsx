@@ -1,6 +1,6 @@
 // src/components/AnalysisProgress.tsx
 import { useAnalysisProgress } from '@/hooks/useAnalysisProgress';
-import { CheckIcon, Circle, XCircleIcon } from 'lucide-react';
+import { CheckIcon, Circle, Loader2Icon, XCircleIcon } from 'lucide-react';
 import React from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -17,12 +17,11 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
   url 
 }) => {
   const { progress, error, isLoading } = useAnalysisProgress(userId, sessionId, url);
-  console.log(progress, error, isLoading)
 
   if (isLoading && !progress) {
     return (
       <div className="flex flex-col items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-500"></div>
         <p className="mt-4 text-gray-600">Starting analysis...</p>
       </div>
     );
