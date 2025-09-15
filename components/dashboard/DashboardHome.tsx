@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Analysis } from './AllUserAnalysis';
 import { calculateAnalysisStats, calculateOverallScore, getScoreStatus } from './seo-utils';
+import Image from 'next/image';
 
 interface MetricCardProps {
   title: string;
@@ -32,7 +33,7 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
   // Get recent analyses (last 4) with calculated scores
   const recentAnalyses = results
     .slice(-4)
-    .reverse()
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
     .map(analysis => {
       const overallScore = calculateOverallScore(analysis);
       const status = getScoreStatus(overallScore);
@@ -201,7 +202,11 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
               <div className="space-y-4">
                 {recentAnalyses.length > 0 ? (
                   recentAnalyses.map((analysis) => (
-                    <div key={analysis.id} className="custom-hover flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                    <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`} key={analysis.id} className="custom-hover flex gap-2 items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                      {analysis.on_page.favicon ? 
+                        <Image src={`${new URL(analysis.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-8 h-8"/>                      
+                        : <Globe className="w-8 h-8 text-gray-700" />
+                      }
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-900 mb-1 truncate" title={analysis.url}>
                           {formatUrl(analysis.url)}
@@ -211,12 +216,11 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
                             {analysis.status.percentage}%
                           </span>
                           <span className="text-gray-500 text-xs">
-                            {formatDate(analysis.createdAt)}
+                            {formatDate(analysis.updatedAt)}
                           </span>
                         </div>
                       </div>
-                      <ExternalLink className='opacity-0 text-gray-400 ml-2 flex-shrink-0'/>
-                    </div>
+                    </Link>
                   ))
                 ) : (
                   <div className="text-center py-8">
