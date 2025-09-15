@@ -41,17 +41,17 @@ const NewAnalysis = () => {
       setLoading(false)
       return
     }
-    // show dialog
-    setOpen(true)
     try {
-      const res = await apiClient.post("/analyze", { url })
-      const data = await res.data
-      console.log("Analysis started:", data)
-
-      // assume API returns sessionId + userId
-      setSessionId(data.sessionId)
-      setUserId(data.userId)
-
+        const res = await apiClient.post("/analyze", { url })
+        const data = await res.data
+        console.log("Analysis started:", data)
+        
+        // assume API returns sessionId + userId
+        setSessionId(data.sessionId)
+        setUserId(data.userId)
+        
+        // show dialog
+        setOpen(true)
     } catch (error) {
       console.error("Error:", error)
     } finally {
