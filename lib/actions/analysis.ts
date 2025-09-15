@@ -4,55 +4,107 @@ import { db } from "../db"
 import { seo_analysis } from "../db/schema"
 import { auth } from "../auth";
 import { headers } from "next/headers";
-import { console } from "inspector";
+import { unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 
-const getSessionUserId = async () : Promise<string> => {
+const getSessionUserId = async (): Promise<string> => {
     const session = await auth.api.getSession({
         headers: await headers()
     })
 
-    if(!session) throw new Error("Unaunthenticated")
+    if (!session) throw new Error("Unauthenticated")
 
     return session.user.id;
 }
 
-export const fetchAnalysisDetails = async (url : string) => {
+// Cached function for fetching analysis details
+export const fetchAnalysisDetails = async (url: string) => {
     const userId = await getSessionUserId()
-    try {
-        const analysis = await db
-            .select()
-            .from(seo_analysis)
-            .where(and(eq(seo_analysis.userId, userId), eq(seo_analysis.url, url)))
-            .limit(1);
+    
+    const getCachedAnalysisDetails = unstable_cache(
+        async (userId: string, url: string) => {
+            try {
+                const analysis = await db
+                    .select()
+                    .from(seo_analysis)
+                    .where(and(eq(seo_analysis.userId, userId), eq(seo_analysis.url, url)))
+                    .limit(1);
 
-        return analysis[0]
+                return analysis[0]
+            } catch (error) {
+                console.error(error)
+                throw error;
+            }
+        },
+        ['analysis-details'],
+        {
+            tags: [`analysis-details-${userId}`, `analysis-details-${userId}-${url}`],
+            revalidate: 300 // 5 minutes
+        }
+    );
 
-    } catch(error) {
-        console.error(error)
-    }
+    return getCachedAnalysisDetails(userId, url);
 }
 
+// Cached function for fetching user analysis
 export const fetchUserAnalysis = async () => {
     const userId = await getSessionUserId()
-    try {
-        const analysis = await db
-            .select()
-            .from(seo_analysis)
-            .where(eq(seo_analysis.userId, userId))
-        return analysis
+    
+    const getCachedUserAnalysis = unstable_cache(
+        async (userId: string) => {
+            try {
+                const analysis = await db
+                    .select()
+                    .from(seo_analysis)
+                    .where(eq(seo_analysis.userId, userId))
+                    
+                return analysis
+            } catch (error) {
+                console.error(error)
+                throw error;
+            }
+        },
+        ['user-analysis'],
+        {
+            tags: [`user-analysis-${userId}`],
+            revalidate: 300 // 5 minutes
+        }
+    );
 
-    } catch(error) {
-        console.error(error)
-    }
+    return getCachedUserAnalysis(userId);
 }
 
-export const deleteAnalysis  = async (id:string) => {
+// Delete function with cache invalidation
+export const deleteAnalysis = async (id: string) => {
     const userId = await getSessionUserId()
     try {
         await db
-        .delete(seo_analysis)
-        .where(and(eq(seo_analysis.userId, userId),eq(seo_analysis.id, id)))
-    } catch(error) {
+            .delete(seo_analysis)
+            .where(and(eq(seo_analysis.userId, userId), eq(seo_analysis.id, id)))
+
+        // Invalidate relevant caches after deletion
+        revalidateTag(`user-analysis-${userId}`);
+        revalidateTag(`analysis-details-${userId}`);
+        
+        return { success: true };
+    } catch (error) {
         console.error(error)
+        throw error;
     }
+}
+
+// Helper function to invalidate all user analysis caches
+export const invalidateUserAnalysisCache = async (userId?: string) => {
+    const targetUserId = userId || await getSessionUserId();
+    
+    revalidateTag(`user-analysis-${targetUserId}`);
+    revalidateTag(`analysis-details-${targetUserId}`);
+}
+
+// Helper function to invalidate specific analysis cache
+export const invalidateAnalysisDetailsCache = async (url: string, userId?: string) => {
+    const targetUserId = userId || await getSessionUserId();
+    
+    revalidateTag(`analysis-details-${targetUserId}-${url}`);
+    revalidateTag(`user-analysis-${targetUserId}`);
 }
