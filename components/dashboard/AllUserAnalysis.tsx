@@ -422,30 +422,63 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                         />
                     </div>
                     <div className="flex gap-4">
-                    <div className="relative">
-                        <select
-                            value={sortFilter}
-                            onChange={(e) => setSortFilter(e.target.value)}
-                            className="appearance-none bg-white/80 border border-gray-200 rounded-xl px-4 py-3 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"                        >
-                            <option value="all">All Results</option>
-                            <option value="good">Good (70+)</option>
-                            <option value="moderate">Moderate (40-69)</option>
-                            <option value="poor">Poor (0-39)</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    </div>
-                    <div className="relative">
-                        <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        className="appearance-none bg-white/80 border border-gray-200 rounded-xl px-4 py-3 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            >
-                            <option value="createdAt">Date</option>
-                            <option value="score">Score</option>
-                            <option value="title">Title</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="bg-white/80 border border-gray-200 rounded-xl  pr-10 flex items-center gap-2 min-w-[160px] justify-between"
+                        >
+                          {sortFilter === "all"
+                            ? "All Results"
+                            : sortFilter === "good"
+                            ? "Good (70+)"
+                            : sortFilter === "moderate"
+                            ? "Moderate (40-69)"
+                            : "Poor (0-39)"}
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="min-w-[160px]">
+                        <DropdownMenuItem onClick={() => setSortFilter("all")}>
+                          All Results
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSortFilter("good")}>
+                          Good (70+)
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSortFilter("moderate")}>
+                          Moderate (40-69)
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSortFilter("poor")}>
+                          Poor (0-39)
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="bg-white/80 border border-gray-200 rounded-xl pr-10 flex items-center gap-2 min-w-[120px] justify-between"
+                        >
+                          {sortBy === "createdAt"
+                            ? "Date"
+                            : sortBy === "score"
+                            ? "Score"
+                            : "Title"}
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="min-w-[120px]">
+                        <DropdownMenuItem onClick={() => setSortBy("createdAt")}>
+                          Date
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSortBy("score")}>
+                          Score
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSortBy("title")}>
+                          Title
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                     <button
                         onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                         className="bg-white/80 border border-gray-200 rounded-xl px-4 py-3 hover:bg-gray-50 transition-all duration-200 flex items-center gap-2"
