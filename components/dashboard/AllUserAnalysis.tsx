@@ -519,7 +519,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                                       <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
                                                           <div className='flex items-center gap-2'>
                                                               <Eye/>
-                                                              <span>View score breakdwon</span>
+                                                              <span>Score breakdown</span>
                                                           </div>
                                                       </DropdownMenuItem>
                                                   </DropdownMenuContent>
@@ -528,10 +528,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Score Breakdown Button */}
-                               
-                                
                             </div>
                         </div>
                     );
