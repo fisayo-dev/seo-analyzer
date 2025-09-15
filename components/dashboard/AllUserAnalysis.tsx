@@ -321,9 +321,10 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
     return calculateAnalysisStats(analyses);
   }, [analyses]);
 
-  const formatDate = (date: Date): string => {
+  const formatDate = (date: Date | string): string => {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const dateObj = date instanceof Date ? date : new Date(date);
+    const diffMs = now.getTime() - dateObj.getTime();
 
     const seconds = Math.floor(diffMs / 1000);
     const minutes = Math.floor(seconds / 60);
