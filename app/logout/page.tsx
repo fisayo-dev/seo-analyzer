@@ -1,19 +1,24 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/auth/client'
+import { Loader2Icon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 
 const LogOut = () => {
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleLogout = async () => {
     try {
+      setLoading(true)
       await signOut()
       router.push('/') // or router.replace('/') to prevent going back
     } catch(err) {
       console.error('An error occurred trying to logout', err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -28,8 +33,9 @@ const LogOut = () => {
           Cancel
           </Button>
         </Link>
-        <Button onClick={handleLogout} className="w-50 bg-red-500 text-white border text-sm hover:scale-105 transition hover:bg-red-400">
-          Logout
+        <Button disabled={loading} onClick={handleLogout} className="w-50 bg-red-500 text-white border text-sm hover:scale-105 transition hover:bg-red-400">
+          {loading && <Loader2Icon className="animate-spin"/> }
+          {loading ? "Signing out..." : "Logout"}
         </Button>
       </div>
     </div>
