@@ -41,9 +41,9 @@ const NewAnalysis = () => {
       setLoading(false)
       return
     }
+    // show dialog
+    setOpen(true)
     try {
-      // show dialog
-      setOpen(true)
       const res = await apiClient.post("/analyze", { url })
       const data = await res.data
       console.log("Analysis started:", data)
