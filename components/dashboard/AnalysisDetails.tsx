@@ -330,9 +330,9 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }) => {
           <div>
             <h1 className="text-2xl font-bold text-gray-900 ">{on_page?.title?.text.length > 25 ? `${on_page?.title?.text.substring(0,25)}...` : on_page?.title?.text  || 'Untitled'} </h1>
             <div className=" text-gray-600 flex items-center gap-2 text-sm">
-              <span>
+              <Link href={results?.url} target="_blank" className='hover:underline hover:text-blue-600'>
                 {formatUrl(results?.url)}
-              </span>
+              </Link>
               <span onClick={() => handleCopyUrl(results?.url)} className=' p-2 rounded-xl hover:bg-gray-200 hover:text-black'>
                 <Copy className='h-4 w-4'/>
               </span>
