@@ -1,7 +1,6 @@
 import AllUserAnalysis from "@/components/dashboard/AllUserAnalysis";
 import { fetchUserAnalysis }  from "@/lib/actions/analysis";
 
-
 const Page = async () => {
   try {
     const data = await fetchUserAnalysis()
