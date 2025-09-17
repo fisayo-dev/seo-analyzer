@@ -35,12 +35,12 @@ const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => v
     const handleFacebookShare = () => {
         navigator.clipboard.writeText(testimonial)
         const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin)}`;
-        window.open(url, '_blank', 'width=600,height=400');
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
 
     const handleTwitterShare = () => {
         const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(testimonial || 'Check out Scanzie!')}`;
-        window.open(url, '_blank', 'width=600,height=400');
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
 
     return (
