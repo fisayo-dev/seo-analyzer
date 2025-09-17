@@ -1,7 +1,7 @@
 import { fetchAnalysisDetails } from '@/lib/actions/analysis';
 import { Metadata } from 'next';
 
-export async function generateMetadata({params}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { url: string } }): Promise<Metadata> {
     const param = await params; 
     const url = param.url;
     
