@@ -16,7 +16,7 @@ const Custom404: React.FC = () => {
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-sm border-r border-gray-200">
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-gray-900">Smeal</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Scanzie</h1>
           <p className="text-sm text-gray-500 mt-1">SEO Analytics Platform</p>
         </div>
         

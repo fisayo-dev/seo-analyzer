@@ -72,7 +72,7 @@ export function AppSidebar() {
       <SidebarContent className="bg-white">
         {/* Header Section */}
         <div className="p-6 border-b border-gray-100">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Smeal</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Scanzie</h1>
           <p className="text-sm text-gray-500">SEO Analytics Platform</p>
         </div>
 

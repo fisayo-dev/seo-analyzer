@@ -5,8 +5,8 @@ import { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-  title: "Dashboard | Smeal",
-  description: "Analyze and optimize your website's SEO performance with Smeal, the ultimate SEO analyzer tool.",
+  title: "Dashboard | Scanzie",
+  description: "Analyze and optimize your website's SEO performance with Scanzie, the ultimate SEO analyzer tool.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

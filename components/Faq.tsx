@@ -11,8 +11,8 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     id: '1',
-    question: 'What is Smeal and how does it work?',
-    answer: 'Smeal is a comprehensive SEO and performance analytics tool that helps you optimize your website. It provides technical audits, keyword analysis, and performance tracking to boost your site\'s ranking and speed across search engines.'
+    question: 'What is Scanzie and how does it work?',
+    answer: 'Scanzie is a comprehensive SEO and performance analytics tool that helps you optimize your website. It provides technical audits, keyword analysis, and performance tracking to boost your site\'s ranking and speed across search engines.'
   },
   {
     id: '2',
@@ -37,7 +37,7 @@ const faqData: FAQItem[] = [
 //   {
 //     id: '6',
 //     question: 'Do you offer API access for enterprise users?',
-//     answer: 'Yes, we provide comprehensive API access for enterprise customers. This allows you to integrate Smeal\'s analytics and monitoring capabilities directly into your existing tools and workflows.'
+//     answer: 'Yes, we provide comprehensive API access for enterprise customers. This allows you to integrate Scanzie\'s analytics and monitoring capabilities directly into your existing tools and workflows.'
 //   },
 //   {
 //     id: '7',
@@ -73,7 +73,7 @@ const FAQ: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Everything you need to know about Smeal&apos;s SEO and performance analytics tools. 
+            Everything you need to know about Scanzie&apos;s SEO and performance analytics tools. 
             Can&apos;t find what you&apos;re looking for? Contact our support team.
           </p>
         </div>

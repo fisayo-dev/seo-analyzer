@@ -35,14 +35,14 @@ const LoginForm = () =>  {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
                 <GalleryVerticalEnd className="size-4" />
             </div>
-            Smeal.
+            Scanzie.
             </Link>
             <div className={cn("flex flex-col gap-6")}>
             <Card className="shadow-neutral-50">
                 <CardHeader className="text-center">
-                <CardTitle className="text-xl">Welcome to Smeal.</CardTitle>
+                <CardTitle className="text-xl">Welcome to Scanzie.</CardTitle>
                 <CardDescription>
-                    Please sigin-in to get started with smeal.
+                    Please sigin-in to get started with Scanzie.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
