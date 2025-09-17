@@ -10,6 +10,7 @@ import {
   Loader2Icon,
   ArrowLeft,
   Trash,
+  Share2,
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { toast } from 'sonner';
@@ -33,6 +34,7 @@ import ScoreCard from './cards/ScoreCard';
 import IssuesList from './cards/IssuesList';
 import MetricCard from './cards/MetricCard';
 import KeywordDensityChart from './cards/KeywordDensityChart';
+import ShareScanzie from './dialogs/ShareScanzie';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -175,14 +177,6 @@ interface SEOAnalysisProps {
   results: SEOAnalysisResult;
 }
 
-
-
-
-
-
-
-
-
 const getScoreColor = (score: number): string => {
   if (score >= 80) return 'bg-green-100 text-green-700';
   if (score >= 60) return 'bg-yellow-100 text-yellow-700';
@@ -202,8 +196,9 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
   const overallScore = calculateOverallScore(results)
 
   const [loading, setLoading] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const [shareScanzie, setShareScanzie] = useState(true)
+  const [deleteLoading, setDeleteLoading] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   
   // router
@@ -275,11 +270,14 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
           </div>
           <div>
             <div className="flex items-center pr-2">
+              <div onClick={() => setShareScanzie(true)} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-blue-600 flex items-center gap-2'>
+                <Share2 />
+              </div>
               <div onClick={handleReanalyze} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-blue-600 flex items-center gap-2'>
                 {loading ? <Loader2Icon className='animate-spin'/> : <RefreshCcw className=''/>}
               </div>
               <div onClick={() => setDeleteOpen(true)} className='p-3 rounded-xl hover:bg-gray-100 cursor-pointer hover:text-red-600 flex items-center gap-2'>
-                <Trash className=''/>
+                <Trash />
               </div>
             </div>
           </div>
@@ -545,7 +543,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
       </div>
 
       
-      {/* Re-analyze Dialog */}
+      {/* Dialogs */}
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
@@ -571,7 +569,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
           )}
         </AlertDialogContent>
       </AlertDialog>
-
+      <ShareScanzie open={shareScanzie} onOpenChange={setShareScanzie}/>
        <DeleteDialog deleteOpen={deleteOpen} setDeleteOpen={setDeleteOpen} deleteLoading={deleteLoading} setDeleteLoading={setDeleteLoading} handleDelete={handleDelete}/>
     </div>
   );
