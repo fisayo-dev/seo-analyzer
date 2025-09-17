@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; }> = ({ open, onOpenChange }) => {
-    const [showTextarea, setShowTextarea] = useState(false);
+    const [showTextarea, setShowTextarea] = useState(true);
     const [testimonial, setTestimonial] = useState('Hey guys👋 \n\nHave u heard of scanzie? OMG Its a really cool product. \nI love using Scanzie because it helps me analyis my website SEO and gives me improvement recommendations! \n\nGo try out Scanie to today - https://scanzie.vercel.app \n\n ');
 
     const handleShare = () => {
