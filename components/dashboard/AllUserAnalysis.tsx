@@ -1,19 +1,17 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Code, Eye, FileText, X as XIcon, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Eye, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
 import { Input } from '../ui/input';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-
-// Import utility functions
-import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown, getScoreColor } from './seo-utils';
+import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown } from './seo-utils';
 import apiClient from '@/lib/api/client';
-import AnalysisProgress from './AnalysisProgress';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import ScoreBreakdownDialog from './dialogs/ScoreBreakdownDialog';
+import ReanalyzeDialog from './dialogs/ReanalyzeDialog';
 
 export type Analysis = {
   id: string;
@@ -27,7 +25,7 @@ export type Analysis = {
     images: { score: number; total: number; withoutAlt: number };
     headings: { score: number; h1Count: number; h2Count: number };
     metaDescription: { text: string; score: number; length: number };
-    favicon: { exists: boolean; score: number; issues: string[]};
+    favicon: { exists: boolean; url:string; score: number; issues: string[]};
   };
   content: {
     score: number;
@@ -52,198 +50,6 @@ interface AllUserAnalysisProps {
   analysis: Analysis[];
 }
 
-const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; analysis: Analysis | null }> = ({ open, onOpenChange, analysis }) => {
-  if (!analysis) return null;
-
-  return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="bg-white/95 backdrop-blur-sm rounded-2xl max-w-3xl p-6 border border-gray-200 shadow-2xl">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center justify-between">
-            <span>SEO Score Breakdown</span>
-            <XIcon onClick={() => onOpenChange(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Technical SEO */}
-          <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-4 text-gray-700">
-              <Code className="w-6 h-6" />
-              <h4 className="font-semibold">Technical SEO</h4>
-            </div>
-            <div className={`text-2xl font-bold ${getScoreColor(analysis.technical.score)} mb-4`}>
-              {analysis.technical.score}/100
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Page Speed</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.technical.pageSpeed.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.technical.pageSpeed.score)}`}>
-                    {analysis.technical.pageSpeed.score}
-                  </span>
-                </div>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Mobile</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.technical.mobile.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.technical.mobile.score)}`}>
-                    {analysis.technical.mobile.score}
-                  </span>
-                </div>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">SSL</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.technical.ssl.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.technical.ssl.score)}`}>
-                    {analysis.technical.ssl.score}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* On-Page SEO */}
-          <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-4 text-gray-700">
-              <Eye className="w-6 h-6" />
-              <h4 className="font-semibold">On-Page SEO</h4>
-            </div>
-            <div className={`text-2xl font-bold ${getScoreColor(Math.round((analysis.on_page.title.score + analysis.on_page.headings.score + analysis.on_page.links.score + analysis.on_page.images.score) / 4))} mb-4`}>
-              {Math.round((analysis.on_page.title.score + analysis.on_page.headings.score + analysis.on_page.links.score + analysis.on_page.images.score) / 4)}/100
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Title</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.on_page.title.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.on_page.title.score)}`}>
-                    {analysis.on_page.title.score}
-                  </span>
-                </div>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Headings</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.on_page.headings.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.on_page.headings.score)}`}>
-                    {analysis.on_page.headings.score}
-                  </span>
-                </div>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Images</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.on_page.images.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.on_page.images.score)}`}>
-                    {analysis.on_page.images.score}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Content Quality */}
-          <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-4 text-gray-700">
-              <FileText className="w-6 h-6" />
-              <h4 className="font-semibold">Content Quality</h4>
-            </div>
-            <div className={`text-2xl font-bold ${getScoreColor(analysis.content.score)} mb-4`}>
-              {analysis.content.score}/100
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Word Count</span>
-                <span className="font-medium text-gray-700">
-                  {analysis.content.wordCount}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Quality</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.content.contentQuality.score)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.content.contentQuality.score)}`}>
-                    {analysis.content.contentQuality.score}
-                  </span>
-                </div>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Readability</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getScoreColor(analysis.content.readabilityScore)}`} />
-                  <span className={`font-medium ${getScoreColor(analysis.content.readabilityScore)}`}>
-                    {analysis.content.readabilityScore}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Issues Found */}
-          <div className=" rounded-xl p-4 border ">
-            <div className="flex items-center gap-3 mb-4 text-gray-700">
-              <AlertTriangle className="w-6 h-6" />
-              <h4 className="font-semibold">Issues Found</h4>
-            </div>
-            <div className="text-2xl font-bold text-orange-600 mb-4">
-              {(analysis.technical.issues?.length || 0) + (analysis.content.issues?.length || 0)}
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Technical</span>
-                <span className="font-medium text-orange-600">
-                  {analysis.technical?.issues?.length || 0}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Content</span>
-                <span className="font-medium text-orange-600">
-                  {analysis.content?.issues?.length || 0}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-gray-600">Broken Links</span>
-                <span className="font-medium text-red-600">
-                  {analysis.on_page.links.broken}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-};
-
-const ReanalyzeDialog: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; sessionId: string | null; userId: string | null; url: string | null }> = ({ open, onOpenChange, sessionId, userId, url }) => {
-  return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-2xl">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center justify-between">
-            <span>SEO Analysis Progress</span>
-            <XIcon onClick={() => onOpenChange(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-
-        {sessionId && userId ? (
-          <AnalysisProgress
-            sessionId={sessionId}
-            userId={userId}
-            url={url || ''}
-          />
-        ) : (
-          <p className="text-center text-gray-500 p-6">
-            Preparing analysis...
-          </p>
-        )}
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-};
 
 const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -497,72 +303,90 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                     const scoreStatus = getScoreStatus(getScoreBreakdown(analysis).overall);
                     
                     return (
-                        <Link
-                        href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}
-                        key={analysis.id}
-                        className="bg-white rounded-2xl border hover:shadow-sm overflow-hidden"
+                        <div
+                          key={analysis.id}
+                          className="relative bg-white rounded-2xl border hover:border-gray-400 overflow-hidden"
                         >
-                            <div className='p-4 grid gap-3'>
-                                {/* Header */}
-                                <div className="flex items-start justify-between">
-                                    <div className="flex-1">
-                                      <div className="flex items-center gap-3 mb-2">
-                                        {analysis.on_page.favicon ? 
-                                          <Image src={`${new URL(analysis.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-10 h-10"/>                      
-                                          : <Globe className="w-10 h-10 text-gray-700" />
-                                        }
-                                        <div className="grid items-center ">
-                                            <h3 className="text-lg font-bold text-gray-900">{analysis?.on_page?.title?.text?.length > 20 ? `${analysis?.on_page?.title?.text.substring(0,20)}...`: analysis?.on_page?.title?.text || 'Untitled'}</h3>
-                                            <p className="text-gray-600 text-sm break-all">{analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}</p>
-                                        </div>
-                                      </div>
-                                        <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
-                                            <Clock className="w-4 h-4" />
-                                            {formatDate(analysis.updatedAt)}
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className={`grid rounded-full h-11 w-11 p-2 place-content-center border-2 ${scoreStatus.bgClass}`}>
-                                            <div className={`text-sm font-bold ${scoreStatus.colorClass}`}>
-                                                {getScoreBreakdown(analysis).overall}%
-                                            </div>
-                                        </div>
-                                        {/* Action Buttons */}
-                                        <div className="border-gray-200">
-                                          <div className="flex justify-end">
-                                              <DropdownMenu>
-                                                  <DropdownMenuTrigger asChild>
-                                                      <Button variant="ghost" className="h-8 w-8 p-0">
-                                                      <MoreVertical className="h-4 w-4" />
-                                                      </Button>
-                                                  </DropdownMenuTrigger>
-                                                  <DropdownMenuContent align="end">
-                                                      <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
-                                                          <div className='flex items-center gap-2'>
-                                                              <RefreshCcw />
-                                                              <span>Re-analyze</span>
-                                                          </div>
-                                                      </DropdownMenuItem>
-                                                      <DropdownMenuItem onClick={() => toast('Export feature coming soon 😄')}>
-                                                          <div className='flex items-center gap-2'>
-                                                              <DownloadIcon />
-                                                              <span>Export report</span>
-                                                          </div>
-                                                      </DropdownMenuItem>
-                                                      <DropdownMenuItem onClick={() => { setSelectedAnalysis(analysis); setOpen(true); }}>
-                                                          <div className='flex items-center gap-2'>
-                                                              <Eye/>
-                                                              <span>Score breakdown</span>
-                                                          </div>
-                                                      </DropdownMenuItem>
-                                                  </DropdownMenuContent>
-                                              </DropdownMenu>
-                                          </div>
-                                        </div>
-                                    </div>
+                          <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`} className="absolute inset-0 hover:shadow-lg transition-all duration-300 h-full"></Link>
+                          <div className="p-4 grid gap-3">
+                            {/* Header */}
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-2">
+                                  {analysis.on_page.favicon ? 
+                                    <Image src={`${new URL(analysis.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-10 h-10"/>                      
+                                    : <Globe className="w-10 h-10 text-gray-700" />
+                                  }
+                                  <div className="grid items-center">
+                                    <h3 className="text-lg font-bold text-gray-900">
+                                      {analysis?.on_page?.title?.text?.length > 20 
+                                        ? `${analysis?.on_page?.title?.text.substring(0,20)}...` 
+                                        : analysis?.on_page?.title?.text || 'Untitled'}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm break-all">
+                                      {analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}
+                                    </p>
+                                  </div>
                                 </div>
+                                <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                                  <Clock className="w-4 h-4" />
+                                  {formatDate(analysis.updatedAt)}
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className={`grid rounded-full h-11 w-11 p-2 place-content-center border-2 ${scoreStatus.bgClass}`}>
+                                  <div className={`text-sm font-bold ${scoreStatus.colorClass}`}>
+                                    {getScoreBreakdown(analysis).overall}%
+                                  </div>
+                                </div>
+                                {/* Action Buttons */}
+                                <div
+                                  className="z-20 border-gray-200 pointer-events-auto"
+                                >
+                                  <div className="flex justify-end">
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" className="rounded-full h-8 w-8  p-0">
+                                          <MoreHorizontal className="h-5 w-5" />
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end">
+                                        <DropdownMenuItem onClick={(e) => {
+                                          e.stopPropagation(); // Prevent click from bubbling to Link
+                                          handleReAnalyze(e, analysis.url);
+                                        }}>
+                                          <div className="flex items-center gap-2">
+                                            <RefreshCcw />
+                                            <span>Re-analyze</span>
+                                          </div>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => {
+                                          e.stopPropagation(); // Prevent click from bubbling to Link
+                                          toast('Export feature coming soon 😄');
+                                        }}>
+                                          <div className="flex items-center gap-2">
+                                            <DownloadIcon />
+                                            <span>Export report</span>
+                                          </div>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => {
+                                          e.stopPropagation(); // Prevent click from bubbling to Link
+                                          setSelectedAnalysis(analysis);
+                                          setOpen(true);
+                                        }}>
+                                          <div className="flex items-center gap-2">
+                                            <Eye />
+                                            <span>Score breakdown</span>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                        </Link>
+                          </div>
+                        </div>
                     );
                 })}
             </div>
