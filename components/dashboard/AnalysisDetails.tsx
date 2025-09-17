@@ -2,9 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
   Globe, 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle, 
   Code, 
   FileText, 
   Eye,
@@ -24,13 +21,18 @@ import {
 } from "@/components/ui/alert-dialog"
 import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
 import { XIcon } from "lucide-react"
-import { Button } from '../ui/button';
 import apiClient from '@/lib/api/client';
 import Link from 'next/link';
 import { deleteAnalysis, invalidateUserAnalysisCache } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
 import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from './seo-utils';
 import Image from 'next/image';
+import DeleteDialog from './dialogs/DeleteDialog';
+import { formatUrl } from './DashboardHome';
+import ScoreCard from './cards/ScoreCard';
+import IssuesList from './cards/IssuesList';
+import MetricCard from './cards/MetricCard';
+import KeywordDensityChart from './cards/KeywordDensityChart';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -78,7 +80,7 @@ interface TechnicalAnalysis {
   issues: string[];
 }
 
-interface KeywordDensity {
+export interface KeywordDensity {
   [key: string]: number;
 }
 
@@ -164,7 +166,7 @@ interface OnPageAnalysis {
 export interface SEOAnalysisResult {
   technical: TechnicalAnalysis;
   content: ContentAnalysis;
-  onPage: OnPageAnalysis;
+  on_page: OnPageAnalysis;
   url: string;
   [key: string]: unknown;
 }
@@ -174,85 +176,12 @@ interface SEOAnalysisProps {
 }
 
 
-const ScoreCard: React.FC<{
-  icon: React.ReactNode;
-  title: string;
-  score: number;
-  total?: number;
-  color: string;
-}> = ({ icon, title, score, total, color }) => (
-  <div className="bg-white rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 duration-300 border border-gray-100">
-    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-2xl ${color} mb-4`}>
-      {icon}
-    </div>
-    <div className="text-2xl font-semibold text-gray-900 mb-1">
-      {score}{total && `/${total}`}
-    </div>
-    <div className="text-sm text-gray-600">{title}</div>
-  </div>
-);
 
-const IssuesList: React.FC<{
-  title: string;
-  issues: string[];
-  type: 'error' | 'warning' | 'info';
-}> = ({ title, issues, type }) => {
-  if (issues.length === 0) return null;
 
-  const iconColor = type === 'error' ? 'text-red-500' : type === 'warning' ? 'text-yellow-500' : 'text-blue-500';
-  const bgColor = type === 'error' ? 'bg-red-50' : type === 'warning' ? 'bg-yellow-50' : 'bg-blue-50';
-  
-  return (
-    <div className={`rounded-2xl p-4 ${bgColor} border-l-4 ${type === 'error' ? 'border-red-400' : type === 'warning' ? 'border-yellow-400' : 'border-blue-400'}`}>
-      <h4 className="font-medium text-gray-900 mb-2">{title}</h4>
-      <ul className="space-y-1">
-        {issues.map((issue, index) => (
-          <li key={index} className="flex items-start text-sm text-gray-700">
-            <div className={`w-4 h-4 mt-0.5 mr-2 flex-shrink-0 ${iconColor}`}>
-              {type === 'error' ? <XCircle size={16} /> : 
-               type === 'warning' ? <AlertTriangle size={16} /> : 
-               <CheckCircle size={16} />}
-            </div>
-            {issue}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
-const MetricCard: React.FC<{
-  title: string;
-  children: React.ReactNode;
-}> = ({ title, children }) => (
-  <div className="bg-white rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 duration-300 border border-gray-100">
-    <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-    {children}
-  </div>
-);
 
-const KeywordDensityChart: React.FC<{ density: KeywordDensity | null | undefined }> = ({ density }) => (
-  <div className="space-y-3">
-    {density && typeof density === 'object' && Object.keys(density).length > 0 ? (
-      Object.entries(density).slice(0, 5).map(([keyword, percentage]) => (
-        <div key={keyword}>
-          <div className="flex justify-between text-sm mb-1">
-            <span className="text-gray-600 truncate">{keyword}</span>
-            <span className="text-gray-900">{percentage}%</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-blue-500 h-2 rounded-full" 
-              style={{ width: `${Math.min(percentage, 100)}%` }}
-            ></div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div className="text-gray-500 text-sm">No keyword density data available.</div>
-    )}
-  </div>
-);
+
+
 
 const getScoreColor = (score: number): string => {
   if (score >= 80) return 'bg-green-100 text-green-700';
@@ -260,14 +189,6 @@ const getScoreColor = (score: number): string => {
   return 'bg-red-100 text-red-700';
 };
 
-const formatUrl = (url: string) => {
-  if (url.length <= 28) return url;
-
-  const start = url.slice(0, 10); // first 10 chars
-  const end = url.slice(-5); // last 5 chars
-
-  return `${start}...${end}`; // total = 18 chars
-}
 
 const handleCopyUrl = (url: string) => {
   if (navigator && navigator.clipboard) {
@@ -278,8 +199,6 @@ const handleCopyUrl = (url: string) => {
 
 const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalysisProps) => {
   const { technical, content, on_page, id } = results;
-
-
   const overallScore = calculateOverallScore(results)
 
   const [loading, setLoading] = useState(false)
@@ -653,33 +572,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
         </AlertDialogContent>
       </AlertDialog>
 
-       {/* Delete Dialog */}
-      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <AlertDialogContent className="max-w-2xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center justify-between">
-              <span>SEO Analysis Progress</span>
-              <XIcon onClick={() => setDeleteOpen(false)} className="h-9 w-9 p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"/>
-              </AlertDialogTitle>
-          </AlertDialogHeader>
-
-          <div className="my-4 mx-auto md:max-w-sm text-center">
-            <h2 className="text-3xl font-bold mb-2">Delete this</h2>
-            <p>Are you sure u want to delete this analysis. The moment this analysis, it cannot be retrieved.</p>
-          </div>
-
-          <div className="mx-auto flex items-center gap-4">
-            <Button onClick={() => setDeleteLoading(false)} className="bg-gray-600 hover:bg-gray-700 text-white font-medium transition-colors duration-200">              
-              <span>Cancel</span>
-            </Button>
-            <Button disabled={deleteLoading} onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white font-medium transition-colors duration-200">
-             {deleteLoading ? <Loader2Icon className='animate-spin'/> : <Trash className=''/>}
-                <span>{deleteLoading ? 'Deleting': 'Delete anyway'}</span>
-            </Button>
-          </div>
-
-        </AlertDialogContent>
-      </AlertDialog>
+       <DeleteDialog deleteOpen={deleteOpen} setDeleteOpen={setDeleteOpen} deleteLoading={deleteLoading} setDeleteLoading={setDeleteLoading} handleDelete={handleDelete}/>
     </div>
   );
 };

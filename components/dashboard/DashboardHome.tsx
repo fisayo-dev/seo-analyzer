@@ -8,9 +8,9 @@ import {
   TriangleAlert,
   InfoIcon,
   AlarmClock,
-  ExternalLink,
   Eye,
-  NotebookTextIcon
+  NotebookTextIcon,
+  LucideIcon
 } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 import Link from 'next/link';
@@ -23,8 +23,21 @@ interface MetricCardProps {
   title: string;
   iconColor: string,
   value: string;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
 }
+
+export const formatUrl = (url: string): string => {
+    try {
+      const urlObj = new URL(url);
+      const hostname = urlObj.hostname + urlObj.pathname;
+      if (hostname.length > 30) {
+        return hostname.substring(0, 27) + '...';
+      }
+      return hostname;
+    } catch {
+      return url.length > 30 ? url.substring(0, 27) + '...' : url;
+    }
+  }
 
 const Dashboard = ({results}: {results: Analysis[]}) => {
   // Calculate real statistics from the results
@@ -45,18 +58,7 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
     });
 
   // Format URL for display (remove protocol and truncate if too long)
-  const formatUrl = (url: string): string => {
-    try {
-      const urlObj = new URL(url);
-      const hostname = urlObj.hostname + urlObj.pathname;
-      if (hostname.length > 30) {
-        return hostname.substring(0, 27) + '...';
-      }
-      return hostname;
-    } catch {
-      return url.length > 30 ? url.substring(0, 27) + '...' : url;
-    }
-  };
+  ;
 
   // Format date for display
   const formatDate = (dateString: Date): string => {
