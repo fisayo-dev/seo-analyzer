@@ -4,9 +4,7 @@ export const metadata = {
     title: 'Login | Scanzie',
     description: 'Login in to your Scanzie account.',
     keywords: ['login', 'authentication', 'secure', 'Scanzie', 'seo', 'analyze', 'user access'],
-    authors: [{ name: 'Your Company Name' }],
     robots: 'noindex, nofollow',
-    viewport: 'width=device-width, initial-scale=1.0',
     charset: 'utf-8',
 } 
 const layout = ({children}: {children:ReactNode}) => {

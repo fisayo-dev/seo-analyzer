@@ -17,6 +17,7 @@ import { authClient } from "@/lib/auth/client"
 import { useEffect, useState } from "react"
 import { User } from "better-auth"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import Image from "next/image"
 
 // Updated menu items to match the SEO analytics theme
 const items = [
@@ -71,9 +72,12 @@ export function AppSidebar() {
     <Sidebar className="border-r-0 shadow-xl bg-white">
       <SidebarContent className="bg-white">
         {/* Header Section */}
-        <div className="p-6 border-b border-gray-100">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Scanzie</h1>
-          <p className="text-sm text-gray-500">SEO Analytics Platform</p>
+        <div className="p-6 border-b flex items-center gap-4">
+          <Image src="/Logo.png" alt="Logo" height={24} width={24} className="bg-red-400 w-15 h-15"/>
+          <div className=" border-gray-100">
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">Scanzie</h1>
+            <p className="text-sm text-gray-500">SEO Analytics Platform</p>
+          </div>
         </div>
 
         <SidebarGroup className="px-4 py-6">

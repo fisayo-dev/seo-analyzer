@@ -65,8 +65,10 @@ export async function middleware(request: NextRequest) {
   }
 }
 
+
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+    // Match all paths except API routes, Next.js static files, images, and favicon
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

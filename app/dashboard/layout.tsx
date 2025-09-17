@@ -7,12 +7,18 @@ export const metadata: Metadata = {
     title: "Dashboard | Scanzie - Professional SEO Analysis & Website Optimization",
     description: "Comprehensive SEO dashboard for analyzing and optimizing your website's search engine performance. Get detailed SEO audits, technical insights, and actionable recommendations with Scanzie.",
     keywords: ['SEO dashboard', 'website optimization', 'SEO analysis tool', 'search engine optimization', 'website audit', 'SEO analyzer'],
+    icons: {
+      icon: "/favicon.svg",
+      shortcut: "/favicon.svg",
+      apple: "/favicon.svg",
+    },
     openGraph: {
         title: "Scanzie - Professional SEO Analysis Dashboard",
         description: "Analyze and optimize your website's SEO performance with comprehensive audits and actionable insights",
         type: 'website',
         siteName: 'Scanzie',
         locale: 'en_US',
+        
     },
     twitter: {
         card: 'summary_large_image',

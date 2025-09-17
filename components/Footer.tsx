@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
               Scanzie
             </Link>
             <p className="mt-2 text-sm text-gray-600">
-              Powerful SEO and performance analytics tools to boost your website's ranking and speed.
+              Powerful SEO and performance analytics tools to boost your website&apos;s ranking and speed.
             </p>
           </div>
 
@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
         {/* Bottom Section */}
         <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
-            © 202r5 Scanzie. All rights reserved.
+            © 2025 Scanzie. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <Link 
