@@ -497,11 +497,12 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                     const scoreStatus = getScoreStatus(getScoreBreakdown(analysis).overall);
                     
                     return (
-                        <div
+                        <Link
+                        href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}
                         key={analysis.id}
                         className="bg-white rounded-2xl border hover:shadow-sm overflow-hidden"
                         >
-                            <div className='p-6 grid gap-3'>
+                            <div className='p-4 grid gap-3'>
                                 {/* Header */}
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
@@ -536,14 +537,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                                       </Button>
                                                   </DropdownMenuTrigger>
                                                   <DropdownMenuContent align="end">
-                                                      <DropdownMenuItem asChild>
-                                                          <Link href={`/dashboard/analysis/${encodeURIComponent(analysis.url)}`}>
-                                                              <div className='flex items-center gap-2'>
-                                                                  <NotebookTextIcon />
-                                                                      View Details
-                                                              </div>
-                                                          </Link>
-                                                      </DropdownMenuItem>
                                                       <DropdownMenuItem onClick={(e) => handleReAnalyze(e, analysis.url)}>
                                                           <div className='flex items-center gap-2'>
                                                               <RefreshCcw />
@@ -569,7 +562,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     );
                 })}
             </div>
