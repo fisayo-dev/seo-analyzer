@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
 
   // Route categories
   const publicOnlyRoutes = ["/", "/login", "/register", "/forgot-password"];
-  const publicRoutes = ["/api/", "/api/", "/robots.txt", "/sitemap.xml"];
+  const publicRoutes = ["/api/", "/api/", "/robots.txt", "/sitemap.xml", "/favicon.png", "/favicon.ico"];
   const protectedRoutes = ["/dashboard", "/profile", "/logout", "/settings", "/api/user"];
 
   // Check if current path matches any route pattern

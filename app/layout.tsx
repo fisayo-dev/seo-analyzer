@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBIC_BASE_URL || 'http://localhost:3000';
+const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   title: "Scanzie - SEO Analyzer",
   description: "Analyze and optimize your website's SEO performance with Scanzie, the ultimate SEO analyzer tool.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   keywords: ['SEO', 'website optimization', 'SEO analysis tool', 'search engine optimization', 'website audit', 'SEO analyzer'],
   openGraph: {

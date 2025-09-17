@@ -197,7 +197,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
 
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
-  const [shareScanzie, setShareScanzie] = useState(true)
+  const [shareScanzie, setShareScanzie] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   
