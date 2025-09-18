@@ -242,6 +242,13 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
       setDeleteLoading(false)
     }
   }
+  // Show scanzie open after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShareScanzie(true)
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     setOpen(false)
   },[])
