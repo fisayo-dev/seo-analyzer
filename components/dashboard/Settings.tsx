@@ -157,7 +157,7 @@ const Settings = () => {
         }
     }
 
-    const handleDeleteAccount = async (e) => {
+    const handleDeleteAccount = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setDeleteLoading(true)
         try {
