@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, Clock, NotebookTextIcon, Eye, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -329,7 +329,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
-                                  <Clock className="w-4 h-4" />
                                   {formatDate(analysis.updatedAt)}
                                 </div>
                               </div>
