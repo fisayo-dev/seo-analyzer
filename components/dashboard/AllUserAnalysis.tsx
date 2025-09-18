@@ -317,23 +317,23 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
                               {/* Header */}
                               <div className="flex items-start justify-between">
                                 <div className="flex-1">
-                                  <div className="flex items-center gap-3 mb-2">
+                                  <div className="flex items-center gap-3 mb-3">
                                     {analysis.on_page.favicon ? 
                                       <Image src={`${new URL(analysis.on_page.favicon.url)}`} alt="Favicon" width={32} height={32} className="w-10 h-10"/>                      
                                       : <Globe className="w-10 h-10 text-gray-700" />
                                     }
                                     <div className="grid items-center">
-                                      <h3 className="text-lg font-bold text-gray-900">
+                                      <h3 className="md:text-lg font-bold text-gray-900">
                                         {analysis?.on_page?.title?.text?.length > 20 
                                           ? `${analysis?.on_page?.title?.text.substring(0,20)}...` 
                                           : analysis?.on_page?.title?.text || 'Untitled'}
                                       </h3>
-                                      <p className="text-gray-600 text-sm break-all">
+                                      <p className="text-gray-600 text-xs md:text-sm break-all">
                                         {analysis.url.length > 25 ? `${analysis.url.substring(0,25)}...` : analysis.url}
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                                  <div className="flex items-center gap-2 mt-2 text-xs md:text-sm text-gray-500">
                                     {formatDate(analysis.updatedAt)}
                                   </div>
                                 </div>
