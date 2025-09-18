@@ -175,19 +175,22 @@ const Settings = () => {
 
   return (
     <div className="w-full mx-auto bg-gray-50">
-        {/* Main Content */}
-        <main className="w-full overflow-hidden">
-            {/* Header */}
-            <header className="bg-white border-b border-gray-100 p-6">
-            <div className="flex items-center justify-between">
-                <div>
-                <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-                <p className="text-gray-600 mt-1">Customize your account profile.</p>
-                </div>  
-                <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
-            </div>
-            </header>
-            
+        <div className="bg-white border-b">
+          <main className="dashboard-container ">
+                {/* Header */}
+                <header className="bg-white border-b border-gray-100 p-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+                    <p className="text-gray-600 mt-1">Customize your account profile.</p>
+                    </div>  
+                    <SidebarTrigger className="bg-blue-50 p-3 rounded-md md:hidden"/>
+                </div>
+                </header>
+            </main>
+        </div>
+
+        <main className="dashboard-container py-10">
             <div className="grid gap-6 p-6 md:w-sm">
                 {/* Profile Image */}
                 <Avatar className="w-48 h-48">

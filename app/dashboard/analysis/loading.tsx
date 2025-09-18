@@ -1,7 +1,7 @@
 
 const SkeletonLoader = () => {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="app-container p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-8">
         <div className="h-8 bg-gray-300 rounded w-64 mb-2 animate-pulse"></div>

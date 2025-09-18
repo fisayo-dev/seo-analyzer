@@ -132,9 +132,8 @@ body {
 .app-container {
   @apply container mx-auto xl:px-[4rem] px-5;
 }
-
-.custom-hero-background  {
-
+.dashboard-container {
+  @apply container mx-auto xl:px-[1rem];
 }
 
 .custom-hover:hover svg {

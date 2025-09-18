@@ -44,7 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
         <AppSidebar />
-        <main className="w-full">
+        <main className="bg-gray-50 w-full">
             {children}
             <Toaster 
                 position="top-right"
