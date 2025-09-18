@@ -73,7 +73,7 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
   };
 
   const MetricCard = ({ title, value, iconColor, icon: Icon }: MetricCardProps) => (
-    <div className="app-container bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="flex items-center justify-between mb-4">
         <div className={`p-3 bg-${iconColor}-50 rounded-lg`}>
           <Icon className={`w-6 h-6 text-${iconColor}-600`} />
