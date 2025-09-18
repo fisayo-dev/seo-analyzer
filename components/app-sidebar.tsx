@@ -72,7 +72,7 @@ export function AppSidebar() {
     <Sidebar className="border-r-0 shadow-xl bg-white">
       <SidebarContent className="bg-white">
         {/* Header Section */}
-        <div className="p-6 border-b flex items-center gap-4">
+        <div className="p-5 border-b flex items-center gap-4">
           <Image src="/favicon.png" alt="Logo" height={24} width={24} className="w-1/3"/>
           <div className=" border-gray-100">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">Scanzie</h1>
