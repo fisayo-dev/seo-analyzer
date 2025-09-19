@@ -556,7 +556,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
       
       {/* Dialogs */}
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent className="max-w-2xl">
+        <AlertDialogContent className="z-50 max-w-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center justify-between">
               <span>Re-analyzing</span>

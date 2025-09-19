@@ -6,7 +6,7 @@ import AnalysisProgress from '../AnalysisProgress';
 const ReanalyzeDialog: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; sessionId: string | null; userId: string | null; url: string | null }> = ({ open, onOpenChange, sessionId, userId, url }) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-2xl">
+      <AlertDialogContent className="z-50 max-w-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center justify-between">
             <span>SEO Analysis Progress</span>
