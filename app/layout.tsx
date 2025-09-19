@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
+        <Analytics />
         {children}
       </body>
     </html>
