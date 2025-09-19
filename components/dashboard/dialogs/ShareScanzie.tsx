@@ -3,7 +3,7 @@ import Twitter from '@/components/icons/Twitter';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Facebook, XIcon, Check, Globe } from 'lucide-react';
+import { ArrowLeft, Facebook, XIcon, Check, Globe, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -74,7 +74,7 @@ const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => v
                 disabled={!testimonial.trim()}
                 className={testimonial.trim() ? '' : 'opacity-50 cursor-not-allowed'}
                 >
-                <Check className="h-6 w-6 mr-2" />
+                <Share2 className="h-6 w-6 mr-2" />
                 <span>Share Now</span>
                 </Button>
             </div>
