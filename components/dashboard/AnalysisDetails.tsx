@@ -211,6 +211,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
   const handleReanalyze = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setShareScanzie(false)
     try {
       // show dialog
       setOpen(true)
