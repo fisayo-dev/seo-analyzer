@@ -64,15 +64,15 @@ const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => v
                 <p className="text-sm">Tell people what you like about Scanzie?</p>
                 </div>
                 <Textarea
-                placeholder="I love using Scanzie because..."
-                value={testimonial}
-                onChange={(e) => setTestimonial(e.target.value)}
-                className="w-full h-40 max-w-xl mx-auto resize-none"
+                    placeholder="I love using Scanzie because..."
+                    value={testimonial}
+                    onChange={(e) => setTestimonial(e.target.value)}
+                    className="w-full h-40 max-w-xl mx-auto resize-none"
                 />
                 <Button 
-                onClick={() => setShowTextarea(false)}
-                disabled={!testimonial.trim()}
-                className={testimonial.trim() ? '' : 'opacity-50 cursor-not-allowed'}
+                    onClick={() => setShowTextarea(false)}
+                    disabled={!testimonial.trim()}
+                    className={testimonial.trim() ? '' : 'opacity-50 cursor-not-allowed'}
                 >
                 <Share2 className="h-6 w-6 mr-2" />
                 <span>Share Now</span>
