@@ -45,8 +45,8 @@ const Dashboard = ({results}: {results: Analysis[]}) => {
   
   // Get recent analyses (last 4) with calculated scores
   const recentAnalyses = results
-    .slice(-4)
     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .slice(0, 4)
     .map(analysis => {
       const overallScore = calculateOverallScore(analysis);
       const status = getScoreStatus(overallScore);
