@@ -31,11 +31,16 @@ const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => v
         }
         onOpenChange(false);
     };
-
     const handleFacebookShare = () => {
-        navigator.clipboard.writeText(testimonial)
-        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin)}`;
-        window.open(url, '_blank', 'noopener,noreferrer');
+        // copy testimonial to clipboard as a fallback for the message
+        if (typeof navigator !== 'undefined' && navigator.clipboard) {
+            navigator.clipboard.writeText(testimonial).catch(() => {});
+        }
+        // Use Facebook sharer with the `quote` param to include the message
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin)}&quote=${encodeURIComponent(testimonial || 'Check out Scanzie!')}`;
+        if (typeof window !== 'undefined') {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
     };
 
     const handleTwitterShare = () => {
