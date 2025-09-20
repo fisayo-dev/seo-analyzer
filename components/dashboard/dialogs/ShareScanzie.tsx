@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; }> = ({ open, onOpenChange }) => {
     const [showTextarea, setShowTextarea] = useState(true);
-    const [testimonial, setTestimonial] = useState('Hey guys👋 \n\nHave u heard of scanzie? OMG Its a really cool product. \nI love using Scanzie because it helps me analyis my website SEO and gives me improvement recommendations! \n\nGo try out Scanzie to today - https://scanzie.vercel.app \n\n @fisayocoder');
+    const [testimonial, setTestimonial] = useState('Hey guys👋 \n\nHave u heard of scanzie? OMG Its a really cool product. \nI love using Scanzie because it helps me analyis my website SEO and gives me improvement recommendations! \n\nGo try out Scanzie to today - https://scanzie.vercel.app');
 
     const handleShare = () => {
         if (!testimonial.trim()) {
@@ -44,7 +44,7 @@ const ShareScanzie: React.FC<{ open: boolean; onOpenChange: (open: boolean) => v
     };
 
     const handleTwitterShare = () => {
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(testimonial || 'Check out Scanzie!')}`;
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(testimonial || 'Check out Scanzie!')}\n\n@fisayocoder`;
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
