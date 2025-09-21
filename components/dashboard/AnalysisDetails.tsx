@@ -155,6 +155,32 @@ interface FaviconResult {
   issues: string[];
   url: string;
 }
+interface OpenGraph {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  siteName?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
+  locale?: string;
+  score: number;
+  issues: string[];
+}
+
+interface TwitterCard {
+  card?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  site?: string;
+  creator?: string;
+  score: number;
+  issues: string[];
+}
 
 interface OnPageAnalysis {
   title: TitleResult;
@@ -163,6 +189,9 @@ interface OnPageAnalysis {
   images: ImagesResult;
   links: LinksResult;
   favicon: FaviconResult;
+  openGraph?: OpenGraph,
+  twitterCard?: TwitterCard;
+  score?: number;
 }
 
 export interface SEOAnalysisResult {
