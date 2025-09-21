@@ -569,7 +569,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                         alt={on_page.openGraph.imageAlt ?? 'Open Graph image'}
                         width={on_page.openGraph.imageWidth}
                         height={on_page.openGraph.imageHeight}
-                        className="rounded-md object-cover w-32 h-20"
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
                       />
                       ) : (
                       // fallback to native img if dimensions missing
@@ -577,7 +577,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                       <img
                         src={on_page.openGraph.image}
                         alt={on_page.openGraph.imageAlt ?? 'Open Graph image'}
-                        className="rounded-md object-cover w-32 h-20"
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
                       />
                       )}
                       <div className="text-sm flex-1">
@@ -593,10 +593,10 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                     )}
 
                     <div className="text-sm space-y-1">
-                    {on_page.openGraph.type && <div><span className="text-gray-600">Type: </span>{on_page.openGraph.type}</div>}
-                    {on_page.openGraph.siteName && <div><span className="text-gray-600">Site: </span>{on_page.openGraph.siteName}</div>}
-                    {on_page.openGraph.locale && <div><span className="text-gray-600">Locale: </span>{on_page.openGraph.locale}</div>}
-                    {on_page.openGraph.imageWidth && on_page.openGraph.imageHeight && (
+                      {on_page.openGraph.type && <div><span className="text-gray-600">Type: </span>{on_page.openGraph.type}</div>}
+                      {on_page.openGraph.siteName && <div><span className="text-gray-600">Site: </span>{on_page.openGraph.siteName}</div>}
+                      {on_page.openGraph.locale && <div><span className="text-gray-600">Locale: </span>{on_page.openGraph.locale}</div>}
+                      {on_page.openGraph.imageWidth && on_page.openGraph.imageHeight && (
                       <div><span className="text-gray-600">Image: </span>{on_page.openGraph.imageWidth}x{on_page.openGraph.imageHeight}</div>
                     )}
                     </div>
@@ -619,21 +619,21 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                     <div className="flex items-start gap-4">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                      src={on_page.twitterCard.image}
-                      alt={on_page.twitterCard.imageAlt ?? 'Twitter card image'}
-                      className="rounded-md object-cover w-32 h-20"
+                        src={on_page.twitterCard.image}
+                        alt={on_page.twitterCard.imageAlt ?? 'Twitter card image'}
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
                       />
                       <div className="text-sm flex-1">
-                      {on_page.twitterCard.title && <div className="font-medium">{on_page.twitterCard.title}</div>}
-                      {on_page.twitterCard.description && <div className="text-gray-600">{on_page.twitterCard.description}</div>}
-                      {on_page.twitterCard.site && <div className="text-gray-600 mt-1">Site: {on_page.twitterCard.site}</div>}
-                      {on_page.twitterCard.creator && <div className="text-gray-600">Creator: {on_page.twitterCard.creator}</div>}
+                        {on_page.twitterCard.title && <div className="font-medium">{on_page.twitterCard.title}</div>}
+                        {on_page.twitterCard.description && <div className="text-gray-600">{on_page.twitterCard.description}</div>}
+                        {on_page.twitterCard.site && <div className="text-gray-600 mt-1">Site: {on_page.twitterCard.site}</div>}
+                        {on_page.twitterCard.creator && <div className="text-gray-600">Creator: {on_page.twitterCard.creator}</div>}
                       </div>
                     </div>
                     )}
 
                     <div className="text-sm space-y-1">
-                    {on_page.twitterCard.card && <div><span className="text-gray-600">Card: </span>{on_page.twitterCard.card}</div>}
+                      {on_page.twitterCard.card && <div><span className="text-gray-600">Card: </span>{on_page.twitterCard.card}</div>}
                     </div>
                   </div>
                   </MetricCard>
