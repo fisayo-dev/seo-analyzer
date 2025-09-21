@@ -189,8 +189,8 @@ interface OnPageAnalysis {
   images: ImagesResult;
   links: LinksResult;
   favicon: FaviconResult;
-  openGraph?: OpenGraph,
-  twitterCard?: TwitterCard;
+  openGraph: OpenGraph,
+  twitterCard: TwitterCard;
   score?: number;
 }
 
@@ -600,17 +600,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                       <div><span className="text-gray-600">Image: </span>{on_page.openGraph.imageWidth}x{on_page.openGraph.imageHeight}</div>
                     )}
                     </div>
-
-                    {on_page.openGraph.issues?.length > 0 && (
-                    <div>
-                      <div className="text-gray-600 mb-2">Issues</div>
-                      <ul className="list list-inside text-sm text-red-600 gap-2 grid">
-                      {on_page.openGraph.issues.map((issue, idx) => (
-                        <li key={idx} className="bg-red-100 px-3 py-1 rounded-md ">{issue}</li>
-                      ))}
-                      </ul>
-                    </div>
-                    )}
+                 
                   </div>
                   </MetricCard>
                 )}
@@ -645,17 +635,6 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                     <div className="text-sm space-y-1">
                     {on_page.twitterCard.card && <div><span className="text-gray-600">Card: </span>{on_page.twitterCard.card}</div>}
                     </div>
-
-                    {on_page.twitterCard.issues?.length > 0 && (
-                    <div>
-                      <div className="text-gray-600 mb-2">Issues</div>
-                      <ul className="list list-inside text-sm text-red-600 gap-2 grid">
-                      {on_page.twitterCard.issues.map((issue, idx) => (
-                        <li key={idx} className="bg-red-100 px-3 py-1 rounded-md ">{issue}</li>
-                      ))}
-                      </ul>
-                    </div>
-                    )}
                   </div>
                   </MetricCard>
                 )}
@@ -690,6 +669,20 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                   title="Link Issues" 
                   issues={on_page?.links?.issues} 
                   type="info" 
+                />
+              )}
+              {on_page?.twitterCard?.issues?.length > 0 && (
+                <IssuesList 
+                  title="Twitter Card Issues" 
+                  issues={on_page?.twitterCard?.issues} 
+                  type="warning" 
+                />
+              )}
+              {on_page?.openGraph?.issues?.length > 0 && (
+                <IssuesList 
+                  title="Open Graph Issues" 
+                  issues={on_page?.openGraph?.issues} 
+                  type="warning" 
                 />
               )}
             </div>
