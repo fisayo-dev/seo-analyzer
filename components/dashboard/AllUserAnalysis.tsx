@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -59,7 +59,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [analyses] = useState<Analysis[]>(analysis);
   const [open, setOpen] = useState(false)
   const [reanalyzeOpen, setReanalyzeOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [selectedAnalysis, setSelectedAnalysis] = useState<Analysis | null>(null);
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
 
@@ -70,7 +69,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const handleReAnalyze = async (e: React.FormEvent, url:string) => {
     e.preventDefault()
     setCurrentUrl(url);
-    setLoading(true)
     try {
       const res = await apiClient.post("/analyze", { url })
       const data = await res.data
@@ -84,9 +82,7 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
       setReanalyzeOpen(true)
     } catch (error) {
       console.error("Error:", error)
-    } finally {
-      setLoading(false)
-    }
+    } 
   }
 
 
