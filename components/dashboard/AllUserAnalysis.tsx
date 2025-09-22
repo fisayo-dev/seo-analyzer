@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, MoreVertical, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
+import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import Image from 'next/image';
 import ScoreBreakdownDialog from './dialogs/ScoreBreakdownDialog';
 import ReanalyzeDialog from './dialogs/ReanalyzeDialog';
+import { SEOAnalysisResult } from './AnalysisDetails';
 
 export type Analysis = {
   id: string;
@@ -47,7 +48,7 @@ export type Analysis = {
 };
 
 interface AllUserAnalysisProps {
-  analysis: Analysis[];
+  analysis: SEOAnalysisResult[];
 }
 
 
@@ -56,10 +57,9 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const [sortFilter, setSortFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [analyses] = useState<Analysis[]>(analysis);
+  const [analyses] = useState<SEOAnalysisResult[]>(analysis);
   const [open, setOpen] = useState(false)
   const [reanalyzeOpen, setReanalyzeOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [selectedAnalysis, setSelectedAnalysis] = useState<Analysis | null>(null);
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
 
@@ -70,7 +70,6 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
   const handleReAnalyze = async (e: React.FormEvent, url:string) => {
     e.preventDefault()
     setCurrentUrl(url);
-    setLoading(true)
     try {
       const res = await apiClient.post("/analyze", { url })
       const data = await res.data
@@ -84,14 +83,12 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
       setReanalyzeOpen(true)
     } catch (error) {
       console.error("Error:", error)
-    } finally {
-      setLoading(false)
-    }
+    } 
   }
 
 
   const filteredAndSortedAnalyses = useMemo(() => {
-    const filtered: Analysis[] = analyses.filter(analysis => {
+    const filtered: SEOAnalysisResult[] = analyses.filter(analysis => {
       const matchesSearch = analysis.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            analysis.url.toLowerCase().includes(searchTerm.toLowerCase());
       

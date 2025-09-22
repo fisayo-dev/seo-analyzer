@@ -155,6 +155,32 @@ interface FaviconResult {
   issues: string[];
   url: string;
 }
+interface OpenGraph {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  siteName?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
+  locale?: string;
+  score: number;
+  issues: string[];
+}
+
+interface TwitterCard {
+  card?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  site?: string;
+  creator?: string;
+  score: number;
+  issues: string[];
+}
 
 interface OnPageAnalysis {
   title: TitleResult;
@@ -163,6 +189,9 @@ interface OnPageAnalysis {
   images: ImagesResult;
   links: LinksResult;
   favicon: FaviconResult;
+  openGraph: OpenGraph,
+  twitterCard: TwitterCard;
+  score?: number;
 }
 
 export interface SEOAnalysisResult {
@@ -459,6 +488,7 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
           {/* On-Page Analysis */}
           <div className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-6">On-Page SEO</h2>
+            {/* Title and Page Elements */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <MetricCard title="Title & Meta">
                 <div className="space-y-4">
@@ -518,6 +548,98 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                 </div>
               </MetricCard>
             </div>
+            {/* Twiiter annd Open Grpah */}
+            {on_page?.openGraph || on_page?.twitterCard ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {on_page?.openGraph && (
+                  <MetricCard title="Open Graph">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600">OG Score</span>
+                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page.openGraph.score ?? 0)}`}>
+                      {on_page.openGraph.score ?? 0}/100
+                    </span>
+                    </div>
+
+                    {on_page.openGraph.image && (
+                    <div className="flex items-start gap-4">
+                      {on_page.openGraph.imageWidth && on_page.openGraph.imageHeight ? (
+                      <Image
+                        src={on_page.openGraph.image}
+                        alt={on_page.openGraph.imageAlt ?? 'Open Graph image'}
+                        width={on_page.openGraph.imageWidth}
+                        height={on_page.openGraph.imageHeight}
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
+                      />
+                      ) : (
+                      // fallback to native img if dimensions missing
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={on_page.openGraph.image}
+                        alt={on_page.openGraph.imageAlt ?? 'Open Graph image'}
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
+                      />
+                      )}
+                      <div className="text-sm flex-1">
+                      {on_page.openGraph.title && <div className="font-medium">{on_page.openGraph.title}</div>}
+                      {on_page.openGraph.description && <div className="text-gray-600">{on_page.openGraph.description}</div>}
+                      {on_page.openGraph.url && (
+                        <a href={on_page.openGraph.url} target="_blank" rel="noreferrer" className="text-blue-600 text-sm inline-block mt-1">
+                        {formatUrl(on_page.openGraph.url)}
+                        </a>
+                      )}
+                      </div>
+                    </div>
+                    )}
+
+                    <div className="text-sm space-y-1">
+                      {on_page.openGraph.type && <div><span className="text-gray-600">Type: </span>{on_page.openGraph.type}</div>}
+                      {on_page.openGraph.siteName && <div><span className="text-gray-600">Site: </span>{on_page.openGraph.siteName}</div>}
+                      {on_page.openGraph.locale && <div><span className="text-gray-600">Locale: </span>{on_page.openGraph.locale}</div>}
+                      {on_page.openGraph.imageWidth && on_page.openGraph.imageHeight && (
+                      <div><span className="text-gray-600">Image: </span>{on_page.openGraph.imageWidth}x{on_page.openGraph.imageHeight}</div>
+                    )}
+                    </div>
+                 
+                  </div>
+                  </MetricCard>
+                )}
+
+                {on_page?.twitterCard && (
+                  <MetricCard title="Twitter Card">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600">Twitter Score</span>
+                    <span className={`px-2 py-1 rounded text-sm ${getScoreColor(on_page.twitterCard.score ?? 0)}`}>
+                      {on_page.twitterCard.score ?? 0}/100
+                    </span>
+                    </div>
+
+                    {on_page.twitterCard.image && (
+                    <div className="flex items-start gap-4">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={on_page.twitterCard.image}
+                        alt={on_page.twitterCard.imageAlt ?? 'Twitter card image'}
+                        className="rounded-md object-cover w-32 h-20 shadow-md"
+                      />
+                      <div className="text-sm flex-1">
+                        {on_page.twitterCard.title && <div className="font-medium">{on_page.twitterCard.title}</div>}
+                        {on_page.twitterCard.description && <div className="text-gray-600">{on_page.twitterCard.description}</div>}
+                        {on_page.twitterCard.site && <div className="text-gray-600 mt-1">Site: {on_page.twitterCard.site}</div>}
+                        {on_page.twitterCard.creator && <div className="text-gray-600">Creator: {on_page.twitterCard.creator}</div>}
+                      </div>
+                    </div>
+                    )}
+
+                    <div className="text-sm space-y-1">
+                      {on_page.twitterCard.card && <div><span className="text-gray-600">Card: </span>{on_page.twitterCard.card}</div>}
+                    </div>
+                  </div>
+                  </MetricCard>
+                )}
+                </div>
+            ) : null}
 
             {/* On-page Issues */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -547,6 +669,20 @@ const SEOAnalysisDashboard: React.FC<SEOAnalysisProps> = ({ results }: SEOAnalys
                   title="Link Issues" 
                   issues={on_page?.links?.issues} 
                   type="info" 
+                />
+              )}
+              {on_page?.twitterCard?.issues?.length > 0 && (
+                <IssuesList 
+                  title="Twitter Card Issues" 
+                  issues={on_page?.twitterCard?.issues} 
+                  type="warning" 
+                />
+              )}
+              {on_page?.openGraph?.issues?.length > 0 && (
+                <IssuesList 
+                  title="Open Graph Issues" 
+                  issues={on_page?.openGraph?.issues} 
+                  type="warning" 
                 />
               )}
             </div>
