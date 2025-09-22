@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Scanzie — SEO Analyzer Tool
 
-## Getting Started
+Scanzie is a web-based SEO analyzer that evaluates website performance and provides actionable optimization recommendations. It includes a user-friendly web dashboard and a RESTful Analyzer API for programmatic usage. Live demo: https://scanzie.vercel.app
 
-First, run the development server:
+## Features
+- Web interface: dashboard for analyzing SEO metrics
+- Analyzer API: RESTful endpoints for automated analysis
+- Key metrics: page speed, meta tags, keyword density, accessibility, and more
+- Actionable insights: prioritized optimization suggestions
+
+## Prerequisites
+- Node.js v22 or higher
+- npm or Yarn
+- Vercel or any other service for deployment.
+
+## Installation (Web project)
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/scanzie/scanzie-web.git
+cd scanzie-web
+npm install
+# or
+# yarn
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deploy to Vercel:
 
-## Learn More
+```bash
+vercel
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
+- Open the web dashboard (usually at http://localhost:3010) to analyze sites interactively.
+- Use the Analyzer API to integrate SEO checks into other tools or workflows. Typical usage is a REST request to the analyzer endpoint with a target URL (see API docs in the project for exact routes and parameters).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
+Contributions, issues, and feature requests are welcome. Please open a pull request or issue in the repository.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Author
+This project was designed by **Fisayo Obadina**. 
+⚠️ All technical knowledge about this project belong to **Fisayo Obadina** and should not be used without proper reference to the Author.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
