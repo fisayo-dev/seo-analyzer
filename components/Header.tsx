@@ -11,7 +11,7 @@ const Header = () => {
             <h2 className="font-bold text-xl">Scanzie</h2>
           </div>
             <div className="flex items-center gap-4">
-                <Link href="https://github.com/fisayo-dev/seo-analyzer" target="_blank">Github</Link>
+                <Link href="https://github.com/scanzie" target="_blank">Github</Link>
                 <Link href="/login">
                   <Button>Get started</Button>
                 </Link>
