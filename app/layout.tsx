@@ -19,6 +19,7 @@ export const metadata: Metadata = {
       type: 'website',
       siteName: 'Scanzie',
       locale: 'en_US',
+      url: siteUrl,
       images: [
       {
         url: `${siteUrl}/og-twitter.png`, // Put your image in /public folder
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
     description: "Analyze and optimize your website's SEO performance with Scanzie, the ultimate SEO analyzer tool.",
     images: [`${siteUrl}/og-twitter.png`], // Put your image in /public folder
     creator: '@fisayocoder',
+    site: siteUrl,
   },
 
 };
