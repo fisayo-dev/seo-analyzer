@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const siteUrl = "https://scanzie.vercel.app/";
 
 export const metadata: Metadata = {
   title: "Scanzie - SEO Analyzer",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       locale: 'en_US',
       images: [
       {
-        url: `/og-twitter.png`, // Put your image in /public folder
+        url: `${siteUrl}/og-twitter.png`, // Put your image in /public folder
         width: 1200,
         height: 630,
         alt: "Scanzie - SEO Analyzer  ",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Scanzie - SEO Analyzer",
     description: "Analyze and optimize your website's SEO performance with Scanzie, the ultimate SEO analyzer tool.",
-    images: [`/og-twitter.png`], // Put your image in /public folder
+    images: [`${siteUrl}/og-twitter.png`], // Put your image in /public folder
     creator: '@fisayocoder',
   },
 
