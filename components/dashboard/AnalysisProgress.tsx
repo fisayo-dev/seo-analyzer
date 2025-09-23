@@ -98,7 +98,7 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
                 ? 'bg-yellow-50 border-yellow-200'
                 : job.status === 'failed'
                 ? 'bg-red-50 border-red-200'
-                : 'bg-blue-50 border-blue-200'
+                : 'bg-gray-50 border-gray-200'
             }`}
           >
             <div className="flex items-center justify-between">
