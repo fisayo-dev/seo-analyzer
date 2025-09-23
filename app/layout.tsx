@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
-const siteUrl = "https://scanzie.vercel.app/";
+const siteUrl = "https://scanzie.vercel.app";
 
 export const metadata: Metadata = {
   title: "Scanzie - SEO Analyzer",
