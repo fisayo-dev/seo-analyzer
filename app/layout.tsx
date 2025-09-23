@@ -21,13 +21,21 @@ export const metadata: Metadata = {
       locale: 'en_US',
       images: [
       {
-        url: `${siteUrl}/favicon.svg`, // Put your image in /public folder
+        url: `${siteUrl}/og-twitter.png`, // Put your image in /public folder
         width: 1200,
         height: 630,
-        alt: "The Fullstack Creators SEO Image",
+        alt: "Scanzie - SEO Analyzer  ",
       },
     ],
-  }
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Scanzie - SEO Analyzer",
+    description: "Analyze and optimize your website's SEO performance with Scanzie, the ultimate SEO analyzer tool.",
+    images: [`${siteUrl}/og-twitter.png`], // Put your image in /public folder
+    creator: '@fisayocoder',
+  },
+
 };
 
 export default function RootLayout({
