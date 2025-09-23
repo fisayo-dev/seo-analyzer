@@ -94,6 +94,8 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({
             className={`mx-auto w-96 p-4 rounded-lg border ${
               job.status === 'completed'
                 ? 'bg-green-50 border-green-200'
+                : job.status === 'processing'
+                ? 'bg-yellow-50 border-yellow-200'
                 : job.status === 'failed'
                 ? 'bg-red-50 border-red-200'
                 : 'bg-blue-50 border-blue-200'
