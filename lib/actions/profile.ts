@@ -1,8 +1,8 @@
 "use server"
 
 import { eq } from "drizzle-orm";
-import { db } from "../db"
-import { user, account } from "../db/schema"
+import { db } from "../../db"
+import { user, account } from "../../db/schema"
 
 export const updateProfileName = async (userId: string, newName: string) => {
     try {

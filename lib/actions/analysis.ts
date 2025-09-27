@@ -1,7 +1,7 @@
 "use server"
 import { and, eq } from "drizzle-orm";
-import { db } from "../db"
-import { seo_analysis } from "../db/schema"
+import { db } from "../../db"
+import { seo_analysis } from "../../db/schema"
 import { auth } from "../../utils/auth";
 import { headers } from "next/headers";
 import { unstable_cache } from "next/cache";

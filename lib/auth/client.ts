@@ -12,7 +12,6 @@ export const {
   signUp,
 } = authClient;
 
-console.log(signIn)
 // Custom hooks for OAuth providers
 export const signInWithGoogle = () => {
     return signIn.social({
