@@ -18,6 +18,7 @@ import { useEffect, useState } from "react"
 import { User } from "better-auth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
+import { getInitials } from "@/utils/general"
 
 // Updated menu items to match the SEO analytics theme
 const dashboardMenus = [
@@ -42,13 +43,6 @@ const dashboardMenus = [
     icon: LogOut,
   },
 ]
-
-export const getInitials = (name: string | undefined) => {
-    if (!name) return ""
-    const words = name.trim().split(" ")
-    const firstTwo = words.slice(0, 2).map(word => word.charAt(0).toUpperCase())
-    return firstTwo.join("")
-  }
 
 export function AppSidebar() {
   const pathname = usePathname()
