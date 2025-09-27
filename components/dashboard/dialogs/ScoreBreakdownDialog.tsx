@@ -1,6 +1,6 @@
 "use client"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Analysis } from '../AllUserAnalysis';
+import { Analysis } from '../analysis/AllUserAnalysis';
 import { AlertTriangle, Code, Eye, FileText, XIcon } from 'lucide-react';
 import { getScoreColor } from '../seo-utils';
 

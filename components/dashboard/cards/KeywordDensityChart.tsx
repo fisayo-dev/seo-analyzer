@@ -1,6 +1,6 @@
 "use client"
 
-import { KeywordDensity } from "../AnalysisDetails";
+import { KeywordDensity } from "../analysis/AnalysisDetails";
 
 const KeywordDensityChart: React.FC<{ density: KeywordDensity | null | undefined }> = ({ density }) => (
   <div className="space-y-3">

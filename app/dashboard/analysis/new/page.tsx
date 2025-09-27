@@ -1,4 +1,4 @@
-import NewAnalysis from '@/components/dashboard/NewAnalysis'
+import NewAnalysis from '@/components/dashboard/analysis/NewAnalysis'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 "use client"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { XIcon } from 'lucide-react';
-import AnalysisProgress from '../AnalysisProgress';
+import AnalysisProgress from '../analysis/AnalysisProgress';
 
 const ReanalyzeDialog: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; sessionId: string | null; userId: string | null; url: string | null }> = ({ open, onOpenChange, sessionId, userId, url }) => {
   return (

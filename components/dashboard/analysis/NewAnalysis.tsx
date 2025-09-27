@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
+import AnalysisProgress from "@/components/dashboard/analysis/AnalysisProgress"
 import { Loader2Icon, XIcon } from "lucide-react"
 import { toast } from "sonner"
 

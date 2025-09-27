@@ -15,7 +15,7 @@ import {
 import { SidebarTrigger } from '../ui/sidebar';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Analysis } from './AllUserAnalysis';
+import { Analysis } from './analysis/AllUserAnalysis';
 import { calculateAnalysisStats, calculateOverallScore, getScoreStatus } from './seo-utils';
 import Image from 'next/image';
 

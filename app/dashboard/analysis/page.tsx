@@ -1,4 +1,4 @@
-import AllUserAnalysis from "@/components/dashboard/AllUserAnalysis";
+import AllUserAnalysis from "@/components/dashboard/analysis/AllUserAnalysis";
 import { fetchUserAnalysis }  from "@/lib/actions/analysis";
 
 const Page = async () => {

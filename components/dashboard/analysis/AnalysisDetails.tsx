@@ -12,7 +12,7 @@ import {
   Trash,
   Share2,
 } from 'lucide-react';
-import { SidebarTrigger } from '../ui/sidebar';
+import { SidebarTrigger } from '../../ui/sidebar';
 import { toast } from 'sonner';
 import {
   AlertDialog,
@@ -20,21 +20,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import AnalysisProgress from "@/components/dashboard/AnalysisProgress"
+import AnalysisProgress from "@/components/dashboard/analysis/AnalysisProgress"
 import { XIcon } from "lucide-react"
 import apiClient from '@/lib/api/client';
 import Link from 'next/link';
 import { deleteAnalysis, invalidateUserAnalysisCache } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
-import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from './seo-utils';
+import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from '../seo-utils';
 import Image from 'next/image';
-import DeleteDialog from './dialogs/DeleteDialog';
-import { formatUrl } from './DashboardHome';
-import ScoreCard from './cards/ScoreCard';
-import IssuesList from './cards/IssuesList';
-import MetricCard from './cards/MetricCard';
-import KeywordDensityChart from './cards/KeywordDensityChart';
-import ShareScanzie from './dialogs/ShareScanzie';
+import DeleteDialog from '../dialogs/DeleteDialog';
+import { formatUrl } from '../DashboardHome';
+import ScoreCard from '../cards/ScoreCard';
+import IssuesList from '../cards/IssuesList';
+import MetricCard from '../cards/MetricCard';
+import KeywordDensityChart from '../cards/KeywordDensityChart';
+import ShareScanzie from '../dialogs/ShareScanzie';
 
 interface PageSpeedResult {
   loadTime: number;
@@ -71,7 +71,7 @@ interface SitemapResult {
   issues: string[];
 }
 
-interface TechnicalAnalysis {
+export interface TechnicalAnalysis {
   pageSpeed: PageSpeedResult;
   mobile: MobileResult;
   ssl: SSLResult;
@@ -100,7 +100,7 @@ interface ContentQuality {
   };
 }
 
-interface ContentAnalysis {
+export interface ContentAnalysis {
   wordCount: number;
   readabilityScore: number;
   keywordDensity: KeywordDensity;
@@ -182,7 +182,7 @@ interface TwitterCard {
   issues: string[];
 }
 
-interface OnPageAnalysis {
+export interface OnPageAnalysis {
   title: TitleResult;
   metaDescription: MetaDescriptionResult;
   headings: HeadingsResult;
@@ -199,6 +199,11 @@ export interface SEOAnalysisResult {
   content: ContentAnalysis;
   on_page: OnPageAnalysis;
   url: string;
+  id: string;
+  userId: string;
+  title: string;
+  createdAt: Date,
+  updatedAt: Date,
   [key: string]: unknown;
 }
 

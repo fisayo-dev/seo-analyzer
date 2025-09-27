@@ -1,6 +1,6 @@
-import AnalysisDetails, { SEOAnalysisResult } from "@/components/dashboard/AnalysisDetails";
+import AnalysisDetails, { SEOAnalysisResult } from "@/components/dashboard/analysis/AnalysisDetails";
 import { fetchAnalysisDetails } from "@/lib/actions/analysis";
-import  AnalysisNotFound from "@/components/dashboard/AnalysisNotFound";
+import  AnalysisNotFound from "@/components/dashboard/analysis/AnalysisNotFound";
 
 
 const Page = async ({ params }: { params: { url: string } }) => {

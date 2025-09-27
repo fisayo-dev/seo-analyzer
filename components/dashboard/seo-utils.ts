@@ -1,6 +1,6 @@
 // Utility functions for SEO Analysis scoring and status
 
-import { SEOAnalysisResult } from "./AnalysisDetails";
+import { SEOAnalysisResult } from "./analysis/AnalysisDetails";
 
 export interface ScoreStatus {
   category: 'good' | 'moderate' | 'poor';
@@ -9,7 +9,7 @@ export interface ScoreStatus {
   bgClass: string;
 }
 
-export const calculateOverallScore = (analysis: Partial<SEOAnalysisResult>): number => {
+export const calculateOverallScore = (analysis: SEOAnalysisResult): number => {
   const scores: number[] = [];
 
   // On-page scores
@@ -55,7 +55,7 @@ export const calculateOverallScore = (analysis: Partial<SEOAnalysisResult>): num
 /**
  * Get score breakdown for categories
  */
-export const getScoreBreakdown = (analysis: Partial<SEOAnalysisResult>) => {
+export const getScoreBreakdown = (analysis: SEOAnalysisResult) => {
   const onPageScores: number[] = [];
   const contentScores: number[] = [];
   const technicalScores: number[] = [];
@@ -141,7 +141,7 @@ export const getScoreStatus = (score: number): ScoreStatus => {
 /**
  * Get comprehensive score status using calculated overall score
  */
-export const getAnalysisScoreStatus = (analysis: Partial<SEOAnalysisResult>): ScoreStatus => {
+export const getAnalysisScoreStatus = (analysis: SEOAnalysisResult): ScoreStatus => {
   const calculatedScore = calculateOverallScore(analysis);
   return getScoreStatus(calculatedScore);
 };
@@ -176,7 +176,7 @@ export const getScoreBg = (score: number): string => {
 /**
  * Calculate statistics for multiple analyses using calculated overall scores
  */
-export const calculateAnalysisStats = (analyses: Partial<SEOAnalysisResult>[]) => {
+export const calculateAnalysisStats = (analyses: SEOAnalysisResult[]) => {
   const total = analyses.length;
   const good = analyses.filter(a => getScoreCategory(calculateOverallScore(a)) === 'good').length;
   const moderate = analyses.filter(a => getScoreCategory(calculateOverallScore(a)) === 'moderate').length;

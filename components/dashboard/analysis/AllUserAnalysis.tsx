@@ -2,47 +2,26 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Globe, ChevronDown, TrendingDown, AlertTriangle, CheckCircle, NotebookTextIcon, Eye, DownloadIcon, RefreshCcw, BoxIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '../ui/button';
-import { SidebarTrigger } from '../ui/sidebar';
-import { Input } from '../ui/input';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown } from './seo-utils';
+import { Button } from '../../ui/button';
+import { SidebarTrigger } from '../../ui/sidebar';
+import { Input } from '../../ui/input';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
+import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown } from '../seo-utils';
 import apiClient from '@/lib/api/client';
 import { toast } from 'sonner';
 import Image from 'next/image';
-import ScoreBreakdownDialog from './dialogs/ScoreBreakdownDialog';
-import ReanalyzeDialog from './dialogs/ReanalyzeDialog';
-import { SEOAnalysisResult } from './AnalysisDetails';
+import ScoreBreakdownDialog from '../dialogs/ScoreBreakdownDialog';
+import ReanalyzeDialog from '../dialogs/ReanalyzeDialog';
+import { ContentAnalysis, OnPageAnalysis, SEOAnalysisResult, TechnicalAnalysis } from './AnalysisDetails';
 
 export type Analysis = {
   id: string;
   userId: string;
   title: string;
   url: string;
-  overallScore: number;
-  on_page: {
-    links: { score: number; broken: number; external: number; internal: number };
-    title: { text: string; score: number; length: number };
-    images: { score: number; total: number; withoutAlt: number };
-    headings: { score: number; h1Count: number; h2Count: number };
-    metaDescription: { text: string; score: number; length: number };
-    favicon: { exists: boolean; url:string; score: number; issues: string[]};
-  };
-  content: {
-    score: number;
-    wordCount: number;
-    contentQuality: { score: number };
-    readabilityScore: number;
-    issues?: string[];
-  };
-  technical: {
-    ssl: { score: number; enabled: boolean };
-    score: number;
-    mobile: { score: number; responsive: boolean };
-    pageSpeed: { score: number; loadTime: number };
-    structure: { score: number; validHTML: boolean };
-    issues?: string[];
-  };
+  on_page: OnPageAnalysis;
+  content: ContentAnalysis;
+  technical: TechnicalAnalysis;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -88,13 +67,18 @@ const AllUserAnalysis: React.FC<AllUserAnalysisProps> = ({ analysis }) => {
 
 
   const filteredAndSortedAnalyses = useMemo(() => {
-    const filtered: SEOAnalysisResult[] = analyses.filter(analysis => {
-      const matchesSearch = analysis.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           analysis.url.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      if (sortFilter === 'all') return matchesSearch;
-      return matchesSearch && getScoreCategory(getScoreBreakdown(analysis).overall) === sortFilter;
-    });
+  const filtered: SEOAnalysisResult[] = analyses.filter(analysis => {
+    const matchesSearch =
+      analysis.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      analysis.url.toLowerCase().includes(searchTerm.toLowerCase());
+
+    if (sortFilter === "all") return matchesSearch;
+    return (
+      matchesSearch &&
+      getScoreCategory(getScoreBreakdown(analysis).overall) === sortFilter
+    );
+  });
+
 
     return filtered.sort((a, b) => {
       let aValue, bValue;
