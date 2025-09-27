@@ -20,7 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
 
 // Updated menu items to match the SEO analytics theme
-const items = [
+const dashboardMenus = [
   {
     title: "Dashboard",
     url: "/dashboard",
@@ -86,7 +86,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
-              {items.map((item) => {
+              {dashboardMenus.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.url
 
