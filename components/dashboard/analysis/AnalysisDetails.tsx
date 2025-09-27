@@ -26,7 +26,7 @@ import apiClient from '@/lib/api/client';
 import Link from 'next/link';
 import { deleteAnalysis, invalidateUserAnalysisCache } from '@/lib/actions/analysis';
 import { useRouter } from 'next/navigation';
-import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from '../seo-utils';
+import { calculateOverallScore, getScoreBreakdown, getScoreStatus } from '../../../utils/seo-utils';
 import Image from 'next/image';
 import DeleteDialog from '../dialogs/DeleteDialog';
 import { formatUrl } from '../DashboardHome';

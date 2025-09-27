@@ -2,7 +2,7 @@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Analysis } from '../analysis/AllUserAnalysis';
 import { AlertTriangle, Code, Eye, FileText, XIcon } from 'lucide-react';
-import { getScoreColor } from '../seo-utils';
+import { getScoreColor } from '../../../utils/seo-utils';
 
 const ScoreBreakdownDialog: React.FC<{ open: boolean; onOpenChange: (open: boolean) => void; analysis: Analysis | null }> = ({ open, onOpenChange, analysis }) => {
   if (!analysis) return null;

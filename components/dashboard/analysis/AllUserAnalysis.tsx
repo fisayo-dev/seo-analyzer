@@ -6,7 +6,7 @@ import { Button } from '../../ui/button';
 import { SidebarTrigger } from '../../ui/sidebar';
 import { Input } from '../../ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
-import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown } from '../seo-utils';
+import { getScoreStatus, getScoreCategory, calculateAnalysisStats, getScoreBreakdown } from '../../../utils/seo-utils';
 import apiClient from '@/lib/api/client';
 import { toast } from 'sonner';
 import Image from 'next/image';

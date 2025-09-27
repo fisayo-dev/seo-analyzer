@@ -1,6 +1,6 @@
 // Utility functions for SEO Analysis scoring and status
 
-import { SEOAnalysisResult } from "./analysis/AnalysisDetails";
+import { SEOAnalysisResult } from "../components/dashboard/analysis/AnalysisDetails";
 
 export interface ScoreStatus {
   category: 'good' | 'moderate' | 'poor';
