@@ -2,7 +2,7 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../db"
 import { seo_analysis } from "../db/schema"
-import { auth } from "../auth";
+import { auth } from "../../utils/auth";
 import { headers } from "next/headers";
 import { unstable_cache } from "next/cache";
 import { revalidateTag } from "next/cache";

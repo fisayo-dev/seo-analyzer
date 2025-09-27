@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { auth } from "@/lib/auth"; // Adjust the import path to your auth configuration
+import { auth } from "@/utils/auth"; // Adjust the import path to your auth configuration
 
 export async function GET(request: NextRequest) {
   try {
