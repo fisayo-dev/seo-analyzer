@@ -9,11 +9,6 @@ export interface ScoreStatus {
   bgClass: string;
 }
 
-/**
- * Calculate overall score from analysis object by aggregating all sub-scores
- * @param analysis - The analysis object containing nested scores
- * @returns Calculated overall score (0-100)
- */
 export const calculateOverallScore = (analysis: Partial<SEOAnalysisResult>): number => {
   const scores: number[] = [];
 
@@ -46,13 +41,9 @@ export const calculateOverallScore = (analysis: Partial<SEOAnalysisResult>): num
 
   // Technical scores
   if (analysis.technical) {
-    const { ssl, score, mobile, pageSpeed, structure } = analysis.technical;
+    const { score } = analysis.technical;
 
     if (score !== undefined) scores.push(score);
-    // if (ssl?.score !== undefined) scores.push(ssl.score);
-    // if (mobile?.score !== undefined) scores.push(mobile.score);
-    // if (pageSpeed?.score !== undefined) scores.push(pageSpeed.score);
-    // if (structure?.score !== undefined) scores.push(structure.score);
   }
 
   if (scores.length === 0) return 0;
@@ -74,7 +65,7 @@ export const getScoreBreakdown = (analysis: Partial<SEOAnalysisResult>) => {
     const { links, title, score, images, headings, metaDescription, openGraph, twitterCard } = analysis.on_page;
 
     if (score !== undefined) {
-      onPageScores.push(score); // ✅ fixed (removed return)
+      onPageScores.push(score); 
     } else {
       if (links?.score !== undefined) onPageScores.push(links.score);
       if (title?.score !== undefined) onPageScores.push(title.score);
@@ -98,12 +89,9 @@ export const getScoreBreakdown = (analysis: Partial<SEOAnalysisResult>) => {
 
   // Technical scores
   if (analysis.technical) {
-    const { ssl, score, mobile, pageSpeed, structure } = analysis.technical;
+    const { score } = analysis.technical;
     if (score !== undefined) technicalScores.push(score);
-    // if (ssl?.score !== undefined) technicalScores.push(ssl.score);
-    // if (mobile?.score !== undefined) technicalScores.push(mobile.score);
-    // if (pageSpeed?.score !== undefined) technicalScores.push(pageSpeed.score);
-    // if (structure?.score !== undefined) technicalScores.push(structure.score);
+    
   }
 
   const onPageAvg: number =
