@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { SidebarTrigger } from "../ui/sidebar"
 import { User } from "better-auth"
 import { authClient } from "@/lib/auth/client"
-import { getInitials } from "./Sidebar"
 import { Input } from "../ui/input"
 import { BadgeCheck, Edit, Trash2, AlertTriangle } from "lucide-react"
 import { Button } from "../ui/button"
@@ -22,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog"
 import { useRouter } from "next/navigation"
+import { getInitials } from "@/utils/general"
 
 // OAuth Provider Icons
 const GitHubIcon = () => (
